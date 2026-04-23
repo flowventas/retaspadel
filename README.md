@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Padel Locos
 
 Aplicacion web para organizar torneos amistosos de padel para `8`, `12`, `16` y `20` jugadores, con rondas generadas automaticamente, captura de scores y ranking en vivo.
@@ -30,7 +29,3 @@ Abre `http://localhost:3000`.
 - Formato `20 jugadores`: 10 rondas.
 - En todos los formatos se generan automaticamente las canchas y se busca variar parejas y rivales.
 - Puedes usar el boton `Cargar demo` para probar rapido.
-=======
-# retaspadel
-App para retas de padel
->>>>>>> 3834ebdd66610cdc447e76bb4bc5d9a0830fb58a
