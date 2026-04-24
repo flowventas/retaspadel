@@ -1,10 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #f4f8fb;
-  --app-text: #0f172a;
-  --card: rgba(255, 255, 255, 0.88);
-  --muted: #64748b;
+  --app-bg: #fffaf0;
+  --app-text: #203a5f;
+  --card: rgba(255, 255, 255, 0.92);
+  --muted: #6881a0;
+  --line: #d7e3f0;
+  --surface-subtle: #eef4fb;
+  --surface-soft: #fff6e3;
+  --surface-strong: #ffefc8;
+  --brand-primary: #427ab5;
+  --brand-secondary: #406aaf;
+  --brand-accent: #f7dd7d;
+  --brand-accent-soft: #ffe8be;
+  --hero-bg: linear-gradient(135deg, #427ab5 0%, #406aaf 58%, #f7dd7d 160%);
+  --hero-border: rgba(255, 255, 255, 0.24);
+  --hero-text: #fffdf8;
+  --hero-muted: #ebf2fb;
+  --danger-bg: #fff1ee;
+  --danger-text: #b65152;
 }
 
 .dark {
@@ -12,6 +26,20 @@
   --app-text: #e2e8f0;
   --card: rgba(15, 23, 42, 0.85);
   --muted: #94a3b8;
+  --line: rgba(148, 163, 184, 0.22);
+  --surface-subtle: rgba(30, 41, 59, 0.88);
+  --surface-soft: rgba(15, 23, 42, 0.92);
+  --surface-strong: rgba(30, 41, 59, 0.95);
+  --brand-primary: #38bdf8;
+  --brand-secondary: #0ea5e9;
+  --brand-accent: #34d399;
+  --brand-accent-soft: rgba(16, 185, 129, 0.16);
+  --hero-bg: linear-gradient(135deg, #020617 0%, #0f172a 60%, #111827 100%);
+  --hero-border: rgba(255, 255, 255, 0.08);
+  --hero-text: #f8fafc;
+  --hero-muted: #94a3b8;
+  --danger-bg: rgba(190, 24, 93, 0.14);
+  --danger-text: #fecdd3;
 }
 
 @theme inline {
@@ -32,8 +60,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(34, 211, 238, 0.08), transparent 24%),
-    radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 20%),
+    radial-gradient(circle at top left, color-mix(in srgb, var(--brand-accent) 32%, transparent), transparent 24%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--brand-primary) 16%, transparent), transparent 22%),
     var(--app-bg);
   color: var(--app-text);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
@@ -61,5 +89,5 @@ textarea {
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.25);
+  background: color-mix(in srgb, var(--brand-accent) 62%, white);
 }

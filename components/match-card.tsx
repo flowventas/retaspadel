@@ -26,18 +26,18 @@ function ScoreStepper({
         type="button"
         onClick={() => onAdjust(-1)}
         disabled={disabled || value === null || value <= 0}
-        className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300 sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-white text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         -
       </button>
-      <div className="grid h-12 w-12 place-items-center rounded-xl bg-white text-xl font-black text-slate-950 sm:h-14 sm:w-16 sm:rounded-2xl sm:text-2xl">
+      <div className="grid h-12 w-12 place-items-center rounded-xl bg-white text-xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:rounded-2xl sm:text-2xl">
         {value ?? ""}
       </div>
       <button
         type="button"
         onClick={() => onAdjust(1)}
         disabled={disabled || value === max}
-        className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300 sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-white text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         +
       </button>
@@ -56,15 +56,15 @@ export function MatchCard({
   const winner = matchWinner(match.score);
 
   return (
-    <article className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)] sm:p-5">
+    <article className="min-w-0 rounded-[2rem] border border-[var(--line)] bg-white p-4 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)] sm:p-5">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
             Cancha {match.court}
           </p>
-          <h4 className="mt-1 text-lg font-black text-slate-950">Partido {match.court}</h4>
+          <h4 className="mt-1 text-lg font-black text-[var(--app-text)]">Partido {match.court}</h4>
         </div>
-        <div className="self-start rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+        <div className="self-start rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
           A {gamesPerMatch} juegos
         </div>
       </div>
@@ -72,12 +72,12 @@ export function MatchCard({
       <div className="grid gap-3">
         <div
           className={`rounded-[1.5rem] border px-4 py-4 ${
-            winner === "A" ? "border-emerald-300 bg-emerald-50" : "border-slate-200 bg-slate-50"
+            winner === "A" ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
           }`}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Pareja A</p>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja A</p>
           <div className="mt-2 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="min-w-0 break-words pr-1 text-base font-bold text-slate-900">
+            <p className="min-w-0 break-words pr-1 text-base font-bold text-[var(--app-text)]">
               {formatTeam(match, "A", names)}
             </p>
             <ScoreStepper
@@ -91,15 +91,15 @@ export function MatchCard({
 
         <div
           className={`rounded-[1.5rem] border px-4 py-4 ${
-            winner === "B" ? "border-emerald-300 bg-emerald-50" : "border-slate-200 bg-slate-50"
+            winner === "B" ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
           }`}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Pareja B</p>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja B</p>
           <div className="mt-2 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="min-w-0 break-words pr-1 text-base font-bold text-slate-900">
+            <p className="min-w-0 break-words pr-1 text-base font-bold text-[var(--app-text)]">
               {formatTeam(match, "B", names)}
             </p>
-            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-white text-xl font-black text-slate-950 sm:h-14 sm:w-16 sm:self-auto sm:rounded-2xl sm:text-2xl">
+            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-white text-xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:self-auto sm:rounded-2xl sm:text-2xl">
               {score?.teamB ?? ""}
             </div>
           </div>

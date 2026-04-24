@@ -99,29 +99,29 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
 
   return (
     <>
-      <section className="grid gap-6 rounded-[2rem] border border-white/55 bg-white/80 p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.55)] backdrop-blur md:p-8">
+      <section className="grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.55)] backdrop-blur md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
               Nuevo torneo
             </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--app-text)]">
               Configura la reta y captura nombres en popup
             </h2>
           </div>
           <button
             type="button"
             onClick={handleUseDemo}
-            className="rounded-full border border-slate-200 bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="rounded-full border border-[var(--brand-primary)] bg-[var(--brand-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-secondary)]"
           >
             Cargar demo
           </button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <label className="grid gap-2 text-sm font-medium text-slate-700">
+          <label className="grid gap-2 text-sm font-medium text-[var(--app-text)]">
             Numero de jugadores
-            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1">
+            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--surface-subtle)] p-1">
               {PLAYER_OPTIONS.map((option) => (
                 <button
                   key={option}
@@ -129,8 +129,8 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
                   onClick={() => handleFormatChange(option)}
                   className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
                     format === option
-                      ? "bg-slate-950 text-white shadow-lg"
-                      : "text-slate-600 hover:bg-white"
+                      ? "bg-[var(--brand-secondary)] text-white shadow-lg"
+                      : "text-[var(--muted)] hover:bg-white"
                   }`}
                 >
                   {option}
@@ -139,9 +139,9 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
             </div>
           </label>
 
-          <label className="grid gap-2 text-sm font-medium text-slate-700">
+          <label className="grid gap-2 text-sm font-medium text-[var(--app-text)]">
             Juegos por partido
-            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1">
+            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--surface-subtle)] p-1">
               {GAME_OPTIONS.map((option) => (
                 <button
                   key={option}
@@ -149,8 +149,8 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
                   onClick={() => setGamesPerMatch(option)}
                   className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
                     gamesPerMatch === option
-                      ? "bg-slate-950 text-white shadow-lg"
-                      : "text-slate-600 hover:bg-white"
+                      ? "bg-[var(--brand-secondary)] text-white shadow-lg"
+                      : "text-[var(--muted)] hover:bg-white"
                   }`}
                 >
                   A {option} juegos
@@ -162,12 +162,12 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
 
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold text-slate-600">Resumen</p>
-            <p className="text-2xl font-black text-slate-950">
+            <p className="text-sm font-semibold text-[var(--muted)]">Resumen</p>
+            <p className="text-2xl font-black text-[var(--app-text)]">
               {format} jugadores · {gamesPerMatch} juegos
             </p>
           </div>
-          <p className="max-w-sm text-right text-sm text-slate-500">
+          <p className="max-w-sm text-right text-sm text-[var(--muted)]">
             Al iniciar, la app te ira pidiendo un nombre por jugador en popups consecutivos.
           </p>
         </div>
@@ -175,7 +175,7 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
         <button
           type="button"
           onClick={openPlayerModal}
-          className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-cyan-500 to-emerald-500 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-cyan-500/20 transition hover:scale-[1.01]"
+          className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
         >
           Iniciar torneo
         </button>
@@ -183,20 +183,20 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
 
       {isModalOpen ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-          <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-white p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-white p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-bold uppercase tracking-[0.25em] text-cyan-700">
+                <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                   Jugador {currentIndex + 1}
                 </p>
-                <h3 className="mt-2 text-3xl font-black text-slate-950">Captura el nombre</h3>
+                <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Captura el nombre</h3>
               </div>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-bold text-slate-600">
+              <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-sm font-bold text-[var(--muted)]">
                 {progress}
               </span>
             </div>
 
-            <label className="mt-6 grid gap-2 text-sm font-medium text-slate-700">
+            <label className="mt-6 grid gap-2 text-sm font-medium text-[var(--app-text)]">
               Nombre del jugador
               <input
                 value={draftName}
@@ -208,7 +208,7 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
                     handleNextPlayer();
                   }
                 }}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-lg text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-cyan-500"
+                className="rounded-2xl border border-[var(--line)] bg-white px-4 py-4 text-lg text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
                 placeholder={`Jugador ${currentIndex + 1}`}
               />
             </label>
@@ -223,14 +223,14 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
               <button
                 type="button"
                 onClick={closePlayerModal}
-                className="rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-slate-300"
+                className="rounded-full border border-[var(--line)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
               >
                 Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleNextPlayer}
-                className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+                className="rounded-full bg-[var(--brand-primary)] px-5 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
               >
                 {currentIndex === format - 1 ? "Generar torneo" : "Siguiente jugador"}
               </button>

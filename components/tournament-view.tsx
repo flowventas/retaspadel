@@ -60,14 +60,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   if (!maybeTournament) {
     return (
       <main className="min-h-screen bg-[var(--app-bg)] px-4 py-10 text-[var(--app-text)]">
-        <div className="mx-auto max-w-2xl rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-cyan-700">
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-white p-8 text-center shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
             Torneo no encontrado
           </p>
-          <h1 className="mt-3 text-3xl font-black text-slate-950">No pudimos cargar este torneo.</h1>
+          <h1 className="mt-3 text-3xl font-black text-[var(--app-text)]">No pudimos cargar este torneo.</h1>
           <Link
             href="/"
-            className="mt-6 inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white"
+            className="mt-6 inline-flex rounded-full bg-[var(--brand-primary)] px-5 py-3 text-sm font-bold text-white"
           >
             Volver al inicio
           </Link>
@@ -183,23 +183,23 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.25),_transparent_45%),radial-gradient(circle_at_right,_rgba(16,185,129,0.18),_transparent_35%)]" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-white/15 bg-slate-950 px-4 py-5 text-white shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
+        <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
           <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
-              <Link href="/" className="text-sm font-bold uppercase tracking-[0.25em] text-cyan-300">
+              <Link href="/" className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-accent)]">
                 Volver al inicio
               </Link>
               <h1 className="mt-3 break-words text-2xl font-black tracking-tight min-[541px]:text-3xl sm:text-4xl">
                 {tournament.name}
               </h1>
-              <p className="mt-2 max-w-3xl break-words text-sm text-slate-300 md:text-base">
+              <p className="mt-2 max-w-3xl break-words text-sm text-[var(--hero-muted)] md:text-base">
                 {tournament.format} jugadores · partidos a {tournament.gamesPerMatch} juegos ·{" "}
                 {tournament.rounds.length} rondas
               </p>
-              <p className="mt-3 break-words text-sm text-slate-300">
+              <p className="mt-3 break-words text-sm text-[var(--hero-muted)]">
                 Jugadores: {formatPlayerList(tournament.players.map((player) => player.id), names)}
               </p>
             </div>
@@ -208,14 +208,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <button
                 type="button"
                 onClick={handleExportCsv}
-                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/20 sm:w-auto"
+                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-[var(--hero-text)] transition hover:bg-white/20 sm:w-auto"
               >
                 Exportar CSV
               </button>
               <button
                 type="button"
                 onClick={handleDeleteTournament}
-                className="w-full rounded-full border border-rose-400/30 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-100 transition hover:bg-rose-500/20 sm:w-auto"
+                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-[var(--hero-text)] transition hover:bg-white/20 sm:w-auto"
               >
                 Eliminar torneo
               </button>
@@ -225,23 +225,23 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
           <div className="grid min-w-0 grid-cols-2 gap-2 min-[541px]:gap-3 md:grid-cols-4">
             <div className="rounded-[1.25rem] bg-white/10 px-3 py-3 min-[541px]:rounded-[1.5rem] min-[541px]:px-4 min-[541px]:py-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Ronda actual</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--hero-muted)]">Ronda actual</p>
               <p className="mt-2 break-words text-lg font-black min-[541px]:text-xl sm:text-2xl">
                 {currentRound ? roundLabel(currentRound) : "Sin ronda"}
               </p>
             </div>
             <div className="rounded-[1.25rem] bg-white/10 px-3 py-3 min-[541px]:rounded-[1.5rem] min-[541px]:px-4 min-[541px]:py-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Canchas</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--hero-muted)]">Canchas</p>
               <p className="mt-2 break-words text-lg font-black min-[541px]:text-xl sm:text-2xl">
                 {currentRound?.matches.length ?? 0}
               </p>
             </div>
             <div className="rounded-[1.25rem] bg-white/10 px-3 py-3 min-[541px]:rounded-[1.5rem] min-[541px]:px-4 min-[541px]:py-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Avance</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--hero-muted)]">Avance</p>
               <p className="mt-2 break-words text-lg font-black min-[541px]:text-xl sm:text-2xl">{progress.percentage}%</p>
             </div>
             <div className="rounded-[1.25rem] bg-white/10 px-3 py-3 min-[541px]:rounded-[1.5rem] min-[541px]:px-4 min-[541px]:py-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Lider</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--hero-muted)]">Lider</p>
               <p className="mt-2 break-words text-lg font-black min-[541px]:text-xl sm:text-2xl">{ranking[0]?.name ?? "-"}</p>
             </div>
           </div>
@@ -250,12 +250,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
-              <section className="grid gap-6 rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+              <section className="grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-emerald-600">
+                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
                   </p>
-                  <h2 className="mt-2 text-3xl font-black text-slate-950">Ranking final y estadisticas</h2>
+                  <h2 className="mt-2 text-3xl font-black text-[var(--app-text)]">Ranking final y estadisticas</h2>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -263,17 +263,17 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                     <article
                       key={player.playerId}
                       className={`rounded-[1.75rem] border p-5 ${
-                        index === 0 ? "border-emerald-300 bg-emerald-50" : "border-slate-200 bg-slate-50"
+                        index === 0 ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="break-words text-lg font-black text-slate-950">{player.name}</p>
-                          <p className="text-sm text-slate-500">
+                          <p className="break-words text-lg font-black text-[var(--app-text)]">{player.name}</p>
+                          <p className="text-sm text-[var(--muted)]">
                             {player.wins} ganados · {player.draws} empatados · {player.losses} perdidos
                           </p>
                         </div>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-700">
+                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--muted)]">
                           #{index + 1}
                         </span>
                       </div>
@@ -282,16 +282,16 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 </div>
               </section>
             ) : currentRound ? (
-              <section className="grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-slate-200 bg-white/90 p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
+              <section className="grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0">
-                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                       En juego
                     </p>
-                    <h2 className="mt-2 break-words text-2xl font-black text-slate-950 min-[541px]:text-3xl">
+                    <h2 className="mt-2 break-words text-2xl font-black text-[var(--app-text)] min-[541px]:text-3xl">
                       {roundLabel(currentRound)}
                     </h2>
-                    <p className="mt-2 break-words text-sm text-slate-600">
+                    <p className="mt-2 break-words text-sm text-[var(--muted)]">
                       Usa los botones para marcar juegos. Cada partido siempre suma {tournament.gamesPerMatch}.
                     </p>
                   </div>
@@ -299,7 +299,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   <button
                     type="button"
                     onClick={handleSaveRound}
-                    className="w-full rounded-full bg-linear-to-r from-cyan-500 to-emerald-500 px-4 py-3 text-sm font-black text-white shadow-lg shadow-cyan-500/25 transition hover:scale-[1.01] md:w-auto"
+                    className="w-full rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01] md:w-auto"
                   >
                     Guardar resultados
                   </button>
@@ -331,8 +331,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
             <section className="grid min-w-0 gap-4">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">Historial</p>
-                <h2 className="mt-2 text-2xl font-black text-slate-950">Rondas anteriores</h2>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Historial</p>
+                <h2 className="mt-2 text-2xl font-black text-[var(--app-text)]">Rondas anteriores</h2>
               </div>
               <RoundHistory rounds={finishedRounds} names={names} onEdit={handleEditRound} />
             </section>
