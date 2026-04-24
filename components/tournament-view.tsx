@@ -242,8 +242,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
           </div>
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="grid content-start gap-6">
+        <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+          <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
               <section className="grid gap-6 rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
                 <div>
@@ -322,7 +322,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <RankingTable rows={ranking} />
             </div>
 
-            <section className="grid gap-4">
+            <section className="grid min-w-0 gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">Historial</p>
                 <h2 className="mt-2 text-2xl font-black text-slate-950">Rondas anteriores</h2>
@@ -331,7 +331,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </section>
           </div>
 
-          <div className="hidden content-start gap-6 lg:grid">
+          <div className="hidden min-w-0 content-start gap-6 lg:grid">
             <RankingTable rows={ranking} />
           </div>
         </section>
