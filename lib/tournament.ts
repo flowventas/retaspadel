@@ -19,6 +19,7 @@ type Pair = [string, string];
 type Matchup = [Pair, Pair];
 
 const POINTS_PER_WIN = 3;
+const POINTS_PER_DRAW = 1;
 const DEFAULT_ROUNDS: Record<TournamentFormat, number> = {
   8: 7,
   12: 9,
@@ -279,11 +280,6 @@ export function validateRoundScores(round: Round) {
     return "Los scores deben ser numeros iguales o mayores a cero.";
   }
 
-  const tied = round.matches.some((match) => match.score?.teamA === match.score?.teamB);
-  if (tied) {
-    return "Cada partido necesita un ganador; no se permiten empates.";
-  }
-
   return null;
 }
 
@@ -393,7 +389,7 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
 
       const teamAScore = match.score.teamA;
       const teamBScore = match.score.teamB;
-      const winner = teamAScore > teamBScore ? "A" : "B";
+      const winner = teamAScore === teamBScore ? null : teamAScore > teamBScore ? "A" : "B";
 
       for (const playerId of match.teamA) {
         rankingMap[playerId].played += 1;
@@ -402,6 +398,8 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
         if (winner === "A") {
           rankingMap[playerId].wins += 1;
           rankingMap[playerId].points += POINTS_PER_WIN;
+        } else if (winner === null) {
+          rankingMap[playerId].points += POINTS_PER_DRAW;
         } else {
           rankingMap[playerId].losses += 1;
         }
@@ -414,6 +412,8 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
         if (winner === "B") {
           rankingMap[playerId].wins += 1;
           rankingMap[playerId].points += POINTS_PER_WIN;
+        } else if (winner === null) {
+          rankingMap[playerId].points += POINTS_PER_DRAW;
         } else {
           rankingMap[playerId].losses += 1;
         }
