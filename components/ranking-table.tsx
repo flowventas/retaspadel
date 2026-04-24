@@ -25,7 +25,7 @@ export function RankingTable({ rows }: RankingTableProps) {
         <table className="min-w-full text-sm">
           <thead className="bg-slate-50 text-slate-500">
             <tr>
-              {["#", "Jugador", "Pts", "PJ", "PG", "PP", "GF", "GC", "Diff"].map((header) => (
+              {["#", "Jugador", "Pts", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].map((header) => (
                 <th key={header} className="px-4 py-3 text-left font-bold">
                   {header}
                 </th>
@@ -45,6 +45,7 @@ export function RankingTable({ rows }: RankingTableProps) {
                 <td className="px-4 py-3 font-black text-cyan-700">{row.points}</td>
                 <td className="px-4 py-3 text-slate-600">{row.played}</td>
                 <td className="px-4 py-3 text-slate-600">{row.wins}</td>
+                <td className="px-4 py-3 text-slate-600">{row.draws}</td>
                 <td className="px-4 py-3 text-slate-600">{row.losses}</td>
                 <td className="px-4 py-3 text-slate-600">{row.gamesFor}</td>
                 <td className="px-4 py-3 text-slate-600">{row.gamesAgainst}</td>

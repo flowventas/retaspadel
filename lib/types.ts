@@ -35,6 +35,7 @@ export type RankingRow = {
   name: string;
   played: number;
   wins: number;
+  draws: number;
   losses: number;
   gamesFor: number;
   gamesAgainst: number;

@@ -363,6 +363,7 @@ function createRankingMap(players: Player[]) {
         name: player.name,
         played: 0,
         wins: 0,
+        draws: 0,
         losses: 0,
         gamesFor: 0,
         gamesAgainst: 0,
@@ -399,6 +400,7 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
           rankingMap[playerId].wins += 1;
           rankingMap[playerId].points += POINTS_PER_WIN;
         } else if (winner === null) {
+          rankingMap[playerId].draws += 1;
           rankingMap[playerId].points += POINTS_PER_DRAW;
         } else {
           rankingMap[playerId].losses += 1;
@@ -413,6 +415,7 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
           rankingMap[playerId].wins += 1;
           rankingMap[playerId].points += POINTS_PER_WIN;
         } else if (winner === null) {
+          rankingMap[playerId].draws += 1;
           rankingMap[playerId].points += POINTS_PER_DRAW;
         } else {
           rankingMap[playerId].losses += 1;
@@ -491,7 +494,7 @@ export function isRoundReady(round: Round) {
 export function exportTournamentCsv(tournament: Tournament) {
   const ranking = calculateRanking(tournament);
   const lines = [
-    ["Pos", "Jugador", "Puntos", "PJ", "PG", "PP", "GF", "GC", "Diff"].join(","),
+    ["Pos", "Jugador", "Puntos", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].join(","),
     ...ranking.map((row, index) =>
       [
         index + 1,
@@ -499,6 +502,7 @@ export function exportTournamentCsv(tournament: Tournament) {
         row.points,
         row.played,
         row.wins,
+        row.draws,
         row.losses,
         row.gamesFor,
         row.gamesAgainst,
