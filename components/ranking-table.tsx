@@ -25,7 +25,7 @@ export function RankingTable({ rows }: RankingTableProps) {
         <table className="min-w-full text-sm">
           <thead className="bg-slate-50 text-slate-500">
             <tr>
-              {["#", "Jugador", "Pts", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].map((header) => (
+              {["#", "Jugador", "P", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].map((header) => (
                 <th key={header} className="px-4 py-3 text-left font-bold">
                   {header}
                 </th>

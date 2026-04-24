@@ -509,7 +509,7 @@ export function isRoundReady(round: Round, gamesPerMatch: GamesPerMatch) {
 export function exportTournamentCsv(tournament: Tournament) {
   const ranking = calculateRanking(tournament);
   const lines = [
-    ["Pos", "Jugador", "Puntos", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].join(","),
+    ["Pos", "Jugador", "P", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].join(","),
     ...ranking.map((row, index) =>
       [
         index + 1,
