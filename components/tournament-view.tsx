@@ -107,6 +107,9 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     }
 
     const currentTeamA = match.score?.teamA ?? 0;
+    if (match.score === null && delta === -1) {
+      return;
+    }
     const nextTeamA = currentTeamA + delta;
     if (nextTeamA < 0 || nextTeamA > tournament.gamesPerMatch) {
       return;
@@ -315,6 +318,10 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </section>
             ) : null}
 
+            <div className="lg:hidden">
+              <RankingTable rows={ranking} />
+            </div>
+
             <section className="grid gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">Historial</p>
@@ -324,7 +331,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </section>
           </div>
 
-          <div className="grid content-start gap-6">
+          <div className="hidden content-start gap-6 lg:grid">
             <RankingTable rows={ranking} />
           </div>
         </section>

@@ -15,7 +15,7 @@ function ScoreStepper({
   disabled,
   onAdjust,
 }: {
-  value: number;
+  value: number | null;
   max: number;
   disabled: boolean;
   onAdjust: (delta: -1 | 1) => void;
@@ -25,18 +25,18 @@ function ScoreStepper({
       <button
         type="button"
         onClick={() => onAdjust(-1)}
-        disabled={disabled || value <= 0}
+        disabled={disabled || value === null || value <= 0}
         className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
       >
         -
       </button>
       <div className="grid h-14 w-16 place-items-center rounded-2xl bg-white text-2xl font-black text-slate-950">
-        {value}
+        {value ?? ""}
       </div>
       <button
         type="button"
         onClick={() => onAdjust(1)}
-        disabled={disabled || value >= max}
+        disabled={disabled || value === max}
         className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
       >
         +
@@ -52,7 +52,7 @@ export function MatchCard({
   disabled = false,
   onAdjustScore,
 }: MatchCardProps) {
-  const score = match.score ?? { teamA: 0, teamB: gamesPerMatch };
+  const score = match.score;
   const winner = matchWinner(match.score);
 
   return (
@@ -79,7 +79,7 @@ export function MatchCard({
           <div className="mt-2 flex items-center justify-between gap-4">
             <p className="text-base font-bold text-slate-900">{formatTeam(match, "A", names)}</p>
             <ScoreStepper
-              value={score.teamA}
+              value={score?.teamA ?? null}
               max={gamesPerMatch}
               disabled={disabled}
               onAdjust={(delta) => onAdjustScore(match.id, delta)}
@@ -96,7 +96,7 @@ export function MatchCard({
           <div className="mt-2 flex items-center justify-between gap-4">
             <p className="text-base font-bold text-slate-900">{formatTeam(match, "B", names)}</p>
             <div className="grid h-14 w-16 place-items-center rounded-2xl bg-white text-2xl font-black text-slate-950">
-              {score.teamB}
+              {score?.teamB ?? ""}
             </div>
           </div>
         </div>
