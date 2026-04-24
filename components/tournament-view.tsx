@@ -110,6 +110,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     if (match.score === null && delta === -1) {
       return;
     }
+
     const nextTeamA = currentTeamA + delta;
     if (nextTeamA < 0 || nextTeamA > tournament.gamesPerMatch) {
       return;
@@ -184,35 +185,37 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
       <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.25),_transparent_45%),radial-gradient(circle_at_right,_rgba(16,185,129,0.18),_transparent_35%)]" />
 
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="mb-6 flex flex-col gap-4 rounded-[2rem] border border-white/15 bg-slate-950 px-6 py-6 text-white shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-white/15 bg-slate-950 px-4 py-5 text-white shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
+          <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="min-w-0">
               <Link href="/" className="text-sm font-bold uppercase tracking-[0.25em] text-cyan-300">
                 Volver al inicio
               </Link>
-              <h1 className="mt-3 text-4xl font-black tracking-tight">{tournament.name}</h1>
-              <p className="mt-2 max-w-3xl text-sm text-slate-300 md:text-base">
+              <h1 className="mt-3 break-words text-3xl font-black tracking-tight sm:text-4xl">
+                {tournament.name}
+              </h1>
+              <p className="mt-2 max-w-3xl break-words text-sm text-slate-300 md:text-base">
                 {tournament.format} jugadores · partidos a {tournament.gamesPerMatch} juegos ·{" "}
                 {tournament.rounds.length} rondas
               </p>
-              <p className="mt-3 text-sm text-slate-300">
+              <p className="mt-3 break-words text-sm text-slate-300">
                 Jugadores: {formatPlayerList(tournament.players.map((player) => player.id), names)}
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="grid w-full gap-2 sm:flex sm:w-auto sm:flex-wrap sm:justify-end sm:gap-3">
               <button
                 type="button"
                 onClick={handleExportCsv}
-                className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/20"
+                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/20 sm:w-auto"
               >
                 Exportar CSV
               </button>
               <button
                 type="button"
                 onClick={handleDeleteTournament}
-                className="rounded-full border border-rose-400/30 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-100 transition hover:bg-rose-500/20"
+                className="w-full rounded-full border border-rose-400/30 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-100 transition hover:bg-rose-500/20 sm:w-auto"
               >
                 Eliminar torneo
               </button>
@@ -220,24 +223,26 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </div>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-4">
+          <div className="grid min-w-0 grid-cols-2 gap-3 md:grid-cols-4">
             <div className="rounded-[1.5rem] bg-white/10 px-4 py-4">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Ronda actual</p>
-              <p className="mt-2 text-2xl font-black">
+              <p className="mt-2 break-words text-xl font-black sm:text-2xl">
                 {currentRound ? roundLabel(currentRound) : "Sin ronda"}
               </p>
             </div>
             <div className="rounded-[1.5rem] bg-white/10 px-4 py-4">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Canchas</p>
-              <p className="mt-2 text-2xl font-black">{currentRound?.matches.length ?? 0}</p>
+              <p className="mt-2 break-words text-xl font-black sm:text-2xl">
+                {currentRound?.matches.length ?? 0}
+              </p>
             </div>
             <div className="rounded-[1.5rem] bg-white/10 px-4 py-4">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Avance</p>
-              <p className="mt-2 text-2xl font-black">{progress.percentage}%</p>
+              <p className="mt-2 break-words text-xl font-black sm:text-2xl">{progress.percentage}%</p>
             </div>
             <div className="rounded-[1.5rem] bg-white/10 px-4 py-4">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-300">Lider</p>
-              <p className="mt-2 text-2xl font-black">{ranking[0]?.name ?? "-"}</p>
+              <p className="mt-2 break-words text-xl font-black sm:text-2xl">{ranking[0]?.name ?? "-"}</p>
             </div>
           </div>
         </header>
@@ -262,8 +267,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <p className="text-lg font-black text-slate-950">{player.name}</p>
+                        <div className="min-w-0">
+                          <p className="break-words text-lg font-black text-slate-950">{player.name}</p>
                           <p className="text-sm text-slate-500">
                             {player.wins} ganados · {player.draws} empatados · {player.losses} perdidos
                           </p>
@@ -277,14 +282,16 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 </div>
               </section>
             ) : currentRound ? (
-              <section className="grid gap-6 rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+              <section className="grid gap-6 rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur sm:p-5">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">
                       En juego
                     </p>
-                    <h2 className="mt-2 text-3xl font-black text-slate-950">{roundLabel(currentRound)}</h2>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <h2 className="mt-2 break-words text-3xl font-black text-slate-950">
+                      {roundLabel(currentRound)}
+                    </h2>
+                    <p className="mt-2 break-words text-sm text-slate-600">
                       Usa los botones para marcar juegos. Cada partido siempre suma {tournament.gamesPerMatch}.
                     </p>
                   </div>
@@ -292,7 +299,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   <button
                     type="button"
                     onClick={handleSaveRound}
-                    className="rounded-full bg-linear-to-r from-cyan-500 to-emerald-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-cyan-500/25 transition hover:scale-[1.01]"
+                    className="w-full rounded-full bg-linear-to-r from-cyan-500 to-emerald-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-cyan-500/25 transition hover:scale-[1.01] md:w-auto"
                   >
                     Guardar resultados
                   </button>
