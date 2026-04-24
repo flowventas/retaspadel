@@ -21,23 +21,23 @@ function ScoreStepper({
   onAdjust: (delta: -1 | 1) => void;
 }) {
   return (
-    <div className="flex shrink-0 items-center gap-2 self-end sm:self-auto">
+    <div className="flex w-full shrink-0 items-center justify-end gap-2 self-end sm:w-auto sm:self-auto">
       <button
         type="button"
         onClick={() => onAdjust(-1)}
         disabled={disabled || value === null || value <= 0}
-        className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300 sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         -
       </button>
-      <div className="grid h-14 w-16 place-items-center rounded-2xl bg-white text-2xl font-black text-slate-950">
+      <div className="grid h-12 w-12 place-items-center rounded-xl bg-white text-xl font-black text-slate-950 sm:h-14 sm:w-16 sm:rounded-2xl sm:text-2xl">
         {value ?? ""}
       </div>
       <button
         type="button"
         onClick={() => onAdjust(1)}
         disabled={disabled || value === max}
-        className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300 sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         +
       </button>
@@ -99,7 +99,7 @@ export function MatchCard({
             <p className="min-w-0 break-words pr-1 text-base font-bold text-slate-900">
               {formatTeam(match, "B", names)}
             </p>
-            <div className="grid h-14 w-16 shrink-0 place-items-center self-end rounded-2xl bg-white text-2xl font-black text-slate-950 sm:self-auto">
+            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-white text-xl font-black text-slate-950 sm:h-14 sm:w-16 sm:self-auto sm:rounded-2xl sm:text-2xl">
               {score?.teamB ?? ""}
             </div>
           </div>
