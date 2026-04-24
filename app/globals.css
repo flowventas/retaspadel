@@ -27,6 +27,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -36,6 +37,13 @@ body {
     var(--app-bg);
   color: var(--app-text);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+body > * {
+  min-width: 0;
 }
 
 h1,
