@@ -1,19 +1,63 @@
 import { formatTeam, matchWinner } from "@/lib/tournament";
-import { Match } from "@/lib/types";
+import { GamesPerMatch, Match } from "@/lib/types";
 
 type MatchCardProps = {
   match: Match;
   names: Record<string, string>;
+  gamesPerMatch: GamesPerMatch;
   disabled?: boolean;
-  onScoreChange: (matchId: string, side: "teamA" | "teamB", value: string) => void;
+  onAdjustScore: (matchId: string, delta: -1 | 1) => void;
 };
 
-export function MatchCard({ match, names, disabled = false, onScoreChange }: MatchCardProps) {
+function ScoreStepper({
+  value,
+  max,
+  disabled,
+  onAdjust,
+}: {
+  value: number;
+  max: number;
+  disabled: boolean;
+  onAdjust: (delta: -1 | 1) => void;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => onAdjust(-1)}
+        disabled={disabled || value <= 0}
+        className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
+      >
+        -
+      </button>
+      <div className="grid h-14 w-16 place-items-center rounded-2xl bg-white text-2xl font-black text-slate-950">
+        {value}
+      </div>
+      <button
+        type="button"
+        onClick={() => onAdjust(1)}
+        disabled={disabled || value >= max}
+        className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-700 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-300"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
+export function MatchCard({
+  match,
+  names,
+  gamesPerMatch,
+  disabled = false,
+  onAdjustScore,
+}: MatchCardProps) {
+  const score = match.score ?? { teamA: 0, teamB: gamesPerMatch };
   const winner = matchWinner(match.score);
 
   return (
     <article className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)]">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-700">
             Cancha {match.court}
@@ -21,7 +65,7 @@ export function MatchCard({ match, names, disabled = false, onScoreChange }: Mat
           <h4 className="mt-1 text-lg font-black text-slate-950">Partido {match.court}</h4>
         </div>
         <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
-          Score rapido
+          A {gamesPerMatch} juegos
         </div>
       </div>
 
@@ -34,13 +78,11 @@ export function MatchCard({ match, names, disabled = false, onScoreChange }: Mat
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Pareja A</p>
           <div className="mt-2 flex items-center justify-between gap-4">
             <p className="text-base font-bold text-slate-900">{formatTeam(match, "A", names)}</p>
-            <input
-              inputMode="numeric"
-              value={match.score?.teamA ?? ""}
-              onChange={(event) => onScoreChange(match.id, "teamA", event.target.value)}
+            <ScoreStepper
+              value={score.teamA}
+              max={gamesPerMatch}
               disabled={disabled}
-              className="h-14 w-20 rounded-2xl border border-slate-200 bg-white text-center text-2xl font-black text-slate-950 outline-none focus:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100"
-              placeholder="0"
+              onAdjust={(delta) => onAdjustScore(match.id, delta)}
             />
           </div>
         </div>
@@ -53,14 +95,9 @@ export function MatchCard({ match, names, disabled = false, onScoreChange }: Mat
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Pareja B</p>
           <div className="mt-2 flex items-center justify-between gap-4">
             <p className="text-base font-bold text-slate-900">{formatTeam(match, "B", names)}</p>
-            <input
-              inputMode="numeric"
-              value={match.score?.teamB ?? ""}
-              onChange={(event) => onScoreChange(match.id, "teamB", event.target.value)}
-              disabled={disabled}
-              className="h-14 w-20 rounded-2xl border border-slate-200 bg-white text-center text-2xl font-black text-slate-950 outline-none focus:border-cyan-500 disabled:cursor-not-allowed disabled:bg-slate-100"
-              placeholder="0"
-            />
+            <div className="grid h-14 w-16 place-items-center rounded-2xl bg-white text-2xl font-black text-slate-950">
+              {score.teamB}
+            </div>
           </div>
         </div>
       </div>

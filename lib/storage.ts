@@ -1,6 +1,6 @@
 "use client";
 
-import { TournamentStore } from "@/lib/types";
+import { GamesPerMatch, Tournament, TournamentStore } from "@/lib/types";
 
 const STORAGE_KEY = "padel-locos-store";
 
@@ -9,6 +9,13 @@ export const defaultStore: TournamentStore = {
   activeTournamentId: null,
   theme: "light",
 };
+
+function normalizeTournament(tournament: Tournament): Tournament {
+  return {
+    ...tournament,
+    gamesPerMatch: (tournament.gamesPerMatch ?? 6) as GamesPerMatch,
+  };
+}
 
 export function loadStore() {
   if (typeof window === "undefined") {
@@ -25,6 +32,7 @@ export function loadStore() {
     return {
       ...defaultStore,
       ...parsed,
+      tournaments: (parsed.tournaments ?? []).map(normalizeTournament),
     };
   } catch {
     return defaultStore;

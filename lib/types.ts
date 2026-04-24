@@ -11,6 +11,8 @@ export type MatchScore = {
   teamB: number;
 };
 
+export type GamesPerMatch = 5 | 6;
+
 export type Match = {
   id: string;
   court: number;
@@ -56,6 +58,7 @@ export type Tournament = {
   id: string;
   name: string;
   format: TournamentFormat;
+  gamesPerMatch: GamesPerMatch;
   createdAt: string;
   players: Player[];
   rounds: Round[];

@@ -7,6 +7,7 @@ import {
   Round,
   Tournament,
   TournamentFormat,
+  GamesPerMatch,
 } from "@/lib/types";
 
 type GeneratorState = {
@@ -244,11 +245,17 @@ export function generateRounds(players: Player[], format: TournamentFormat) {
   return rounds;
 }
 
-export function createTournament(name: string, players: Player[], format: TournamentFormat): Tournament {
+export function createTournament(
+  name: string,
+  players: Player[],
+  format: TournamentFormat,
+  gamesPerMatch: GamesPerMatch,
+): Tournament {
   return {
     id: crypto.randomUUID(),
     name,
     format,
+    gamesPerMatch,
     createdAt: new Date().toISOString(),
     players,
     rounds: generateRounds(players, format),
@@ -257,7 +264,7 @@ export function createTournament(name: string, players: Player[], format: Tourna
   };
 }
 
-export function validateRoundScores(round: Round) {
+export function validateRoundScores(round: Round, gamesPerMatch: GamesPerMatch) {
   const missing = round.matches.some((match) => !match.score);
   if (missing) {
     return "Completa todos los scores antes de guardar la ronda.";
@@ -278,6 +285,13 @@ export function validateRoundScores(round: Round) {
 
   if (invalid) {
     return "Los scores deben ser numeros iguales o mayores a cero.";
+  }
+
+  const invalidTotal = round.matches.some((match) =>
+    match.score ? match.score.teamA + match.score.teamB !== gamesPerMatch : true,
+  );
+  if (invalidTotal) {
+    return `Cada partido debe sumar exactamente ${gamesPerMatch} juegos.`;
   }
 
   return null;
@@ -487,8 +501,8 @@ export function getCurrentRound(tournament: Tournament) {
   return tournament.rounds[tournament.currentRoundIndex] ?? tournament.rounds.at(-1) ?? null;
 }
 
-export function isRoundReady(round: Round) {
-  return validateRoundScores(round) === null;
+export function isRoundReady(round: Round, gamesPerMatch: GamesPerMatch) {
+  return validateRoundScores(round, gamesPerMatch) === null;
 }
 
 export function exportTournamentCsv(tournament: Tournament) {
@@ -570,6 +584,7 @@ export function duplicateTournament(tournament: Tournament) {
     `${tournament.name} (nuevo)`,
     tournament.players.map((player) => ({ ...player })),
     tournament.format,
+    tournament.gamesPerMatch,
   );
 }
 
@@ -583,6 +598,18 @@ export function matchWinner(score: MatchScore | null) {
   }
 
   return score.teamA === score.teamB ? "draw" : score.teamA > score.teamB ? "A" : "B";
+}
+
+export function clampScore(value: number, gamesPerMatch: GamesPerMatch) {
+  return Math.max(0, Math.min(gamesPerMatch, value));
+}
+
+export function createLinkedScore(teamAScore: number, gamesPerMatch: GamesPerMatch): MatchScore {
+  const nextTeamA = clampScore(teamAScore, gamesPerMatch);
+  return {
+    teamA: nextTeamA,
+    teamB: gamesPerMatch - nextTeamA,
+  };
 }
 
 export function pairSignature(pair: Pair) {

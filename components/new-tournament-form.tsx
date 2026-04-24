@@ -2,16 +2,23 @@
 
 import { useMemo, useState } from "react";
 import { sampleNames } from "@/lib/sample";
-import { TournamentFormat } from "@/lib/types";
+import { GamesPerMatch, TournamentFormat } from "@/lib/types";
 
 type NewTournamentFormProps = {
-  onCreate: (payload: { name: string; format: TournamentFormat; names: string[] }) => void;
+  onCreate: (payload: {
+    name: string;
+    format: TournamentFormat;
+    gamesPerMatch: GamesPerMatch;
+    names: string[];
+  }) => void;
 };
 
 const PLAYER_OPTIONS: TournamentFormat[] = [8, 12, 16, 20];
+const GAME_OPTIONS: GamesPerMatch[] = [5, 6];
 
 export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
   const [format, setFormat] = useState<TournamentFormat>(8);
+  const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
   const [name, setName] = useState("Reta del viernes");
   const [names, setNames] = useState<string[]>(sampleNames(8));
   const [error, setError] = useState("");
@@ -61,7 +68,7 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
     }
 
     setError("");
-    onCreate({ name: name.trim(), format, names: trimmedNames });
+    onCreate({ name: name.trim(), format, gamesPerMatch, names: trimmedNames });
   }
 
   return (
@@ -119,6 +126,26 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
         </label>
       </div>
 
+      <label className="grid gap-2 text-sm font-medium text-slate-700">
+        Juegos por partido
+        <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1 sm:max-w-xs">
+          {GAME_OPTIONS.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setGamesPerMatch(option)}
+              className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
+                gamesPerMatch === option
+                  ? "bg-slate-950 text-white shadow-lg"
+                  : "text-slate-600 hover:bg-white"
+              }`}
+            >
+              A {option} juegos
+            </button>
+          ))}
+        </div>
+      </label>
+
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-slate-600">Jugadores capturados</p>
@@ -127,8 +154,8 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
           </p>
         </div>
         <p className="max-w-sm text-right text-sm text-slate-500">
-          La app genera canchas automaticamente, rota parejas y busca variar rivales en torneos
-          de 8, 12, 16 y 20 jugadores.
+          La app genera canchas automaticamente, rota parejas y busca variar rivales. El score de
+          cada partido se controla a {gamesPerMatch} juegos.
         </p>
       </div>
 

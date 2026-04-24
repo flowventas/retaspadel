@@ -1,5 +1,5 @@
 import { createPlayers, createTournament } from "@/lib/tournament";
-import { TournamentFormat } from "@/lib/types";
+import { GamesPerMatch, TournamentFormat } from "@/lib/types";
 
 const BASE_NAMES = [
   "Ana",
@@ -35,7 +35,7 @@ export function sampleNames(format: TournamentFormat) {
   return SAMPLE_PLAYERS[format];
 }
 
-export function sampleTournament(format: TournamentFormat) {
+export function sampleTournament(format: TournamentFormat, gamesPerMatch: GamesPerMatch = 6) {
   const players = createPlayers(SAMPLE_PLAYERS[format]);
-  return createTournament(`Demo ${format} jugadores`, players, format);
+  return createTournament(`Demo ${format} jugadores`, players, format, gamesPerMatch);
 }
