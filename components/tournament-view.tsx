@@ -106,11 +106,24 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       return;
     }
 
-    const currentTeamA = match.score?.teamA ?? 0;
     if (match.score === null && delta === -1) {
       return;
     }
 
+    if (match.score === null && delta === 1) {
+      persistTournament(
+        updateMatchScore(
+          tournament,
+          currentRound.id,
+          matchId,
+          createLinkedScore(0, tournament.gamesPerMatch),
+        ),
+      );
+      setError("");
+      return;
+    }
+
+    const currentTeamA = match.score?.teamA ?? 0;
     const nextTeamA = currentTeamA + delta;
     if (nextTeamA < 0 || nextTeamA > tournament.gamesPerMatch) {
       return;
