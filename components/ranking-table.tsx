@@ -35,21 +35,19 @@ export function RankingTable({ rows }: RankingTableProps) {
                   #{index + 1} {row.name}
                 </p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
-                  PJ {row.played} · PG {row.wins} · PE {row.draws} · PP {row.losses}
+                  PJ {row.played} · G-P-E {row.wins}-{row.losses}-{row.draws}
                 </p>
               </div>
               <div className="rounded-full bg-white px-3 py-1 text-sm font-black text-[var(--brand-secondary)]">
                 P {row.points}
               </div>
             </div>
-            <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
+            <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
               <div className="rounded-xl bg-white px-3 py-2">
-                <p className="text-[var(--muted)]">GF</p>
-                <p className="font-black text-[var(--app-text)]">{row.gamesFor}</p>
-              </div>
-              <div className="rounded-xl bg-white px-3 py-2">
-                <p className="text-[var(--muted)]">GC</p>
-                <p className="font-black text-[var(--app-text)]">{row.gamesAgainst}</p>
+                <p className="text-[var(--muted)]">G-P-E</p>
+                <p className="font-black text-[var(--app-text)]">
+                  {row.wins}-{row.losses}-{row.draws}
+                </p>
               </div>
               <div className="rounded-xl bg-white px-3 py-2">
                 <p className="text-[var(--muted)]">Diff</p>
@@ -66,7 +64,7 @@ export function RankingTable({ rows }: RankingTableProps) {
         <table className="min-w-full text-sm">
           <thead className="bg-[var(--surface-subtle)] text-[var(--muted)]">
             <tr>
-              {["#", "Jugador", "P", "PJ", "PG", "PE", "PP", "GF", "GC", "Diff"].map((header) => (
+              {["#", "Jugador", "P", "PJ", "G-P-E", "Diff"].map((header) => (
                 <th key={header} className="px-4 py-3 text-left font-bold">
                   {header}
                 </th>
@@ -83,11 +81,9 @@ export function RankingTable({ rows }: RankingTableProps) {
                 <td className="px-4 py-3 font-semibold text-[var(--app-text)]">{row.name}</td>
                 <td className="px-4 py-3 font-black text-[var(--brand-secondary)]">{row.points}</td>
                 <td className="px-4 py-3 text-[var(--muted)]">{row.played}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">{row.wins}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">{row.draws}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">{row.losses}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">{row.gamesFor}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">{row.gamesAgainst}</td>
+                <td className="px-4 py-3 text-[var(--muted)]">
+                  {row.wins}-{row.losses}-{row.draws}
+                </td>
                 <td
                   className={`px-4 py-3 font-bold ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"}`}
                 >
