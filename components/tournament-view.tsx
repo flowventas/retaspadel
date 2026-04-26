@@ -217,21 +217,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </p>
             </div>
 
-            <div className="grid w-full gap-2 sm:flex sm:w-auto sm:flex-wrap sm:justify-end sm:gap-3">
-              <button
-                type="button"
-                onClick={handleExportCsv}
-                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-[var(--hero-text)] transition hover:bg-white/20 sm:w-auto"
-              >
-                Exportar CSV
-              </button>
-              <button
-                type="button"
-                onClick={handleDeleteTournament}
-                className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-[var(--hero-text)] transition hover:bg-white/20 sm:w-auto"
-              >
-                Eliminar torneo
-              </button>
+            <div className="flex w-full justify-end sm:w-auto">
               <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
             </div>
           </div>
@@ -348,6 +334,29 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <h2 className="mt-2 text-2xl font-black text-[var(--app-text)]">Rondas anteriores</h2>
               </div>
               <RoundHistory rounds={finishedRounds} names={names} onEdit={handleEditRound} />
+            </section>
+
+            <section className="grid gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_18px_50px_-42px_rgba(15,23,42,0.45)] sm:p-5">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Acciones</p>
+                <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
+              </div>
+              <div className="grid gap-3 sm:flex sm:flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleExportCsv}
+                  className="w-full rounded-full border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] sm:w-auto"
+                >
+                  Exportar CSV
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteTournament}
+                  className="w-full rounded-full border border-rose-200 bg-[var(--danger-bg)] px-4 py-3 text-sm font-semibold text-[var(--danger-text)] transition hover:bg-rose-100 sm:w-auto"
+                >
+                  Eliminar torneo
+                </button>
+              </div>
             </section>
           </div>
 
