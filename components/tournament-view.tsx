@@ -60,7 +60,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   if (!maybeTournament) {
     return (
       <main className="min-h-screen bg-[var(--app-bg)] px-4 py-10 text-[var(--app-text)]">
-        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-white p-8 text-center shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-8 text-center shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
             Torneo no encontrado
           </p>
@@ -272,7 +272,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                             {player.wins} ganados · {player.draws} empatados · {player.losses} perdidos
                           </p>
                         </div>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--muted)]">
+                        <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
                           #{index + 1}
                         </span>
                       </div>
@@ -345,7 +345,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <button
                   type="button"
                   onClick={handleExportCsv}
-                  className="w-full rounded-full border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] sm:w-auto"
+                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] sm:w-auto"
                 >
                   Exportar CSV
                 </button>

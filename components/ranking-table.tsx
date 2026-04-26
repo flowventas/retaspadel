@@ -6,7 +6,7 @@ type RankingTableProps = {
 
 export function RankingTable({ rows }: RankingTableProps) {
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-[var(--line)] bg-white shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
+    <div className="overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--card)] shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
       <div className="flex flex-col gap-3 border-b border-[var(--line)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -38,18 +38,18 @@ export function RankingTable({ rows }: RankingTableProps) {
                   G-P-E {row.wins}-{row.losses}-{row.draws}
                 </p>
               </div>
-              <div className="rounded-full bg-white px-3 py-1 text-sm font-black text-[var(--brand-secondary)]">
+              <div className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-sm font-black text-[var(--brand-secondary)]">
                 P {row.points}
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-              <div className="rounded-xl bg-white px-3 py-2">
+              <div className="rounded-xl bg-[var(--surface-strong)] px-3 py-2">
                 <p className="text-[var(--muted)]">G-P-E</p>
                 <p className="font-black text-[var(--app-text)]">
                   {row.wins}-{row.losses}-{row.draws}
                 </p>
               </div>
-              <div className="rounded-xl bg-white px-3 py-2">
+              <div className="rounded-xl bg-[var(--surface-strong)] px-3 py-2">
                 <p className="text-[var(--muted)]">Diff</p>
                 <p className={`font-black ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"}`}>
                   {row.gameDiff > 0 ? `+${row.gameDiff}` : row.gameDiff}
@@ -75,7 +75,7 @@ export function RankingTable({ rows }: RankingTableProps) {
             {rows.map((row, index) => (
               <tr
                 key={row.playerId}
-                className={`border-t border-[var(--line)] ${index === 0 ? "bg-[var(--brand-accent-soft)]" : "bg-white"}`}
+                className={`border-t border-[var(--line)] ${index === 0 ? "bg-[var(--brand-accent-soft)]" : "bg-[var(--card)]"}`}
               >
                 <td className="px-4 py-3 font-black text-[var(--app-text)]">{index + 1}</td>
                 <td className="px-4 py-3 font-semibold text-[var(--app-text)]">{row.name}</td>

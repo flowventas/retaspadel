@@ -13,7 +13,7 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
       {rounds.map((round) => (
         <section
           key={round.id}
-          className="min-w-0 rounded-[1.75rem] border border-[var(--line)] bg-white p-4 shadow-[0_20px_50px_-40px_rgba(15,23,42,0.45)] sm:p-5"
+          className="min-w-0 rounded-[1.75rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_20px_50px_-40px_rgba(15,23,42,0.45)] sm:p-5"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0">
@@ -56,7 +56,7 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
                 <span className="min-w-0 break-words font-semibold">
                   Cancha {match.court}: {formatTeam(match, "A", names)}
                 </span>
-                <span className="self-start rounded-full bg-white px-3 py-1 text-center font-black text-[var(--app-text)] md:self-auto">
+                <span className="self-start rounded-full bg-[var(--surface-strong)] px-3 py-1 text-center font-black text-[var(--app-text)] md:self-auto">
                   {match.score ? `${match.score.teamA} - ${match.score.teamB}` : "Sin score"}
                 </span>
                 <span className="min-w-0 break-words font-semibold">{formatTeam(match, "B", names)}</span>
