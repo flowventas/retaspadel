@@ -209,7 +209,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
 
       {isModalOpen ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-white p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -234,7 +234,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
                     handleNextPlayer();
                   }
                 }}
-                className="rounded-2xl border border-[var(--line)] bg-white px-4 py-4 text-lg text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
+                className="rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-lg text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
                 placeholder={`Jugador ${currentIndex + 1}`}
               />
             </label>
@@ -250,7 +250,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
                       key={name}
                       type="button"
                       onClick={() => handlePickSuggestedPlayer(name)}
-                      className="rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)]"
+                      className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-3 py-2 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)]"
                     >
                       {name}
                     </button>
@@ -269,7 +269,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
               <button
                 type="button"
                 onClick={closePlayerModal}
-                className="rounded-full border border-[var(--line)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+                className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
               >
                 Cancelar
               </button>
