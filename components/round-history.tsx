@@ -26,7 +26,7 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
                       : "bg-amber-50 text-amber-700"
                   }`}
                 >
-                  {round.status === "completed" ? "Guardada" : "Pendiente"}
+                  {round.status === "completed" ? "Guardada" : "En juego"}
                 </span>
               </div>
               {round.restingPlayerIds.length ? (

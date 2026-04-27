@@ -149,15 +149,18 @@ export function NewTournamentForm({
               Nuevo torneo
             </p>
             <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--app-text)]">
-              Configura la reta y captura nombres en popup
+              Configura la reta y prende la competencia
             </h2>
+            <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
+              Elige jugadores, define si van a 5 o 6 juegos y arranca sin complicarte.
+            </p>
           </div>
           <button
             type="button"
             onClick={handleUseDemo}
             className="rounded-full border border-[var(--brand-primary)] bg-[var(--brand-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-secondary)]"
           >
-            Cargar demo
+            Probar demo
           </button>
         </div>
 
@@ -196,7 +199,7 @@ export function NewTournamentForm({
                       : "text-[var(--muted)] hover:bg-white"
                   }`}
                 >
-                  A {option} juegos
+                  Reta a {option}
                 </button>
               ))}
             </div>
@@ -299,8 +302,8 @@ export function NewTournamentForm({
                         <button
                           type="button"
                           onClick={() => onRemoveSavedPlayer(name)}
-                          aria-label={`Eliminar ${name}`}
-                          title={`Eliminar ${name}`}
+                          aria-label={`Borrar ${name}`}
+                          title={`Borrar ${name}`}
                           className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
                         >
                           ×

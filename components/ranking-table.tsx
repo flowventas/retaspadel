@@ -10,13 +10,16 @@ export function RankingTable({ rows }: RankingTableProps) {
       <div className="flex flex-col gap-3 border-b border-[var(--line)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-            Ranking en vivo
+            Tabla de poder
           </p>
           <h3 className="mt-1 text-xl font-black text-[var(--app-text)]">Clasificacion actual</h3>
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            Despues de cada ronda, el ranking se actualiza solo. Aqui no hay excusas.
+          </p>
         </div>
         {rows[0] ? (
           <div className="rounded-full bg-[var(--brand-accent-soft)] px-4 py-2 text-sm font-bold text-[var(--brand-secondary)]">
-            Lider: {rows[0].name}
+            Lider de la reta: {rows[0].name}
           </div>
         ) : null}
       </div>
@@ -37,6 +40,11 @@ export function RankingTable({ rows }: RankingTableProps) {
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   G-P-E {row.wins}-{row.losses}-{row.draws}
                 </p>
+                {index === 0 ? (
+                  <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-secondary)]">
+                    Lider de la reta
+                  </p>
+                ) : null}
               </div>
               <div className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-sm font-black text-[var(--brand-secondary)]">
                 P {row.points}
@@ -50,7 +58,7 @@ export function RankingTable({ rows }: RankingTableProps) {
                 </p>
               </div>
               <div className="rounded-xl bg-[var(--surface-strong)] px-3 py-2">
-                <p className="text-[var(--muted)]">Diff</p>
+                <p className="text-[var(--muted)]">Diferencia</p>
                 <p className={`font-black ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"}`}>
                   {row.gameDiff > 0 ? `+${row.gameDiff}` : row.gameDiff}
                 </p>
@@ -64,7 +72,7 @@ export function RankingTable({ rows }: RankingTableProps) {
         <table className="min-w-full text-sm">
           <thead className="bg-[var(--surface-subtle)] text-[var(--muted)]">
             <tr>
-              {["#", "Jugador", "G-P-E", "Diff", "P"].map((header) => (
+              {["#", "Jugador", "G-P-E", "Diferencia", "P"].map((header) => (
                 <th key={header} className="px-4 py-3 text-left font-bold">
                   {header}
                 </th>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { BrandLogo } from "@/components/brand-logo";
 import { MatchCard } from "@/components/match-card";
 import { RankingTable } from "@/components/ranking-table";
@@ -31,6 +31,12 @@ type TournamentViewProps = {
 };
 
 export function TournamentView({ tournamentId }: TournamentViewProps) {
+  const scoreSavedMessages = [
+    "Score guardado. El ranking se movio 🔥",
+    "La cancha hablo.",
+    "Alguien subio... alguien cayo.",
+    "Nueva ronda, nueva oportunidad.",
+  ];
   const isClient = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -39,6 +45,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const router = useRouter();
   const [store, setStore] = useState<TournamentStore>(() => loadStore());
   const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
+  const toastIndexRef = useRef(0);
 
   useEffect(() => {
     if (!isClient) {
@@ -48,6 +56,15 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     saveStore(store);
     document.documentElement.classList.toggle("dark", store.theme === "dark");
   }, [isClient, store]);
+
+  useEffect(() => {
+    if (!toast) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => setToast(""), 2800);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   const maybeTournament = useMemo(
     () => store.tournaments.find((item) => item.id === tournamentId) ?? null,
@@ -153,6 +170,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
     persistTournament(saveRound(tournament, currentRound.id));
     setError("");
+    setToast(scoreSavedMessages[toastIndexRef.current % scoreSavedMessages.length]);
+    toastIndexRef.current += 1;
   }
 
   function handleEditRound(roundId: string) {
@@ -161,7 +180,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   }
 
   function handleDeleteTournament() {
-    if (!window.confirm(`Eliminar el torneo "${tournament.name}"?`)) {
+    if (!window.confirm(`Borrar la reta "${tournament.name}"?`)) {
       return;
     }
 
@@ -200,6 +219,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+        {toast ? (
+          <div className="pointer-events-none fixed right-4 top-4 z-50 max-w-xs rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] shadow-[0_20px_50px_-30px_rgba(15,23,42,0.6)]">
+            {toast}
+          </div>
+        ) : null}
+
         <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
           <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
@@ -215,7 +240,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 {tournament.name}
               </h1>
               <p className="mt-2 max-w-3xl break-words text-sm text-[var(--hero-muted)] md:text-base">
-                {tournament.format} jugadores · partidos a {tournament.gamesPerMatch} juegos ·{" "}
+                {tournament.format} jugadores, partidos a {tournament.gamesPerMatch} juegos,{" "}
                 {tournament.rounds.length} rondas
               </p>
               <p className="mt-3 break-words text-sm text-[var(--hero-muted)]">
@@ -260,7 +285,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
                   </p>
-                  <h2 className="mt-2 text-3xl font-black text-[var(--app-text)]">Ranking final y estadisticas</h2>
+                  <h2 className="mt-2 text-3xl font-black text-[var(--app-text)]">Tabla de poder final y estadisticas</h2>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -275,11 +300,11 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                         <div className="min-w-0">
                           <p className="break-words text-lg font-black text-[var(--app-text)]">{player.name}</p>
                           <p className="text-sm text-[var(--muted)]">
-                            {player.wins} ganados · {player.draws} empatados · {player.losses} perdidos
+                            {player.wins} ganados · {player.draws} parejos · {player.losses} perdidos
                           </p>
                         </div>
                         <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
-                          #{index + 1}
+                          {index === 0 ? "Lider de la reta" : `#${index + 1}`}
                         </span>
                       </div>
                     </article>
@@ -306,7 +331,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                     onClick={handleSaveRound}
                     className="w-full rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01] md:w-auto"
                   >
-                    Guardar resultados
+                    Guardar score
                   </button>
                 </div>
 
@@ -360,7 +385,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   onClick={handleDeleteTournament}
                   className="w-full rounded-full border border-rose-200 bg-[var(--danger-bg)] px-4 py-3 text-sm font-semibold text-[var(--danger-text)] transition hover:bg-rose-100 sm:w-auto"
                 >
-                  Eliminar torneo
+                  Borrar torneo
                 </button>
               </div>
             </section>

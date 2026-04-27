@@ -76,7 +76,7 @@ export default function TournamentApp() {
       return;
     }
 
-    if (!window.confirm(`Eliminar el torneo "${tournament.name}"?`)) {
+    if (!window.confirm(`Borrar la reta "${tournament.name}"?`)) {
       return;
     }
 
@@ -136,11 +136,10 @@ export default function TournamentApp() {
           </div>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-black tracking-tight md:text-5xl">
-              Crea la reta y salta directo a la vista de torneo.
+              Arma la reta. Que la cancha decida.
             </h1>
             <p className="mt-3 max-w-2xl text-sm text-[var(--hero-muted)] md:text-base">
-              Configura jugadores, elige si cada partido se juega a 5 o 6 juegos y administra cada
-              torneo en su propia pagina con captura rapida desde celular.
+              Configura jugadores, captura scores y deja que el ranking diga quien manda.
             </p>
           </div>
         </header>
@@ -162,7 +161,8 @@ export default function TournamentApp() {
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Guardados
                   </p>
-                  <h2 className="mt-1 text-xl font-black text-[var(--app-text)]">Torneos locales</h2>
+                  <h2 className="mt-1 text-xl font-black text-[var(--app-text)]">Retas guardadas</h2>
+                  <p className="mt-1 text-sm text-[var(--muted)]">Continua donde se quedo la batalla.</p>
                 </div>
                 <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
                   {tournaments.length} total
@@ -180,7 +180,7 @@ export default function TournamentApp() {
                         <Link href={`/torneo/${tournament.id}`} className="min-w-0 flex-1 text-left">
                           <p className="font-black text-[var(--app-text)]">{tournament.name}</p>
                           <p className="text-sm text-[var(--muted)]">
-                            {tournament.format} jugadores · a {tournament.gamesPerMatch} juegos ·{" "}
+                            {tournament.format} jugadores, a {tournament.gamesPerMatch} juegos,{" "}
                             {tournament.rounds.length} rondas
                           </p>
                         </Link>
@@ -193,7 +193,7 @@ export default function TournamentApp() {
                             onClick={() => handleDeleteTournament(tournament.id)}
                             className="rounded-full border border-[color:color-mix(in_srgb,var(--danger-text)_45%,var(--line))] bg-[var(--surface-strong)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
                           >
-                            Eliminar
+                            Borrar
                           </button>
                         </div>
                       </div>
