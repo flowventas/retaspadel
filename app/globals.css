@@ -1,45 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #fffaf0;
-  --app-text: #203a5f;
-  --card: rgba(255, 255, 255, 0.92);
-  --muted: #6881a0;
-  --line: #d7e3f0;
-  --surface-subtle: #eef4fb;
-  --surface-soft: #fff6e3;
-  --surface-strong: #ffefc8;
-  --brand-primary: #427ab5;
-  --brand-secondary: #406aaf;
-  --brand-accent: #f7dd7d;
-  --brand-accent-soft: #ffe8be;
-  --hero-bg: linear-gradient(135deg, #427ab5 0%, #406aaf 58%, #f7dd7d 160%);
-  --hero-border: rgba(255, 255, 255, 0.24);
-  --hero-text: #fffdf8;
-  --hero-muted: #ebf2fb;
-  --danger-bg: #fff1ee;
-  --danger-text: #b65152;
+  --app-bg: #eefabd;
+  --app-text: #263b6a;
+  --card: rgba(255, 255, 255, 0.82);
+  --muted: #6984a9;
+  --line: rgba(105, 132, 169, 0.22);
+  --surface-subtle: #f8fddf;
+  --surface-soft: #e7f4c2;
+  --surface-strong: #ffffff;
+  --brand-primary: #a0d585;
+  --brand-secondary: #6984a9;
+  --brand-accent: #263b6a;
+  --brand-accent-soft: rgba(160, 213, 133, 0.18);
+  --hero-bg: linear-gradient(135deg, #eefabd 0%, #a0d585 48%, #6984a9 100%);
+  --hero-border: rgba(255, 255, 255, 0.26);
+  --hero-text: #263b6a;
+  --hero-muted: rgba(38, 59, 106, 0.74);
+  --danger-bg: #f7edf0;
+  --danger-text: #8d4d60;
 }
 
 .dark {
-  --app-bg: #020617;
-  --app-text: #e2e8f0;
-  --card: rgba(15, 23, 42, 0.85);
-  --muted: #94a3b8;
-  --line: rgba(148, 163, 184, 0.22);
-  --surface-subtle: rgba(30, 41, 59, 0.88);
-  --surface-soft: rgba(15, 23, 42, 0.92);
-  --surface-strong: rgba(30, 41, 59, 0.95);
-  --brand-primary: #38bdf8;
-  --brand-secondary: #0ea5e9;
-  --brand-accent: #34d399;
-  --brand-accent-soft: rgba(16, 185, 129, 0.16);
-  --hero-bg: linear-gradient(135deg, #020617 0%, #0f172a 60%, #111827 100%);
-  --hero-border: rgba(255, 255, 255, 0.08);
-  --hero-text: #f8fafc;
-  --hero-muted: #94a3b8;
-  --danger-bg: rgba(190, 24, 93, 0.14);
-  --danger-text: #fecdd3;
+  --app-bg: #263b6a;
+  --app-text: #eefabd;
+  --card: rgba(38, 59, 106, 0.9);
+  --muted: #a0d585;
+  --line: rgba(238, 250, 189, 0.14);
+  --surface-subtle: rgba(48, 74, 128, 0.82);
+  --surface-soft: rgba(38, 59, 106, 0.96);
+  --surface-strong: rgba(61, 89, 146, 0.95);
+  --brand-primary: #a0d585;
+  --brand-secondary: #6984a9;
+  --brand-accent: #eefabd;
+  --brand-accent-soft: rgba(160, 213, 133, 0.14);
+  --hero-bg: linear-gradient(135deg, #263b6a 0%, #355081 58%, #6984a9 100%);
+  --hero-border: rgba(238, 250, 189, 0.08);
+  --hero-text: #eefabd;
+  --hero-muted: rgba(238, 250, 189, 0.7);
+  --danger-bg: rgba(141, 77, 96, 0.18);
+  --danger-text: #eefabd;
 }
 
 @theme inline {
