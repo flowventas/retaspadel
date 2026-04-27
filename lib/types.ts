@@ -70,4 +70,5 @@ export type TournamentStore = {
   tournaments: Tournament[];
   activeTournamentId: string | null;
   theme: "light" | "dark";
+  savedPlayers: string[];
 };

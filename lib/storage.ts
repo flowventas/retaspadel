@@ -8,6 +8,7 @@ export const defaultStore: TournamentStore = {
   tournaments: [],
   activeTournamentId: null,
   theme: "light",
+  savedPlayers: [],
 };
 
 function normalizeTournament(tournament: Tournament): Tournament {
@@ -33,6 +34,9 @@ export function loadStore() {
       ...defaultStore,
       ...parsed,
       tournaments: (parsed.tournaments ?? []).map(normalizeTournament),
+      savedPlayers: Array.isArray(parsed.savedPlayers)
+        ? parsed.savedPlayers.filter((item): item is string => typeof item === "string")
+        : [],
     };
   } catch {
     return defaultStore;

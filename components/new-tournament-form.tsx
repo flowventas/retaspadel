@@ -11,6 +11,7 @@ type NewTournamentFormProps = {
     gamesPerMatch: GamesPerMatch;
     names: string[];
   }) => void;
+  savedPlayers: string[];
 };
 
 const PLAYER_OPTIONS: TournamentFormat[] = [8, 12, 16, 20];
@@ -20,7 +21,7 @@ function buildTournamentName(format: TournamentFormat, gamesPerMatch: GamesPerMa
   return `Reta ${format} jugadores · a ${gamesPerMatch} juegos`;
 }
 
-export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
+export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormProps) {
   const [format, setFormat] = useState<TournamentFormat>(8);
   const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +31,26 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
   const [error, setError] = useState("");
 
   const progress = useMemo(() => `${Math.min(currentIndex + 1, format)}/${format}`, [currentIndex, format]);
+  const suggestedPlayers = useMemo(() => {
+    const usedNames = new Set(
+      names
+        .filter((_, index) => index !== currentIndex)
+        .map((item) => item.trim().toLocaleLowerCase())
+        .filter(Boolean),
+    );
+    const query = draftName.trim().toLocaleLowerCase();
+
+    return savedPlayers
+      .filter((name) => {
+        const normalized = name.trim().toLocaleLowerCase();
+        if (!normalized || usedNames.has(normalized)) {
+          return false;
+        }
+
+        return query ? normalized.includes(query) : true;
+      })
+      .slice(0, 8);
+  }, [currentIndex, draftName, names, savedPlayers]);
 
   function openPlayerModal() {
     setNames(Array.from({ length: format }, () => ""));
@@ -86,6 +107,11 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
     setDraftName(currentNames[nextIndex] ?? "");
+  }
+
+  function handlePickSuggestedPlayer(name: string) {
+    setDraftName(name);
+    setError("");
   }
 
   function handleUseDemo() {
@@ -212,6 +238,26 @@ export function NewTournamentForm({ onCreate }: NewTournamentFormProps) {
                 placeholder={`Jugador ${currentIndex + 1}`}
               />
             </label>
+
+            {suggestedPlayers.length ? (
+              <div className="mt-4 grid gap-2">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--muted)]">
+                  Jugadores guardados
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestedPlayers.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => handlePickSuggestedPlayer(name)}
+                      className="rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)]"
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             {error ? (
               <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">

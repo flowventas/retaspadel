@@ -9,6 +9,24 @@ import { defaultStore, loadStore, saveStore } from "@/lib/storage";
 import { createPlayers, createTournament } from "@/lib/tournament";
 import { GamesPerMatch, TournamentFormat, TournamentStore } from "@/lib/types";
 
+function mergeSavedPlayers(current: string[], incoming: string[]) {
+  const seen = new Set<string>();
+  const merged: string[] = [];
+
+  [...incoming, ...current].forEach((name) => {
+    const trimmed = name.trim();
+    const key = trimmed.toLocaleLowerCase();
+    if (!trimmed || seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    merged.push(trimmed);
+  });
+
+  return merged.slice(0, 40);
+}
+
 export default function TournamentApp() {
   const isClient = useSyncExternalStore(
     () => () => {},
@@ -44,6 +62,7 @@ export default function TournamentApp() {
       ...store,
       tournaments: [tournament, ...store.tournaments],
       activeTournamentId: tournament.id,
+      savedPlayers: mergeSavedPlayers(store.savedPlayers ?? [], payload.names),
     };
 
     setStore(nextStore);
@@ -107,7 +126,7 @@ export default function TournamentApp() {
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="grid content-start gap-6">
-            <NewTournamentForm onCreate={handleCreateTournament} />
+            <NewTournamentForm onCreate={handleCreateTournament} savedPlayers={store.savedPlayers ?? []} />
           </div>
 
           <div className="grid content-start gap-6">
