@@ -49,7 +49,8 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
         }
 
         return query ? normalized.includes(query) : true;
-      });
+      })
+      .sort((left, right) => left.localeCompare(right, "es", { sensitivity: "base" }));
   }, [currentIndex, draftName, names, savedPlayers]);
 
   function openPlayerModal() {
