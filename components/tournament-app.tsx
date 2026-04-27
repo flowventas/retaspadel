@@ -124,10 +124,10 @@ export default function TournamentApp() {
       <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-end md:justify-between">
+        <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-start md:justify-between">
           <div className="max-w-3xl">
-            <BrandLogo className="mb-6 md:mb-8" />
-            <h1 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
+            <BrandLogo className="-ml-2 mb-5 sm:-ml-3 md:mb-6" />
+            <h1 className="text-4xl font-black tracking-tight md:text-5xl">
               Crea la reta y salta directo a la vista de torneo.
             </h1>
             <p className="mt-3 max-w-2xl text-sm text-[var(--hero-muted)] md:text-base">
