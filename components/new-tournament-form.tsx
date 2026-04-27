@@ -49,8 +49,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
         }
 
         return query ? normalized.includes(query) : true;
-      })
-      .slice(0, 8);
+      });
   }, [currentIndex, draftName, names, savedPlayers]);
 
   function openPlayerModal() {
@@ -258,7 +257,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
                 </button>
 
                 {isRecentOpen ? (
-                  <div className="grid gap-2 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
+                  <div className="grid max-h-64 gap-2 overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
                     {suggestedPlayers.map((name) => (
                       <button
                         key={name}
