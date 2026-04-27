@@ -124,12 +124,17 @@ export default function TournamentApp() {
       <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-start md:justify-between">
-          <div className="max-w-3xl">
+        <header className="mb-8 flex flex-col gap-5 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
+          <div className="relative min-h-10">
             <BrandLogo
               theme={store.theme}
-              className="mb-5 block max-[499px]:mx-auto min-[500px]:ml-auto md:mb-6"
+              className="mx-auto block min-[500px]:mr-14 min-[500px]:ml-auto"
             />
+            <div className="absolute right-0 top-0">
+              <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
+            </div>
+          </div>
+          <div className="max-w-3xl">
             <h1 className="text-4xl font-black tracking-tight md:text-5xl">
               Crea la reta y salta directo a la vista de torneo.
             </h1>
@@ -138,7 +143,6 @@ export default function TournamentApp() {
               torneo en su propia pagina con captura rapida desde celular.
             </p>
           </div>
-          <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
