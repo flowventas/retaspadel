@@ -8,20 +8,12 @@ type RoundHistoryProps = {
 };
 
 export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
-  if (!rounds.length) {
-    return (
-      <div className="rounded-[1.8rem] border border-dashed border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-8 text-sm text-[var(--muted)]">
-        La cancha esta limpia. Registra el primer score.
-      </div>
-    );
-  }
-
   return (
     <div className="grid min-w-0 gap-4">
       {rounds.map((round) => (
         <section
           key={round.id}
-          className="min-w-0 rounded-[1.75rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_20px_50px_-40px_rgba(0,0,0,0.9)] sm:p-5"
+          className="min-w-0 rounded-[1.75rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_20px_50px_-40px_rgba(15,23,42,0.45)] sm:p-5"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0">
@@ -30,11 +22,11 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
                 <span
                   className={`rounded-full px-3 py-1 text-xs font-bold ${
                     round.status === "completed"
-                      ? "bg-[var(--brand-accent-soft)] text-[var(--brand-primary)]"
-                      : "bg-[var(--surface-strong)] text-[var(--muted)]"
+                      ? "bg-[var(--brand-accent-soft)] text-[var(--brand-secondary)]"
+                      : "bg-amber-50 text-amber-700"
                   }`}
                 >
-                  {round.status === "completed" ? "Score guardado" : "Pendiente"}
+                  {round.status === "completed" ? "Guardada" : "Pendiente"}
                 </span>
               </div>
               {round.restingPlayerIds.length ? (
@@ -48,9 +40,9 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
               <button
                 type="button"
                 onClick={() => onEdit(round.id)}
-                className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-2 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] md:w-auto"
+                className="w-full rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] md:w-auto"
               >
-                Editar score de esta ronda
+                Editar esta ronda
               </button>
             ) : null}
           </div>
@@ -59,7 +51,7 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
             {round.matches.map((match) => (
               <div
                 key={match.id}
-                className="flex min-w-0 flex-col gap-2 rounded-[1.25rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-3 text-sm text-[var(--app-text)] md:flex-row md:items-center md:justify-between md:px-4"
+                className="flex min-w-0 flex-col gap-2 rounded-[1.25rem] bg-[var(--surface-subtle)] px-3 py-3 text-sm text-[var(--app-text)] md:flex-row md:items-center md:justify-between md:px-4"
               >
                 <span className="min-w-0 break-words font-semibold">
                   Cancha {match.court}: {formatTeam(match, "A", names)}

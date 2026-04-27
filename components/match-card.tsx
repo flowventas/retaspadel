@@ -26,18 +26,18 @@ function ScoreStepper({
         type="button"
         onClick={() => onAdjust(-1)}
         disabled={disabled || value === null || value <= 0}
-        className="grid h-11 w-11 place-items-center rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] text-2xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] disabled:cursor-not-allowed disabled:opacity-45"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         -
       </button>
-      <div className="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--surface-strong)] text-2xl font-black text-[var(--app-text)] sm:h-14 sm:w-16">
+      <div className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:rounded-2xl sm:text-2xl">
         {value ?? ""}
       </div>
       <button
         type="button"
         onClick={() => onAdjust(1)}
         disabled={disabled || value === max}
-        className="grid h-11 w-11 place-items-center rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] text-2xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] disabled:cursor-not-allowed disabled:opacity-45"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         +
       </button>
@@ -54,34 +54,25 @@ export function MatchCard({
 }: MatchCardProps) {
   const score = match.score;
   const winner = matchWinner(match.score);
-  const outcomeLabel =
-    winner === "draw" ? "Se puso parejo" : winner ? "El que mando en la cancha" : "Score pendiente";
 
   return (
-    <article className="min-w-0 rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface-subtle)] p-4 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.8)] sm:p-5">
+    <article className="min-w-0 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)] sm:p-5">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-primary)]">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
             Cancha {match.court}
           </p>
-          <h4 className="mt-1 text-xl font-black text-[var(--app-text)]">Partido {match.court}</h4>
+          <h4 className="mt-1 text-lg font-black text-[var(--app-text)]">Partido {match.court}</h4>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
-            A {gamesPerMatch} juegos
-          </span>
-          <span className="rounded-full border border-[var(--line)] bg-black/20 px-3 py-1 text-xs font-bold text-[var(--brand-primary)]">
-            {outcomeLabel}
-          </span>
+        <div className="self-start rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
+          A {gamesPerMatch} juegos
         </div>
       </div>
 
       <div className="grid gap-3">
         <div
-          className={`rounded-[1.4rem] border px-4 py-4 ${
-            winner === "A"
-              ? "border-[var(--brand-primary)] bg-[var(--brand-accent-soft)] shadow-[0_0_22px_rgba(57,255,20,0.12)]"
-              : "border-[var(--line)] bg-[var(--card)]"
+          className={`rounded-[1.5rem] border px-4 py-4 ${
+            winner === "A" ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
           }`}
         >
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja A</p>
@@ -99,10 +90,8 @@ export function MatchCard({
         </div>
 
         <div
-          className={`rounded-[1.4rem] border px-4 py-4 ${
-            winner === "B"
-              ? "border-[var(--brand-primary)] bg-[var(--brand-accent-soft)] shadow-[0_0_22px_rgba(57,255,20,0.12)]"
-              : "border-[var(--line)] bg-[var(--card)]"
+          className={`rounded-[1.5rem] border px-4 py-4 ${
+            winner === "B" ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
           }`}
         >
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja B</p>
@@ -110,7 +99,7 @@ export function MatchCard({
             <p className="min-w-0 break-words pr-1 text-base font-bold text-[var(--app-text)]">
               {formatTeam(match, "B", names)}
             </p>
-            <div className="grid h-14 w-14 shrink-0 place-items-center self-end rounded-2xl bg-[var(--surface-strong)] text-2xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:self-auto">
+            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:self-auto sm:rounded-2xl sm:text-2xl">
               {score?.teamB ?? ""}
             </div>
           </div>

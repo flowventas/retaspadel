@@ -265,7 +265,7 @@ export function createTournament(
 export function validateRoundScores(round: Round, gamesPerMatch: GamesPerMatch) {
   const missing = round.matches.some((match) => !match.score);
   if (missing) {
-    return "La cancha esta limpia. Registra el primer score.";
+    return "Completa todos los scores antes de guardar la ronda.";
   }
 
   const invalid = round.matches.some((match) => {
@@ -282,19 +282,19 @@ export function validateRoundScores(round: Round, gamesPerMatch: GamesPerMatch) 
   });
 
   if (invalid) {
-    return "El score no cuadra. Esta reta es a " + gamesPerMatch + " juegos.";
+    return "Los scores deben ser numeros iguales o mayores a cero.";
   }
 
   const invalidTotal = round.matches.some((match) =>
     match.score ? match.score.teamA + match.score.teamB !== gamesPerMatch : true,
   );
   if (invalidTotal) {
-    return `El score no cuadra. Esta reta es a ${gamesPerMatch} juegos.`;
+    return `Cada partido debe sumar exactamente ${gamesPerMatch} juegos.`;
   }
 
   const invalidDraw = gamesPerMatch === 5 && round.matches.some((match) => match.score?.teamA === match.score?.teamB);
   if (invalidDraw) {
-    return "El score no cuadra. Esta reta es a 5 juegos.";
+    return "En torneos a 5 juegos no puede haber empate.";
   }
 
   return null;
@@ -591,14 +591,6 @@ export function duplicateTournament(tournament: Tournament) {
 
 export function roundLabel(round: Round) {
   return `Ronda ${round.number}`;
-}
-
-export function validScoreCombos(gamesPerMatch: GamesPerMatch) {
-  return Array.from({ length: gamesPerMatch + 1 }, (_, index) => {
-    const teamA = gamesPerMatch - index;
-    const teamB = index;
-    return `${teamA}-${teamB}`;
-  }).join(", ");
 }
 
 export function matchWinner(score: MatchScore | null) {

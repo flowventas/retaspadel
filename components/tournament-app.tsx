@@ -24,7 +24,7 @@ function mergeSavedPlayers(current: string[], incoming: string[]) {
     merged.push(trimmed);
   });
 
-  return merged.slice(0, 60);
+  return merged.slice(0, 40);
 }
 
 export default function TournamentApp() {
@@ -75,7 +75,7 @@ export default function TournamentApp() {
       return;
     }
 
-    if (!window.confirm(`Vas a borrar la reta "${tournament.name}". Seguro?`)) {
+    if (!window.confirm(`Eliminar el torneo "${tournament.name}"?`)) {
       return;
     }
 
@@ -98,10 +98,6 @@ export default function TournamentApp() {
   }
 
   function handleClearSavedPlayers() {
-    if (!window.confirm("Se va a borrar toda la lista de jugadores recientes. Continuar?")) {
-      return;
-    }
-
     setStore((current) => ({
       ...current,
       savedPlayers: [],
@@ -116,98 +112,35 @@ export default function TournamentApp() {
     }));
   }
 
-  function scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   if (!isClient) {
     return <main className="min-h-screen bg-[var(--app-bg)]" />;
   }
 
   const tournaments = store.tournaments ?? defaultStore.tournaments;
-  const featuredTournament =
-    tournaments.find((item) => item.id === store.activeTournamentId) ?? tournaments[0] ?? null;
 
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(circle_at_top,_rgba(57,255,20,0.14),_transparent_42%),radial-gradient(circle_at_right,_rgba(125,255,90,0.08),_transparent_32%)]" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <header className="mb-8 grid gap-6 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-5 py-6 text-[var(--hero-text)] shadow-[var(--shadow-strong)] md:grid-cols-[1.2fr_0.8fr] md:px-7 md:py-7">
-          <div className="relative overflow-hidden rounded-[1.6rem] border border-white/6 bg-black/15 p-5">
-            <div className="absolute -right-3 -top-8 text-[8rem] font-black leading-none text-[var(--brand-primary)]/18 sm:text-[10rem]">
-              6
-            </div>
-            <p className="relative text-sm font-bold uppercase tracking-[0.34em] text-[var(--brand-primary)]">
-              6 loco
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
+        <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-sm font-bold uppercase tracking-[0.32em] text-[var(--brand-accent)]">
+              Padel Locos
             </p>
-            <h1 className="relative mt-3 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">
-              Juega. Compite. Sube en el ranking.
+            <h1 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
+              Crea la reta y salta directo a la vista de torneo.
             </h1>
-            <p className="relative mt-4 max-w-2xl text-sm text-[var(--hero-muted)] sm:text-base">
-              Organiza tus retas, registra scores y descubre quien manda en la cancha.
+            <p className="mt-3 max-w-2xl text-sm text-[var(--hero-muted)] md:text-base">
+              Configura jugadores, elige si cada partido se juega a 5 o 6 juegos y administra cada
+              torneo en su propia pagina con captura rapida desde celular.
             </p>
-            <p className="relative mt-6 text-base font-semibold text-white">
-              No organizes retas. Crea competencia.
-            </p>
-
-            <div className="relative mt-7 flex flex-col gap-3 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => scrollTo("crear-reta")}
-                className="inline-flex items-center justify-center rounded-2xl bg-[var(--brand-primary)] px-5 py-3 text-base font-black text-black transition hover:shadow-[0_0_28px_rgba(57,255,20,0.35)]"
-              >
-                Crear reta
-              </button>
-              {featuredTournament ? (
-                <Link
-                  href={`/torneo/${featuredTournament.id}#tabla-de-poder`}
-                  className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-5 py-3 text-base font-bold text-white transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]"
-                >
-                  Ver ranking
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => scrollTo("retas-guardadas")}
-                  className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-5 py-3 text-base font-bold text-white transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]"
-                >
-                  Ver ranking
-                </button>
-              )}
-            </div>
           </div>
-
-          <div className="grid content-between gap-4">
-            <div className="flex justify-end">
-              <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-1">
-              <div className="rounded-[1.4rem] border border-white/8 bg-white/5 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--hero-muted)]">
-                  Retas activas
-                </p>
-                <p className="mt-2 text-3xl font-black text-white">{tournaments.length}</p>
-              </div>
-              <div className="rounded-[1.4rem] border border-white/8 bg-white/5 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--hero-muted)]">
-                  Jugadores recientes
-                </p>
-                <p className="mt-2 text-3xl font-black text-white">{store.savedPlayers.length}</p>
-              </div>
-              <div className="rounded-[1.4rem] border border-white/8 bg-white/5 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--hero-muted)]">
-                  Vibe
-                </p>
-                <p className="mt-2 text-xl font-black text-[var(--brand-primary)]">Competencia pura</p>
-              </div>
-            </div>
-          </div>
+          <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
-          <div id="crear-reta" className="grid content-start gap-6">
+        <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="grid content-start gap-6">
             <NewTournamentForm
               onCreate={handleCreateTournament}
               savedPlayers={store.savedPlayers ?? []}
@@ -216,60 +149,58 @@ export default function TournamentApp() {
             />
           </div>
 
-          <div id="retas-guardadas" className="grid content-start gap-6">
-            <section className="rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[var(--shadow-strong)]">
-              <div className="flex items-center justify-between gap-3">
+          <div className="grid content-start gap-6">
+            <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.5)] backdrop-blur">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-primary)]">
-                    Retas guardadas
+                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
+                    Guardados
                   </p>
-                  <h2 className="mt-1 text-2xl font-black text-[var(--app-text)]">Tus ultimas batallas</h2>
+                  <h2 className="mt-1 text-xl font-black text-[var(--app-text)]">Torneos locales</h2>
                 </div>
-                <span className="rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
-                  {tournaments.length} retas
+                <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
+                  {tournaments.length} total
                 </span>
               </div>
 
               {tournaments.length ? (
-                <div className="mt-5 grid gap-3">
-                  {tournaments.map((tournament, index) => (
-                    <article
+                <div className="mt-4 grid gap-3">
+                  {tournaments.map((tournament) => (
+                    <div
                       key={tournament.id}
-                      className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--brand-primary)] hover:shadow-[0_0_24px_rgba(57,255,20,0.12)]"
+                      className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-4 transition hover:border-[var(--brand-primary)]"
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3">
                         <Link href={`/torneo/${tournament.id}`} className="min-w-0 flex-1 text-left">
-                          <p className="text-lg font-black text-[var(--app-text)]">{tournament.name}</p>
-                          <p className="mt-1 text-sm text-[var(--muted)]">
-                            {tournament.format} jugadores / a {tournament.gamesPerMatch} juegos / {tournament.rounds.length} rondas
+                          <p className="font-black text-[var(--app-text)]">{tournament.name}</p>
+                          <p className="text-sm text-[var(--muted)]">
+                            {tournament.format} jugadores · a {tournament.gamesPerMatch} juegos ·{" "}
+                            {tournament.rounds.length} rondas
                           </p>
-                          <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
-                            <span className="rounded-full bg-black px-3 py-1 text-[var(--brand-primary)] dark:bg-[var(--surface-strong)]">
-                              {index === 0 ? "Activa" : "Lista"}
-                            </span>
-                            <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-[var(--muted)]">
-                              {tournament.completed ? "Reta cerrada" : "Que siga la reta"}
-                            </span>
-                          </div>
                         </Link>
-
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteTournament(tournament.id)}
-                          className="rounded-2xl border border-[color:color-mix(in_srgb,var(--danger-text)_30%,white)] bg-[var(--danger-bg)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:opacity-90"
-                        >
-                          Borrar
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--muted)]">
+                            {tournament.completed ? "Finalizado" : "En curso"}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteTournament(tournament.id)}
+                            className="rounded-full border border-[color:color-mix(in_srgb,var(--danger-text)_25%,white)] bg-white px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </div>
-                    </article>
+                    </div>
                   ))}
                 </div>
               ) : (
-                <div className="mt-5 rounded-[1.6rem] border border-dashed border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-8 text-sm text-[var(--muted)]">
-                  No organizes retas. Crea competencia. Arranca la primera y deja que la tabla de poder hable.
+                <div className="mt-4 rounded-[1.5rem] border border-dashed border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-6 text-sm text-[var(--muted)]">
+                  Aun no hay torneos guardados. Crea el primero y la app te llevara directo a su
+                  vista de juego.
                 </div>
               )}
-            </section>
+            </div>
           </div>
         </section>
       </div>

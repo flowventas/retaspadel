@@ -7,7 +7,7 @@ const STORAGE_KEY = "padel-locos-store";
 export const defaultStore: TournamentStore = {
   tournaments: [],
   activeTournamentId: null,
-  theme: "dark",
+  theme: "light",
   savedPlayers: [],
 };
 
