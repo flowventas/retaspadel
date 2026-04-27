@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { BrandLogo } from "@/components/brand-logo";
 import { NewTournamentForm } from "@/components/new-tournament-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { defaultStore, loadStore, saveStore } from "@/lib/storage";
@@ -125,9 +126,7 @@ export default function TournamentApp() {
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.32em] text-[var(--brand-accent)]">
-              Padel Locos
-            </p>
+            <BrandLogo />
             <h1 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
               Crea la reta y salta directo a la vista de torneo.
             </h1>
