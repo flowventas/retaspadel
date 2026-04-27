@@ -181,13 +181,13 @@ export default function TournamentApp() {
                           </p>
                         </Link>
                         <div className="flex items-center gap-2">
-                          <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--muted)]">
+                          <span className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--app-text)]">
                             {tournament.completed ? "Finalizado" : "En curso"}
                           </span>
                           <button
                             type="button"
                             onClick={() => handleDeleteTournament(tournament.id)}
-                            className="rounded-full border border-[color:color-mix(in_srgb,var(--danger-text)_25%,white)] bg-white px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                            className="rounded-full border border-[color:color-mix(in_srgb,var(--danger-text)_45%,var(--line))] bg-[var(--surface-strong)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
                           >
                             Eliminar
                           </button>
