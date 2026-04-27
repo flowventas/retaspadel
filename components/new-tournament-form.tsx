@@ -25,6 +25,7 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
   const [format, setFormat] = useState<TournamentFormat>(8);
   const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRecentOpen, setIsRecentOpen] = useState(false);
   const [names, setNames] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [draftName, setDraftName] = useState("");
@@ -57,11 +58,13 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
     setCurrentIndex(0);
     setDraftName("");
     setError("");
+    setIsRecentOpen(false);
     setIsModalOpen(true);
   }
 
   function closePlayerModal() {
     setIsModalOpen(false);
+    setIsRecentOpen(false);
     setCurrentIndex(0);
     setDraftName("");
     setError("");
@@ -107,11 +110,13 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
     setDraftName(currentNames[nextIndex] ?? "");
+    setIsRecentOpen(false);
   }
 
   function handlePickSuggestedPlayer(name: string) {
     setDraftName(name);
     setError("");
+    setIsRecentOpen(false);
   }
 
   function handleUseDemo() {
@@ -241,21 +246,31 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
 
             {suggestedPlayers.length ? (
               <div className="mt-4 grid gap-2">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--muted)]">
-                  Jugadores guardados
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {suggestedPlayers.map((name) => (
-                    <button
-                      key={name}
-                      type="button"
-                      onClick={() => handlePickSuggestedPlayer(name)}
-                      className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-3 py-2 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)]"
-                    >
-                      {name}
-                    </button>
-                  ))}
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsRecentOpen((current) => !current)}
+                  className="inline-flex items-center justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-left text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+                >
+                  <span>Jugadores recientes</span>
+                  <span aria-hidden="true" className="text-base">
+                    {isRecentOpen ? "▴" : "▾"}
+                  </span>
+                </button>
+
+                {isRecentOpen ? (
+                  <div className="grid gap-2 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
+                    {suggestedPlayers.map((name) => (
+                      <button
+                        key={name}
+                        type="button"
+                        onClick={() => handlePickSuggestedPlayer(name)}
+                        className="rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--app-text)] transition hover:bg-[var(--surface-subtle)] hover:text-[var(--brand-secondary)]"
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             ) : null}
 
