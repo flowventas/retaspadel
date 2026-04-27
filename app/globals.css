@@ -13,7 +13,7 @@
   --brand-secondary: #6984a9;
   --brand-accent: #263b6a;
   --brand-accent-soft: rgba(160, 213, 133, 0.12);
-  --hero-bg: linear-gradient(135deg, #eefabd 0%, #dceeb9 46%, #8ea7c3 100%);
+  --hero-bg: #ffffff;
   --hero-border: rgba(38, 59, 106, 0.08);
   --hero-text: #263b6a;
   --hero-muted: rgba(38, 59, 106, 0.78);
@@ -59,15 +59,19 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, rgba(160, 213, 133, 0.1), transparent 22%),
-    radial-gradient(circle at top right, rgba(105, 132, 169, 0.08), transparent 20%),
-    var(--app-bg);
+  background: var(--app-bg);
   color: var(--app-text);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top left, rgba(160, 213, 133, 0.1), transparent 22%),
+    radial-gradient(circle at top right, rgba(105, 132, 169, 0.08), transparent 20%),
+    var(--app-bg);
 }
 
 body > * {
