@@ -1,52 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #fffaf0;
-  --app-text: #203a5f;
-  --card: rgba(255, 255, 255, 0.92);
-  --muted: #6881a0;
-  --line: #d7e3f0;
-  --surface-subtle: #eef4fb;
-  --surface-soft: #fff6e3;
-  --surface-strong: #ffefc8;
-  --brand-primary: #427ab5;
-  --brand-secondary: #406aaf;
-  --brand-accent: #f7dd7d;
-  --brand-accent-soft: #ffe8be;
-  --hero-bg: linear-gradient(135deg, #427ab5 0%, #406aaf 58%, #f7dd7d 160%);
-  --hero-border: rgba(255, 255, 255, 0.24);
-  --hero-text: #fffdf8;
-  --hero-muted: #ebf2fb;
-  --danger-bg: #fff1ee;
-  --danger-text: #b65152;
+  --app-bg: #f3f5f1;
+  --app-text: #121212;
+  --card: #ffffff;
+  --muted: #62655f;
+  --line: rgba(11, 11, 11, 0.08);
+  --surface-subtle: #ecf0ea;
+  --surface-soft: #f5ffe9;
+  --surface-strong: #ffffff;
+  --brand-primary: #39ff14;
+  --brand-secondary: #7dff5a;
+  --brand-accent: #0b0b0b;
+  --brand-accent-soft: rgba(57, 255, 20, 0.14);
+  --hero-bg:
+    radial-gradient(circle at top left, rgba(57, 255, 20, 0.18), transparent 32%),
+    linear-gradient(135deg, #ffffff 0%, #eef4ea 100%);
+  --hero-border: rgba(11, 11, 11, 0.08);
+  --hero-text: #0b0b0b;
+  --hero-muted: #4e564d;
+  --danger-bg: rgba(255, 95, 86, 0.12);
+  --danger-text: #b7342d;
+  --shadow-strong: 0 30px 70px -40px rgba(0, 0, 0, 0.42);
 }
 
 .dark {
-  --app-bg: #020617;
-  --app-text: #e2e8f0;
-  --card: rgba(15, 23, 42, 0.85);
-  --muted: #94a3b8;
-  --line: rgba(148, 163, 184, 0.22);
-  --surface-subtle: rgba(30, 41, 59, 0.88);
-  --surface-soft: rgba(15, 23, 42, 0.92);
-  --surface-strong: rgba(30, 41, 59, 0.95);
-  --brand-primary: #38bdf8;
-  --brand-secondary: #0ea5e9;
-  --brand-accent: #34d399;
-  --brand-accent-soft: rgba(16, 185, 129, 0.16);
-  --hero-bg: linear-gradient(135deg, #020617 0%, #0f172a 60%, #111827 100%);
-  --hero-border: rgba(255, 255, 255, 0.08);
-  --hero-text: #f8fafc;
-  --hero-muted: #94a3b8;
-  --danger-bg: rgba(190, 24, 93, 0.14);
-  --danger-text: #fecdd3;
+  --app-bg: #0b0b0b;
+  --app-text: #ffffff;
+  --card: #1e1e1e;
+  --muted: #b5b5b5;
+  --line: rgba(255, 255, 255, 0.08);
+  --surface-subtle: #161616;
+  --surface-soft: #232323;
+  --surface-strong: #292929;
+  --brand-primary: #39ff14;
+  --brand-secondary: #7dff5a;
+  --brand-accent: #39ff14;
+  --brand-accent-soft: rgba(57, 255, 20, 0.12);
+  --hero-bg:
+    radial-gradient(circle at top left, rgba(57, 255, 20, 0.18), transparent 32%),
+    radial-gradient(circle at top right, rgba(125, 255, 90, 0.1), transparent 26%),
+    linear-gradient(140deg, #141414 0%, #0b0b0b 72%);
+  --hero-border: rgba(255, 255, 255, 0.06);
+  --hero-text: #ffffff;
+  --hero-muted: #b5b5b5;
+  --danger-bg: rgba(255, 95, 86, 0.14);
+  --danger-text: #ff8f87;
+  --shadow-strong: 0 30px 70px -40px rgba(0, 0, 0, 0.9);
 }
 
 @theme inline {
   --color-background: var(--app-bg);
   --color-foreground: var(--app-text);
-  --font-sans: "Trebuchet MS", "Segoe UI", sans-serif;
-  --font-display: "Arial Narrow", "Aptos Display", "Segoe UI", sans-serif;
+  --font-sans: "Aptos", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-display: "Bahnschrift", "Aptos", "Segoe UI", sans-serif;
 }
 
 * {
@@ -60,11 +67,11 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--brand-accent) 32%, transparent), transparent 24%),
-    radial-gradient(circle at top right, color-mix(in srgb, var(--brand-primary) 16%, transparent), transparent 22%),
+    radial-gradient(circle at top left, rgba(57, 255, 20, 0.08), transparent 24%),
+    radial-gradient(circle at top right, rgba(125, 255, 90, 0.05), transparent 22%),
     var(--app-bg);
   color: var(--app-text);
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", sans-serif;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
@@ -78,7 +85,8 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Arial Narrow", "Aptos Display", "Segoe UI", sans-serif;
+  font-family: "Bahnschrift", "Aptos", "Segoe UI", sans-serif;
+  letter-spacing: -0.03em;
 }
 
 button,
@@ -89,5 +97,22 @@ textarea {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--brand-accent) 62%, white);
+  background: rgba(57, 255, 20, 0.28);
+  color: #0b0b0b;
+}
+
+@keyframes pulse-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-pulse-rise {
+  animation: pulse-rise 320ms ease-out;
 }
