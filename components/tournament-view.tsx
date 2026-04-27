@@ -300,7 +300,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                         <div className="min-w-0">
                           <p className="break-words text-lg font-black text-[var(--app-text)]">{player.name}</p>
                           <p className="text-sm text-[var(--muted)]">
-                            {player.wins} ganados · {player.draws} parejos · {player.losses} perdidos
+                            {player.wins} ganados · {player.draws} empates · {player.losses} perdidos
                           </p>
                         </div>
                         <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
