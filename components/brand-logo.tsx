@@ -6,6 +6,7 @@ import { useState } from "react";
 type BrandLogoProps = {
   className?: string;
   variant?: "hero" | "compact";
+  theme?: "light" | "dark";
 };
 
 const variantClasses: Record<NonNullable<BrandLogoProps["variant"]>, string> = {
@@ -13,7 +14,7 @@ const variantClasses: Record<NonNullable<BrandLogoProps["variant"]>, string> = {
   compact: "w-[88px] sm:w-[96px] md:w-[110px] h-auto object-contain",
 };
 
-export function BrandLogo({ className = "", variant = "hero" }: BrandLogoProps) {
+export function BrandLogo({ className = "", variant = "hero", theme = "light" }: BrandLogoProps) {
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
@@ -25,39 +26,19 @@ export function BrandLogo({ className = "", variant = "hero" }: BrandLogoProps) 
   }
 
   return (
-    <>
-      <span className={`inline-block dark:hidden ${className}`}>
-        <Image
-          src="/logo-6loco.png"
-          alt="6 loco"
-          width={520}
-          height={180}
-          sizes={
-            variant === "hero"
-              ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px"
-              : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"
-          }
-          priority={variant === "hero"}
-          onError={() => setHasError(true)}
-          className={variantClasses[variant]}
-        />
-      </span>
-      <span className={`hidden dark:inline-block ${className}`}>
-        <Image
-          src="/logo-6loco-dark.png"
-          alt="6 loco"
-          width={520}
-          height={180}
-          sizes={
-            variant === "hero"
-              ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px"
-              : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"
-          }
-          priority={variant === "hero"}
-          onError={() => setHasError(true)}
-          className={variantClasses[variant]}
-        />
-      </span>
-    </>
+    <Image
+      src={theme === "dark" ? "/logo-6loco-dark.png" : "/logo-6loco.png"}
+      alt="6 loco"
+      width={520}
+      height={180}
+      sizes={
+        variant === "hero"
+          ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px"
+          : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"
+      }
+      priority={variant === "hero"}
+      onError={() => setHasError(true)}
+      className={`${variantClasses[variant]} ${className}`}
+    />
   );
 }

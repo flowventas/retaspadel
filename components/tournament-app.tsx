@@ -126,7 +126,7 @@ export default function TournamentApp() {
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] md:flex-row md:items-start md:justify-between">
           <div className="max-w-3xl">
-            <BrandLogo className="-ml-2 mb-5 sm:-ml-3 md:mb-6" />
+            <BrandLogo theme={store.theme} className="-ml-2 mb-5 sm:-ml-3 md:mb-6" />
             <h1 className="text-4xl font-black tracking-tight md:text-5xl">
               Crea la reta y salta directo a la vista de torneo.
             </h1>
