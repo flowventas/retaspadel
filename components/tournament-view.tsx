@@ -203,7 +203,11 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
           <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
-              <BrandLogo theme={store.theme} variant="compact" className="mb-4 md:mb-5" />
+              <BrandLogo
+                theme={store.theme}
+                variant="compact"
+                className="mb-4 block max-[499px]:mx-auto min-[500px]:ml-auto md:mb-5"
+              />
               <Link href="/" className="inline-flex text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-accent)]">
                 Volver al inicio
               </Link>
