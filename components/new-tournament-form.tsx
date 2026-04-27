@@ -12,6 +12,8 @@ type NewTournamentFormProps = {
     names: string[];
   }) => void;
   savedPlayers: string[];
+  onClearSavedPlayers: () => void;
+  onRemoveSavedPlayer: (name: string) => void;
 };
 
 const PLAYER_OPTIONS: TournamentFormat[] = [8, 12, 16, 20];
@@ -21,7 +23,12 @@ function buildTournamentName(format: TournamentFormat, gamesPerMatch: GamesPerMa
   return `Reta ${format} jugadores · a ${gamesPerMatch} juegos`;
 }
 
-export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormProps) {
+export function NewTournamentForm({
+  onCreate,
+  savedPlayers,
+  onClearSavedPlayers,
+  onRemoveSavedPlayer,
+}: NewTournamentFormProps) {
   const [format, setFormat] = useState<TournamentFormat>(8);
   const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -116,6 +123,11 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
   function handlePickSuggestedPlayer(name: string) {
     setDraftName(name);
     setError("");
+    setIsRecentOpen(false);
+  }
+
+  function handleClearRecentPlayers() {
+    onClearSavedPlayers();
     setIsRecentOpen(false);
   }
 
@@ -259,15 +271,41 @@ export function NewTournamentForm({ onCreate, savedPlayers }: NewTournamentFormP
 
                 {isRecentOpen ? (
                   <div className="grid max-h-64 gap-2 overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
-                    {suggestedPlayers.map((name) => (
+                    <div className="mb-1 flex items-center justify-between gap-3">
+                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--muted)]">
+                        Guardados
+                      </p>
                       <button
-                        key={name}
                         type="button"
-                        onClick={() => handlePickSuggestedPlayer(name)}
-                        className="rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--app-text)] transition hover:bg-[var(--surface-subtle)] hover:text-[var(--brand-secondary)]"
+                        onClick={handleClearRecentPlayers}
+                        className="text-xs font-bold text-[var(--danger-text)] transition hover:opacity-80"
                       >
-                        {name}
+                        Borrar lista
                       </button>
+                    </div>
+
+                    {suggestedPlayers.map((name) => (
+                      <div
+                        key={name}
+                        className="flex items-center gap-2 rounded-xl transition hover:bg-[var(--surface-subtle)]"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => handlePickSuggestedPlayer(name)}
+                          className="min-w-0 flex-1 rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--app-text)] transition hover:text-[var(--brand-secondary)]"
+                        >
+                          {name}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onRemoveSavedPlayer(name)}
+                          aria-label={`Eliminar ${name}`}
+                          title={`Eliminar ${name}`}
+                          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                        >
+                          ×
+                        </button>
+                      </div>
                     ))}
                   </div>
                 ) : null}

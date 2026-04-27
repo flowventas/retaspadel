@@ -97,6 +97,21 @@ export default function TournamentApp() {
     }));
   }
 
+  function handleClearSavedPlayers() {
+    setStore((current) => ({
+      ...current,
+      savedPlayers: [],
+    }));
+  }
+
+  function handleRemoveSavedPlayer(name: string) {
+    const normalized = name.trim().toLocaleLowerCase();
+    setStore((current) => ({
+      ...current,
+      savedPlayers: current.savedPlayers.filter((item) => item.trim().toLocaleLowerCase() !== normalized),
+    }));
+  }
+
   if (!isClient) {
     return <main className="min-h-screen bg-[var(--app-bg)]" />;
   }
@@ -126,7 +141,12 @@ export default function TournamentApp() {
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="grid content-start gap-6">
-            <NewTournamentForm onCreate={handleCreateTournament} savedPlayers={store.savedPlayers ?? []} />
+            <NewTournamentForm
+              onCreate={handleCreateTournament}
+              savedPlayers={store.savedPlayers ?? []}
+              onClearSavedPlayers={handleClearSavedPlayers}
+              onRemoveSavedPlayer={handleRemoveSavedPlayer}
+            />
           </div>
 
           <div className="grid content-start gap-6">
