@@ -25,15 +25,35 @@ export function BrandLogo({ className = "", variant = "hero" }: BrandLogoProps) 
   }
 
   return (
-    <Image
-      src="/logo-6loco.png"
-      alt="6 loco"
-      width={520}
-      height={180}
-      sizes={variant === "hero" ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px" : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"}
-      priority={variant === "hero"}
-      onError={() => setHasError(true)}
-      className={`${variantClasses[variant]} ${className}`}
-    />
+    <>
+      <Image
+        src="/logo-6loco.png"
+        alt="6 loco"
+        width={520}
+        height={180}
+        sizes={
+          variant === "hero"
+            ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px"
+            : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"
+        }
+        priority={variant === "hero"}
+        onError={() => setHasError(true)}
+        className={`${variantClasses[variant]} dark:hidden ${className}`}
+      />
+      <Image
+        src="/logo-6loco-dark.png"
+        alt="6 loco"
+        width={520}
+        height={180}
+        sizes={
+          variant === "hero"
+            ? "(max-width: 639px) 108px, (max-width: 767px) 120px, (max-width: 1023px) 138px, 152px"
+            : "(max-width: 639px) 88px, (max-width: 767px) 96px, 110px"
+        }
+        priority={variant === "hero"}
+        onError={() => setHasError(true)}
+        className={`${variantClasses[variant]} hidden dark:block ${className}`}
+      />
+    </>
   );
 }
