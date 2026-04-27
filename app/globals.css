@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #eefabd;
-  --app-text: #263b6a;
-  --card: rgba(255, 255, 255, 0.82);
-  --muted: #6984a9;
-  --line: rgba(105, 132, 169, 0.22);
-  --surface-subtle: #f8fddf;
-  --surface-soft: #e7f4c2;
+  --app-bg: #f7f8ee;
+  --app-text: #203252;
+  --card: rgba(255, 255, 255, 0.96);
+  --muted: #506987;
+  --line: rgba(38, 59, 106, 0.12);
+  --surface-subtle: #f2f7e8;
+  --surface-soft: #e7f1d2;
   --surface-strong: #ffffff;
-  --brand-primary: #a0d585;
+  --brand-primary: #8dcf72;
   --brand-secondary: #6984a9;
   --brand-accent: #263b6a;
-  --brand-accent-soft: rgba(160, 213, 133, 0.18);
-  --hero-bg: linear-gradient(135deg, #eefabd 0%, #a0d585 48%, #6984a9 100%);
-  --hero-border: rgba(255, 255, 255, 0.26);
+  --brand-accent-soft: rgba(160, 213, 133, 0.12);
+  --hero-bg: linear-gradient(135deg, #eefabd 0%, #dceeb9 46%, #8ea7c3 100%);
+  --hero-border: rgba(38, 59, 106, 0.08);
   --hero-text: #263b6a;
-  --hero-muted: rgba(38, 59, 106, 0.74);
+  --hero-muted: rgba(38, 59, 106, 0.78);
   --danger-bg: #f7edf0;
   --danger-text: #8d4d60;
 }
@@ -60,8 +60,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--brand-accent) 32%, transparent), transparent 24%),
-    radial-gradient(circle at top right, color-mix(in srgb, var(--brand-primary) 16%, transparent), transparent 22%),
+    radial-gradient(circle at top left, rgba(160, 213, 133, 0.1), transparent 22%),
+    radial-gradient(circle at top right, rgba(105, 132, 169, 0.08), transparent 20%),
     var(--app-bg);
   color: var(--app-text);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
@@ -89,5 +89,5 @@ textarea {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--brand-accent) 62%, white);
+  background: color-mix(in srgb, var(--brand-primary) 45%, white);
 }
