@@ -220,12 +220,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         {toast ? (
-          <div className="pointer-events-none fixed right-4 top-4 z-50 max-w-xs rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] shadow-[0_20px_50px_-30px_rgba(15,23,42,0.6)]">
+          <div className="motion-toast pointer-events-none fixed right-4 top-4 z-50 max-w-xs rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] shadow-[0_20px_50px_-30px_rgba(15,23,42,0.6)]">
             {toast}
           </div>
         ) : null}
 
-        <header className="mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
+        <header className="motion-hero mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
           <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
               <BrandLogo
@@ -280,7 +280,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
-              <section className="grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+              <section className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
@@ -312,7 +312,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 </div>
               </section>
             ) : currentRound ? (
-              <section className="grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
+              <section className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0">
                     <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -359,7 +359,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <RankingTable rows={ranking} />
             </div>
 
-            <section className="grid min-w-0 gap-4">
+            <section className="motion-card motion-delay-2 grid min-w-0 gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Historial</p>
                 <h2 className="mt-2 text-2xl font-black text-[var(--app-text)]">Rondas anteriores</h2>
@@ -367,7 +367,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <RoundHistory rounds={finishedRounds} names={names} onEdit={handleEditRound} />
             </section>
 
-            <section className="grid gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_18px_50px_-42px_rgba(15,23,42,0.45)] sm:p-5">
+            <section className="motion-card motion-delay-3 grid gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_18px_50px_-42px_rgba(15,23,42,0.45)] sm:p-5">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Acciones</p>
                 <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
@@ -391,7 +391,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </section>
           </div>
 
-          <div className="hidden min-w-0 content-start gap-6 lg:grid">
+          <div className="motion-card motion-delay-2 hidden min-w-0 content-start gap-6 lg:grid">
             <RankingTable rows={ranking} />
           </div>
         </section>

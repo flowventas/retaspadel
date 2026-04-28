@@ -305,8 +305,8 @@ export function NewTournamentForm({
             </span>
           </button>
 
-          {isWhatsAppOpen ? (
-            <>
+          <div className="accordion-panel" data-open={isWhatsAppOpen}>
+            <div className="accordion-panel-inner">
               <textarea
                 value={whatsAppMessage}
                 onChange={(event) => setWhatsAppMessage(event.target.value)}
@@ -377,8 +377,8 @@ export function NewTournamentForm({
                   </div>
                 </div>
               ) : null}
-            </>
-          ) : null}
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center justify-between gap-4">

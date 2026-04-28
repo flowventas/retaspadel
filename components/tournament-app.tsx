@@ -124,7 +124,7 @@ export default function TournamentApp() {
       <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="mb-8 flex flex-col gap-5 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
+        <header className="motion-hero mb-8 flex flex-col gap-5 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
           <div className="relative min-h-10">
             <BrandLogo
               theme={store.theme}
@@ -145,7 +145,7 @@ export default function TournamentApp() {
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="grid content-start gap-6">
+          <div className="motion-card motion-delay-1 grid content-start gap-6">
             <NewTournamentForm
               onCreate={handleCreateTournament}
               savedPlayers={store.savedPlayers ?? []}
@@ -154,7 +154,7 @@ export default function TournamentApp() {
             />
           </div>
 
-          <div className="grid content-start gap-6">
+          <div className="motion-card motion-delay-2 grid content-start gap-6">
             <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.5)] backdrop-blur">
               <div className="flex items-center justify-between">
                 <div>
