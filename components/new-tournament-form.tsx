@@ -212,6 +212,16 @@ export function NewTournamentForm({
     openPlayerModal(importedNames);
   }
 
+  function handleImportedNameChange(index: number, value: string) {
+    setImportedNames((current) => current.map((name, itemIndex) => (itemIndex === index ? value : name)));
+  }
+
+  function handleClearImportedPlayers() {
+    setImportedNames([]);
+    setImportMessage("");
+    setImportError("");
+  }
+
   return (
     <>
       <section className="grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.55)] backdrop-blur md:p-8">
@@ -332,23 +342,37 @@ export function NewTournamentForm({
                         {importedNames.length} de {format} listos para usar
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleUseImportedPlayers}
-                      className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
-                    >
-                      {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleClearImportedPlayers}
+                        className="inline-flex items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                      >
+                        Vaciar lista
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleUseImportedPlayers}
+                        className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                      >
+                        {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid gap-2 sm:grid-cols-2">
                     {importedNames.map((name, index) => (
-                      <div
+                      <label
                         key={`${name}-${index + 1}`}
-                        className="rounded-xl bg-[var(--surface-subtle)] px-3 py-2 text-sm font-semibold text-[var(--app-text)]"
+                        className="grid gap-1 rounded-xl bg-[var(--surface-subtle)] px-3 py-2"
                       >
-                        {index + 1}. {name}
-                      </div>
+                        <span className="text-xs font-bold text-[var(--muted)]">{index + 1}.</span>
+                        <input
+                          value={name}
+                          onChange={(event) => handleImportedNameChange(index, event.target.value)}
+                          className="min-w-0 bg-transparent text-sm font-semibold text-[var(--app-text)] outline-none"
+                        />
+                      </label>
                     ))}
                   </div>
                 </div>
