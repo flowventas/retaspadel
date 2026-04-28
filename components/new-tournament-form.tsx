@@ -363,7 +363,7 @@ export function NewTournamentForm({
                   <div className="grid gap-2 sm:grid-cols-2">
                     {importedNames.map((name, index) => (
                       <label
-                        key={`${name}-${index + 1}`}
+                        key={`imported-player-${index + 1}`}
                         className="grid gap-1 rounded-xl bg-[var(--surface-subtle)] px-3 py-2"
                       >
                         <span className="text-xs font-bold text-[var(--muted)]">{index + 1}.</span>
