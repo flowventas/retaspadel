@@ -2,8 +2,13 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Padel Locos",
-  description: "App web para organizar torneos amistosos de padel con ranking en vivo.",
+  title: "6 loco",
+  description: "App web para organizar retas de padel con ranking en vivo.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
