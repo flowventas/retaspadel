@@ -12,7 +12,6 @@ import { loadStore, saveStore } from "@/lib/storage";
 import {
   calculateRanking,
   createLinkedScore,
-  exportTournamentCsv,
   formatPlayerList,
   getCurrentRound,
   getPlayerStats,
@@ -202,18 +201,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     }));
   }
 
-  function handleExportCsv() {
-    const blob = new Blob([exportTournamentCsv(tournament)], {
-      type: "text/csv;charset=utf-8;",
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${tournament.name.toLowerCase().replaceAll(" ", "-")}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
       <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
@@ -373,13 +360,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
               </div>
               <div className="grid gap-3 sm:flex sm:flex-wrap">
-                <button
-                  type="button"
-                  onClick={handleExportCsv}
-                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] sm:w-auto"
-                >
-                  Exportar CSV
-                </button>
                 <button
                   type="button"
                   onClick={handleDeleteTournament}
