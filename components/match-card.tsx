@@ -76,7 +76,7 @@ export function MatchCard({
           }`}
         >
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja A</p>
-          <div className="mt-2 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-2 flex min-w-0 flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <p className="min-w-0 break-words pr-1 text-base font-bold text-[var(--app-text)]">
               {formatTeam(match, "A", names)}
             </p>
@@ -95,11 +95,11 @@ export function MatchCard({
           }`}
         >
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)]">Pareja B</p>
-          <div className="mt-2 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-2 flex min-w-0 flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <p className="min-w-0 break-words pr-1 text-base font-bold text-[var(--app-text)]">
               {formatTeam(match, "B", names)}
             </p>
-            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] sm:h-14 sm:w-16 sm:self-auto sm:rounded-2xl sm:text-2xl">
+            <div className="grid h-12 w-12 shrink-0 place-items-center self-end rounded-xl bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] md:h-14 md:w-16 md:self-auto md:rounded-2xl md:text-2xl">
               {score?.teamB ?? ""}
             </div>
           </div>
