@@ -12,10 +12,14 @@ const STOP_PATTERNS = [
   /^waiting\s+list/i,
 ];
 
-const PLAYER_LINE = /^\s*(\d+)\s*[-.)]\s*(.+?)\s*$/;
+const PLAYER_LINE = /^\s*(\d+)\s*[-.)]?\s*(.+?)\s*$/;
 
 function normalizeName(value: string) {
-  return value.replace(/\s+/g, " ").trim();
+  return value
+    .replace(/^[^\p{L}\p{N}(]+/gu, "")
+    .replace(/[^\p{L}\p{N})]+$/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function parseWhatsAppPlayers(message: string, format: TournamentFormat): ParsedWhatsAppPlayers {
@@ -23,7 +27,7 @@ export function parseWhatsAppPlayers(message: string, format: TournamentFormat):
   const detected: string[] = [];
 
   for (const rawLine of message.split(/\r?\n/)) {
-    const line = rawLine.trim();
+    const line = rawLine.replace(/\u00A0/g, " ").trim();
     if (!line) {
       continue;
     }
