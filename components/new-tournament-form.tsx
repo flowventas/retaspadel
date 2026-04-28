@@ -180,6 +180,20 @@ export function NewTournamentForm({
       return;
     }
 
+    if (importedNames.length === format) {
+      onCreate({
+        name: buildTournamentName(format, gamesPerMatch),
+        format,
+        gamesPerMatch,
+        names: importedNames,
+      });
+      setWhatsAppMessage("");
+      setImportedNames([]);
+      setImportMessage("");
+      setImportError("");
+      return;
+    }
+
     openPlayerModal(importedNames);
   }
 
@@ -297,7 +311,7 @@ export function NewTournamentForm({
                   onClick={handleUseImportedPlayers}
                   className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
                 >
-                  Usar jugadores detectados
+                  {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
                 </button>
               </div>
 
