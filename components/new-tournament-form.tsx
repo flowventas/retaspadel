@@ -42,6 +42,7 @@ export function NewTournamentForm({
   const [importedNames, setImportedNames] = useState<string[]>([]);
   const [importMessage, setImportMessage] = useState("");
   const [importError, setImportError] = useState("");
+  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
 
   const progress = useMemo(() => `${Math.min(currentIndex + 1, format)}/${format}`, [currentIndex, format]);
   const suggestedPlayers = useMemo(() => {
@@ -264,68 +265,81 @@ export function NewTournamentForm({
         </div>
 
         <div className="grid gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] p-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--app-text)]">Pegar mensaje de WhatsApp</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">
-              Si ya tienes la reta en el chat, pegala aqui y extraemos los nombres automaticamente.
-            </p>
-          </div>
-
-          <textarea
-            value={whatsAppMessage}
-            onChange={(event) => setWhatsAppMessage(event.target.value)}
-            rows={7}
-            placeholder="Pega aqui el mensaje completo de la reta..."
-            className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-sm text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
-          />
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <button
-              type="button"
-              onClick={handleImportWhatsAppMessage}
-              className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:bg-[var(--surface-soft)]"
-            >
-              Extraer jugadores
-            </button>
-
-            {importMessage ? <p className="text-sm text-[var(--muted)]">{importMessage}</p> : null}
-          </div>
-
-          {importError ? (
-            <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
-              {importError}
+          <button
+            type="button"
+            onClick={() => setIsWhatsAppOpen((current) => !current)}
+            className="flex items-center justify-between gap-3 text-left"
+          >
+            <div>
+              <p className="text-sm font-semibold text-[var(--app-text)]">Importar desde WhatsApp</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">
+                Pega una reta ya armada y extraemos los nombres automaticamente.
+              </p>
             </div>
-          ) : null}
+            <span className="text-lg font-black text-[var(--brand-secondary)]" aria-hidden="true">
+              {isWhatsAppOpen ? "−" : "+"}
+            </span>
+          </button>
 
-          {importedNames.length ? (
-            <div className="grid gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-4">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-[var(--app-text)]">Jugadores detectados</p>
-                  <p className="text-sm text-[var(--muted)]">
-                    {importedNames.length} de {format} listos para usar
-                  </p>
-                </div>
+          {isWhatsAppOpen ? (
+            <>
+              <textarea
+                value={whatsAppMessage}
+                onChange={(event) => setWhatsAppMessage(event.target.value)}
+                rows={7}
+                placeholder="Pega aqui el mensaje completo de la reta..."
+                className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-sm text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
+              />
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
-                  onClick={handleUseImportedPlayers}
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                  onClick={handleImportWhatsAppMessage}
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:bg-[var(--surface-soft)]"
                 >
-                  {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
+                  Extraer jugadores
                 </button>
+
+                {importMessage ? <p className="text-sm text-[var(--muted)]">{importMessage}</p> : null}
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2">
-                {importedNames.map((name, index) => (
-                  <div
-                    key={`${name}-${index + 1}`}
-                    className="rounded-xl bg-[var(--surface-subtle)] px-3 py-2 text-sm font-semibold text-[var(--app-text)]"
-                  >
-                    {index + 1}. {name}
+              {importError ? (
+                <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                  {importError}
+                </div>
+              ) : null}
+
+              {importedNames.length ? (
+                <div className="grid gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-[var(--app-text)]">Jugadores detectados</p>
+                      <p className="text-sm text-[var(--muted)]">
+                        {importedNames.length} de {format} listos para usar
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleUseImportedPlayers}
+                      className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                    >
+                      {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
+                    </button>
                   </div>
-                ))}
-              </div>
-            </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {importedNames.map((name, index) => (
+                      <div
+                        key={`${name}-${index + 1}`}
+                        className="rounded-xl bg-[var(--surface-subtle)] px-3 py-2 text-sm font-semibold text-[var(--app-text)]"
+                      >
+                        {index + 1}. {name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </>
           ) : null}
         </div>
 
