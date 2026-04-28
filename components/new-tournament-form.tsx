@@ -329,7 +329,7 @@ export function NewTournamentForm({
 
         <button
           type="button"
-          onClick={openPlayerModal}
+          onClick={() => openPlayerModal()}
           className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
         >
           Iniciar torneo
