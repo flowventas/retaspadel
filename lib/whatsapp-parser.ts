@@ -10,10 +10,12 @@ const STOP_PATTERNS = [
   /^waiting\s+list/i,
 ];
 
-const PLAYER_LINE = /^\s*(\d+)\s*[-.)]?\s*(.+?)\s*$/;
+const PLAYER_LINE_STANDARD = /^\s*(\d+)\s*[-.)]\s*(.+?)\s*$/u;
+const PLAYER_LINE_WITH_SYMBOL = /^\s*(\d+)\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
 
 function normalizeName(value: string) {
   return value
+    .replace(/[\u200B-\u200D\uFEFF\u2060]/g, "")
     .replace(/^[^\p{L}\p{N}(]+/gu, "")
     .replace(/[^\p{L}\p{N})]+$/gu, "")
     .replace(/\s+/g, " ")
@@ -34,7 +36,7 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
       break;
     }
 
-    const match = line.match(PLAYER_LINE);
+    const match = line.match(PLAYER_LINE_STANDARD) ?? line.match(PLAYER_LINE_WITH_SYMBOL);
     if (!match) {
       continue;
     }
