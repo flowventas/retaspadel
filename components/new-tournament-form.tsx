@@ -335,29 +335,11 @@ export function NewTournamentForm({
 
               {importedNames.length ? (
                 <div className="grid gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-4">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-sm font-semibold text-[var(--app-text)]">Jugadores detectados</p>
-                      <p className="text-sm text-[var(--muted)]">
-                        {importedNames.length} de {format} listos para usar
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={handleClearImportedPlayers}
-                        className="inline-flex items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
-                      >
-                        Vaciar lista
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleUseImportedPlayers}
-                        className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
-                      >
-                        {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
-                      </button>
-                    </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[var(--app-text)]">Jugadores detectados</p>
+                    <p className="text-sm text-[var(--muted)]">
+                      {importedNames.length} de {format} listos para usar
+                    </p>
                   </div>
 
                   <div className="grid gap-2 sm:grid-cols-2">
@@ -374,6 +356,23 @@ export function NewTournamentForm({
                         />
                       </label>
                     ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={handleClearImportedPlayers}
+                      className="inline-flex items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                    >
+                      Vaciar lista
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleUseImportedPlayers}
+                      className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                    >
+                      {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
+                    </button>
                   </div>
                 </div>
               ) : null}
