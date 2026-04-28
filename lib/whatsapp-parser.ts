@@ -1,5 +1,3 @@
-import { TournamentFormat } from "@/lib/types";
-
 type ParsedWhatsAppPlayers = {
   names: string[];
   totalDetected: number;
@@ -22,7 +20,7 @@ function normalizeName(value: string) {
     .trim();
 }
 
-export function parseWhatsAppPlayers(message: string, format: TournamentFormat): ParsedWhatsAppPlayers {
+export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
   const seen = new Set<string>();
   const detected: string[] = [];
 
@@ -52,7 +50,7 @@ export function parseWhatsAppPlayers(message: string, format: TournamentFormat):
   }
 
   return {
-    names: detected.slice(0, format),
+    names: detected,
     totalDetected: detected.length,
   };
 }

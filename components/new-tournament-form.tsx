@@ -151,7 +151,8 @@ export function NewTournamentForm({
   }
 
   function handleImportWhatsAppMessage() {
-    const parsed = parseWhatsAppPlayers(whatsAppMessage, format);
+    const parsed = parseWhatsAppPlayers(whatsAppMessage);
+    const detectedFormat = PLAYER_OPTIONS.find((option) => option === parsed.totalDetected);
 
     if (!parsed.totalDetected) {
       setImportedNames([]);
@@ -160,20 +161,33 @@ export function NewTournamentForm({
       return;
     }
 
-    setImportedNames(parsed.names);
+    if (detectedFormat) {
+      setFormat(detectedFormat);
+    }
+
+    setImportedNames(detectedFormat ? parsed.names.slice(0, detectedFormat) : parsed.names);
     setImportError("");
 
+    if (!detectedFormat) {
+      setImportMessage(
+        `Detectamos ${parsed.totalDetected} jugadores antes de la lista de espera, pero solo manejamos retas de 8, 12, 16 o 20.`,
+      );
+      return;
+    }
+
     if (parsed.totalDetected < format) {
-      setImportMessage(`Detectamos ${parsed.totalDetected} jugadores. Faltan ${format - parsed.totalDetected} por completar.`);
+      setImportMessage(
+        `Detectamos ${parsed.totalDetected} jugadores antes de la lista de espera. Faltan ${format - parsed.totalDetected} por completar.`,
+      );
       return;
     }
 
     if (parsed.totalDetected > format) {
-      setImportMessage(`Detectamos ${parsed.totalDetected} nombres. Usaremos los primeros ${format}.`);
+      setImportMessage(`Ajustamos la reta a ${parsed.totalDetected} jugadores segun el mensaje detectado.`);
       return;
     }
 
-    setImportMessage(`Detectamos los ${format} jugadores de la reta.`);
+    setImportMessage(`Detectamos y ajustamos la reta a ${detectedFormat} jugadores.`);
   }
 
   function handleUseImportedPlayers() {
