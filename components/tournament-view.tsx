@@ -300,7 +300,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </section>
             ) : currentRound ? (
               <section className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
-                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div className="flex flex-col gap-4">
                   <div className="min-w-0">
                     <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                       En juego
@@ -312,14 +312,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                       Usa los botones para marcar juegos. Cada partido siempre suma {tournament.gamesPerMatch}.
                     </p>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={handleSaveRound}
-                    className="w-full rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01] md:w-auto"
-                  >
-                    Guardar score
-                  </button>
                 </div>
 
                 {error ? (
@@ -339,6 +331,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                     />
                   ))}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleSaveRound}
+                  className="w-full rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
+                >
+                  Guardar score
+                </button>
               </section>
             ) : null}
 
