@@ -48,7 +48,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const [toast, setToast] = useState("");
   const [isExportingRanking, setIsExportingRanking] = useState(false);
   const toastIndexRef = useRef(0);
-  const finalRankingRef = useRef<HTMLElement | null>(null);
+  const mobileRankingRef = useRef<HTMLDivElement | null>(null);
+  const desktopRankingRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isClient) {
@@ -205,22 +206,35 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   }
 
   async function handleDownloadFinalRanking() {
-    if (!finalRankingRef.current || isExportingRanking) {
+    if (isExportingRanking) {
+      return;
+    }
+
+    const exportTarget =
+      (desktopRankingRef.current && desktopRankingRef.current.offsetParent !== null
+        ? desktopRankingRef.current
+        : null) ??
+      (mobileRankingRef.current && mobileRankingRef.current.offsetParent !== null
+        ? mobileRankingRef.current
+        : null);
+
+    if (!exportTarget) {
+      setToast("No encontramos la tabla de poder para descargar.");
       return;
     }
 
     try {
       setIsExportingRanking(true);
       await exportNodeAsPng(
-        finalRankingRef.current,
-        `${tournament.name.toLowerCase().replaceAll(" ", "-")}-ranking-final.png`,
+        exportTarget,
+        `${tournament.name.toLowerCase().replaceAll(" ", "-")}-tabla-de-poder.png`,
       );
-      setToast("Ranking final descargado. Listo para compartir.");
+      setToast("Tabla de poder descargada. Lista para compartir.");
     } catch (downloadError) {
       setToast(
         downloadError instanceof Error
           ? downloadError.message
-          : "No pudimos descargar el ranking final.",
+          : "No pudimos descargar la tabla de poder.",
       );
     } finally {
       setIsExportingRanking(false);
@@ -293,10 +307,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
-              <section
-                ref={finalRankingRef}
-                className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur"
-              >
+              <section className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
@@ -333,7 +344,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   disabled={isExportingRanking}
                   className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
                 >
-                  {isExportingRanking ? "Preparando PNG..." : "Descargar ranking final en PNG"}
+                  {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
                 </button>
               </section>
             ) : currentRound ? (
@@ -380,7 +391,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </section>
             ) : null}
 
-            <div className="lg:hidden">
+            <div ref={mobileRankingRef} className="lg:hidden">
               <RankingTable rows={ranking} />
             </div>
 
@@ -409,7 +420,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </section>
           </div>
 
-          <div className="motion-card motion-delay-2 hidden min-w-0 content-start gap-6 lg:grid">
+          <div ref={desktopRankingRef} className="motion-card motion-delay-2 hidden min-w-0 content-start gap-6 lg:grid">
             <RankingTable rows={ranking} />
           </div>
         </section>
