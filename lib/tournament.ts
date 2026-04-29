@@ -347,6 +347,13 @@ export function saveRound(tournament: Tournament, roundId: string) {
   };
 }
 
+export function finishTournament(tournament: Tournament) {
+  return {
+    ...tournament,
+    completed: true,
+  };
+}
+
 export function reopenRound(tournament: Tournament, roundId: string) {
   const roundIndex = tournament.rounds.findIndex((round) => round.id === roundId);
   const rounds = tournament.rounds.map((round, index) =>

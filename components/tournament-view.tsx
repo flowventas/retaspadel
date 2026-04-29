@@ -14,6 +14,7 @@ import {
   calculateRanking,
   createLinkedScore,
   formatPlayerList,
+  finishTournament,
   getCurrentRound,
   getPlayerStats,
   isRoundReady,
@@ -196,6 +197,20 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       };
     });
     router.push("/");
+  }
+
+  function handleFinishTournament() {
+    if (tournament.completed) {
+      return;
+    }
+
+    if (!window.confirm("Terminar torneo ahora? La tabla de poder actual quedara como final.")) {
+      return;
+    }
+
+    persistTournament(finishTournament(tournament));
+    setError("");
+    setToast("Torneo cerrado. La tabla de poder actual ya es la final.");
   }
 
   function handleThemeToggle() {
@@ -413,6 +428,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
               </div>
               <div className="grid gap-3 sm:flex sm:flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleFinishTournament}
+                  disabled={tournament.completed}
+                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-default disabled:opacity-60 sm:w-auto"
+                >
+                  {tournament.completed ? "Torneo finalizado" : "Terminar torneo"}
+                </button>
                 <button
                   type="button"
                   onClick={handleDeleteTournament}
