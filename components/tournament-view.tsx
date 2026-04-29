@@ -8,6 +8,7 @@ import { MatchCard } from "@/components/match-card";
 import { RankingTable } from "@/components/ranking-table";
 import { RoundHistory } from "@/components/round-history";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { exportNodeAsPng } from "@/lib/export-image";
 import { loadStore, saveStore } from "@/lib/storage";
 import {
   calculateRanking,
@@ -45,7 +46,9 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const [store, setStore] = useState<TournamentStore>(() => loadStore());
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
+  const [isExportingRanking, setIsExportingRanking] = useState(false);
   const toastIndexRef = useRef(0);
+  const finalRankingRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!isClient) {
@@ -201,6 +204,29 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     }));
   }
 
+  async function handleDownloadFinalRanking() {
+    if (!finalRankingRef.current || isExportingRanking) {
+      return;
+    }
+
+    try {
+      setIsExportingRanking(true);
+      await exportNodeAsPng(
+        finalRankingRef.current,
+        `${tournament.name.toLowerCase().replaceAll(" ", "-")}-ranking-final.png`,
+      );
+      setToast("Ranking final descargado. Listo para compartir.");
+    } catch (downloadError) {
+      setError(
+        downloadError instanceof Error
+          ? downloadError.message
+          : "No pudimos descargar el ranking final.",
+      );
+    } finally {
+      setIsExportingRanking(false);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
       <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
@@ -267,7 +293,10 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
-              <section className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+              <section
+                ref={finalRankingRef}
+                className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur"
+              >
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
@@ -297,6 +326,15 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                     </article>
                   ))}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadFinalRanking}
+                  disabled={isExportingRanking}
+                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
+                >
+                  {isExportingRanking ? "Preparando PNG..." : "Descargar ranking final en PNG"}
+                </button>
               </section>
             ) : currentRound ? (
               <section className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
