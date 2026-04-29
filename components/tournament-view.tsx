@@ -217,7 +217,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       );
       setToast("Ranking final descargado. Listo para compartir.");
     } catch (downloadError) {
-      setError(
+      setToast(
         downloadError instanceof Error
           ? downloadError.message
           : "No pudimos descargar el ranking final.",
