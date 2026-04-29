@@ -24,56 +24,12 @@ export function RankingTable({ rows }: RankingTableProps) {
         ) : null}
       </div>
 
-      <div className="grid gap-3 p-4 min-[541px]:hidden">
-        {rows.map((row, index) => (
-          <article
-            key={row.playerId}
-            className={`rounded-[1.5rem] border px-4 py-4 ${
-              index === 0 ? "border-[var(--brand-accent)] bg-[var(--brand-accent-soft)]" : "border-[var(--line)] bg-[var(--surface-subtle)]"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="truncate text-base font-black text-[var(--app-text)]">
-                  #{index + 1} {row.name}
-                </p>
-                <p className="mt-1 text-sm text-[var(--muted)]">
-                  G-P-E {row.wins}-{row.losses}-{row.draws}
-                </p>
-                {index === 0 ? (
-                  <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-secondary)]">
-                    Lider de la reta
-                  </p>
-                ) : null}
-              </div>
-              <div className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-sm font-black text-[var(--brand-secondary)]">
-                P {row.points}
-              </div>
-            </div>
-            <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-              <div className="rounded-xl bg-[var(--surface-strong)] px-3 py-2">
-                <p className="text-[var(--muted)]">G-P-E</p>
-                <p className="font-black text-[var(--app-text)]">
-                  {row.wins}-{row.losses}-{row.draws}
-                </p>
-              </div>
-              <div className="rounded-xl bg-[var(--surface-strong)] px-3 py-2">
-                <p className="text-[var(--muted)]">Diferencia</p>
-                <p className={`font-black ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"}`}>
-                  {row.gameDiff > 0 ? `+${row.gameDiff}` : row.gameDiff}
-                </p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <div className="hidden overflow-x-auto min-[541px]:block">
-        <table className="min-w-full text-sm">
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-xs min-[420px]:text-sm">
           <thead className="bg-[var(--surface-subtle)] text-[var(--muted)]">
             <tr>
-              {["#", "Jugador", "G-P-E", "Diferencia", "P"].map((header) => (
-                <th key={header} className="px-4 py-3 text-left font-bold">
+              {["#", "Jugador", "G-P-E", "Dif.", "P"].map((header) => (
+                <th key={header} className="px-3 py-3 text-left font-bold min-[420px]:px-4">
                   {header}
                 </th>
               ))}
@@ -85,17 +41,19 @@ export function RankingTable({ rows }: RankingTableProps) {
                 key={row.playerId}
                 className={`border-t border-[var(--line)] ${index === 0 ? "bg-[var(--brand-accent-soft)]" : "bg-[var(--card)]"}`}
               >
-                <td className="px-4 py-3 font-black text-[var(--app-text)]">{index + 1}</td>
-                <td className="px-4 py-3 font-semibold text-[var(--app-text)]">{row.name}</td>
-                <td className="px-4 py-3 text-[var(--muted)]">
+                <td className="px-3 py-3 font-black text-[var(--app-text)] min-[420px]:px-4">{index + 1}</td>
+                <td className="max-w-[8rem] px-3 py-3 font-semibold text-[var(--app-text)] min-[420px]:max-w-none min-[420px]:px-4">
+                  <span className="block truncate">{row.name}</span>
+                </td>
+                <td className="whitespace-nowrap px-3 py-3 text-[var(--muted)] min-[420px]:px-4">
                   {row.wins}-{row.losses}-{row.draws}
                 </td>
                 <td
-                  className={`px-4 py-3 font-bold ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"}`}
+                  className={`whitespace-nowrap px-3 py-3 font-bold ${row.gameDiff >= 0 ? "text-[var(--brand-secondary)]" : "text-rose-700"} min-[420px]:px-4`}
                 >
                   {row.gameDiff > 0 ? `+${row.gameDiff}` : row.gameDiff}
                 </td>
-                <td className="px-4 py-3 font-black text-[var(--brand-secondary)]">{row.points}</td>
+                <td className="whitespace-nowrap px-3 py-3 font-black text-[var(--brand-secondary)] min-[420px]:px-4">{row.points}</td>
               </tr>
             ))}
           </tbody>
