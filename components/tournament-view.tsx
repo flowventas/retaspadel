@@ -338,14 +338,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleDownloadFinalRanking}
-                  disabled={isExportingRanking}
-                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
-                >
-                  {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
-                </button>
               </section>
             ) : currentRound ? (
               <section className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
@@ -391,8 +383,20 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </section>
             ) : null}
 
-            <div ref={mobileRankingRef} className="lg:hidden">
-              <RankingTable rows={ranking} />
+            <div className="grid gap-3 lg:hidden">
+              <div ref={mobileRankingRef}>
+                <RankingTable rows={ranking} />
+              </div>
+              {tournament.completed ? (
+                <button
+                  type="button"
+                  onClick={handleDownloadFinalRanking}
+                  disabled={isExportingRanking}
+                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
+                >
+                  {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
+                </button>
+              ) : null}
             </div>
 
             <section className="motion-card motion-delay-2 grid min-w-0 gap-4">
@@ -420,8 +424,20 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             </section>
           </div>
 
-          <div ref={desktopRankingRef} className="motion-card motion-delay-2 hidden min-w-0 content-start gap-6 lg:grid">
-            <RankingTable rows={ranking} />
+          <div className="motion-card motion-delay-2 hidden min-w-0 content-start gap-3 lg:grid">
+            <div ref={desktopRankingRef}>
+              <RankingTable rows={ranking} />
+            </div>
+            {tournament.completed ? (
+              <button
+                type="button"
+                onClick={handleDownloadFinalRanking}
+                disabled={isExportingRanking}
+                className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
+              >
+                {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
+              </button>
+            ) : null}
           </div>
         </section>
       </div>
