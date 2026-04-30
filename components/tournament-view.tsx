@@ -204,13 +204,13 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       return;
     }
 
-    if (!window.confirm("Terminar torneo ahora? La tabla de poder actual quedara como final.")) {
+    if (!window.confirm("Terminar reta ahora? La tabla de poder actual quedara como final.")) {
       return;
     }
 
     persistTournament(finishTournament(tournament));
     setError("");
-    setToast("Torneo cerrado. La tabla de poder actual ya es la final.");
+    setToast("Reta cerrada. La tabla de poder actual ya es la final.");
   }
 
   function handleThemeToggle() {
@@ -434,14 +434,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   disabled={tournament.completed}
                   className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-default disabled:opacity-60 sm:w-auto"
                 >
-                  {tournament.completed ? "Torneo finalizado" : "Terminar torneo"}
+                  {tournament.completed ? "Reta finalizada" : "Terminar reta"}
                 </button>
                 <button
                   type="button"
                   onClick={handleDeleteTournament}
                   className="w-full rounded-full border border-rose-200 bg-[var(--danger-bg)] px-4 py-3 text-sm font-semibold text-[var(--danger-text)] transition hover:bg-rose-100 sm:w-auto"
                 >
-                  Borrar torneo
+                  Borrar reta
                 </button>
               </div>
             </section>
