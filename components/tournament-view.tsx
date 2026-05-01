@@ -51,6 +51,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const toastIndexRef = useRef(0);
   const mobileRankingRef = useRef<HTMLDivElement | null>(null);
   const desktopRankingRef = useRef<HTMLDivElement | null>(null);
+  const currentRoundSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!isClient) {
@@ -176,6 +177,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
     setError("");
     setToast(scoreSavedMessages[toastIndexRef.current % scoreSavedMessages.length]);
     toastIndexRef.current += 1;
+    window.requestAnimationFrame(() => {
+      currentRoundSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   }
 
   function handleEditRound(roundId: string) {
@@ -355,7 +362,10 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
               </section>
             ) : currentRound ? (
-              <section className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5">
+              <section
+                ref={currentRoundSectionRef}
+                className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5"
+              >
                 <div className="flex flex-col gap-4">
                   <div className="min-w-0">
                     <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
