@@ -60,6 +60,17 @@ function rotate<T>(items: T[], shift: number) {
   return [...items.slice(offset), ...items.slice(0, offset)];
 }
 
+function shuffle<T>(items: T[]) {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
 function orderPlayersForAttempt(players: Player[], state: GeneratorState, roundNumber: number, attempt: number) {
   const sorted = [...players].sort((left, right) => {
     const playedGap = state.playedCounts[left.id] - state.playedCounts[right.id];
@@ -191,6 +202,37 @@ function generateRoundMatches(players: Player[], state: GeneratorState, roundNum
   return best;
 }
 
+function generateRandomRoundMatches(players: Player[]) {
+  const shuffledPlayers = shuffle(players);
+  const pairs: Pair[] = [];
+
+  for (let index = 0; index < shuffledPlayers.length; index += 2) {
+    const left = shuffledPlayers[index];
+    const right = shuffledPlayers[index + 1];
+
+    if (!left || !right) {
+      continue;
+    }
+
+    pairs.push([left.id, right.id]);
+  }
+
+  const matches: Matchup[] = [];
+
+  for (let index = 0; index < pairs.length; index += 2) {
+    const teamA = pairs[index];
+    const teamB = pairs[index + 1];
+
+    if (!teamA || !teamB) {
+      continue;
+    }
+
+    matches.push([teamA, teamB]);
+  }
+
+  return matches;
+}
+
 function applyGeneratedRound(round: Round, state: GeneratorState) {
   for (const match of round.matches) {
     const activePlayers = [...match.teamA, ...match.teamB];
@@ -219,7 +261,10 @@ export function generateRounds(players: Player[], format: TournamentFormat) {
   const roundCount = DEFAULT_ROUNDS[format];
 
   for (let roundNumber = 1; roundNumber <= roundCount; roundNumber += 1) {
-    const matchups = generateRoundMatches(players, state, roundNumber);
+    const matchups =
+      roundNumber === 1
+        ? generateRandomRoundMatches(players)
+        : generateRoundMatches(players, state, roundNumber);
 
     const round: Round = {
       id: `round-${roundNumber}`,
