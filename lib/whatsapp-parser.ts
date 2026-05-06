@@ -41,12 +41,34 @@ function normalizeName(value: string) {
     .trim();
 }
 
-function isLikelyPairLine(value: string) {
-  return value.split(PAIR_SEPARATOR).filter(Boolean).length === 2;
-}
-
 function looksLikeMetadata(value: string) {
   return NON_PLAYER_HINTS.some((pattern) => pattern.test(value));
+}
+
+function looksLikePlayerName(value: string) {
+  const normalized = normalizeName(value);
+  if (!normalized) {
+    return false;
+  }
+
+  if (looksLikeMetadata(normalized)) {
+    return false;
+  }
+
+  if (/\d/.test(normalized)) {
+    return false;
+  }
+
+  return /[\p{L}]{2,}/u.test(normalized);
+}
+
+function isLikelyPairLine(value: string) {
+  const parts = value
+    .split(PAIR_SEPARATOR)
+    .map((item) => normalizeName(item))
+    .filter(Boolean);
+
+  return parts.length === 2 && parts.every(looksLikePlayerName);
 }
 
 export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
