@@ -22,6 +22,15 @@ const PLAYER_LINE_BULLET = /^\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
 const PLAYER_LINE_COURT_BULLET = /^\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
 const FIXED_PAIR_HINT = /parejas?\s+fijas?/iu;
 const PAIR_SEPARATOR = /\s*\/\s*/u;
+const NON_PLAYER_HINTS = [
+  /\b(am|pm)\b/iu,
+  /\b\d{1,2}\s*de\s+[a-záéíóúñ]+\b/iu,
+  /\bganador\b/iu,
+  /\bbebida\b/iu,
+  /\bregalo\b/iu,
+  /\bjueves\b|\bviernes\b|\bsabado\b|\bsábado\b|\bdomingo\b|\blunes\b|\bmartes\b|\bmiercoles\b|\bmiércoles\b/iu,
+  /\b3ra\b|\b4ta\b|\b5ta\b|\b6ta\b/iu,
+];
 
 function normalizeName(value: string) {
   return value
@@ -34,6 +43,10 @@ function normalizeName(value: string) {
 
 function isLikelyPairLine(value: string) {
   return value.split(PAIR_SEPARATOR).filter(Boolean).length === 2;
+}
+
+function looksLikeMetadata(value: string) {
+  return NON_PLAYER_HINTS.some((pattern) => pattern.test(value));
 }
 
 export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
@@ -60,7 +73,12 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
     const match = line.match(PLAYER_LINE_STANDARD) ?? line.match(PLAYER_LINE_WITH_SYMBOL);
     const bulletMatch = line.match(PLAYER_LINE_BULLET);
     const courtMatch = insideCourtList ? line.match(PLAYER_LINE_COURT_BULLET) : null;
-    const candidateSource = match?.[2] ?? courtMatch?.[1] ?? bulletMatch?.[1] ?? "";
+    const bulletCandidate = bulletMatch?.[1] ?? "";
+    const candidateSource =
+      match?.[2] ??
+      courtMatch?.[1] ??
+      (isLikelyPairLine(bulletCandidate) ? bulletCandidate : "") ??
+      "";
 
     if (!candidateSource) {
       continue;
@@ -68,6 +86,10 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
 
     const rawName = normalizeName(candidateSource);
     if (!rawName) {
+      continue;
+    }
+
+    if (!isLikelyPairLine(rawName) && looksLikeMetadata(rawName)) {
       continue;
     }
 
