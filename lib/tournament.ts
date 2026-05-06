@@ -539,7 +539,94 @@ function createRankingMap(players: Player[]) {
   );
 }
 
+function createTeamKey(team: [string, string]) {
+  return [team[0], team[1]].sort().join(":");
+}
+
+function createFixedPairRankingMap(tournament: Tournament) {
+  const rankingMap: Record<string, RankingRow> = {};
+
+  for (const match of tournament.rounds[0]?.matches ?? []) {
+    for (const team of [match.teamA, match.teamB] as const) {
+      const key = createTeamKey(team);
+      if (rankingMap[key]) {
+        continue;
+      }
+
+      rankingMap[key] = {
+        playerId: key,
+        name: team.map((playerId) => tournament.players.find((player) => player.id === playerId)?.name ?? playerId).join(" + "),
+        played: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        gamesFor: 0,
+        gamesAgainst: 0,
+        gameDiff: 0,
+        points: 0,
+        rests: 0,
+        isTeam: true,
+        memberIds: [...team],
+      };
+    }
+  }
+
+  return rankingMap;
+}
+
 export function calculateRanking(tournament: Tournament): RankingRow[] {
+  if (tournament.pairingMode === "fixed") {
+    const rankingMap = createFixedPairRankingMap(tournament);
+
+    for (const round of tournament.rounds) {
+      for (const match of round.matches) {
+        if (!match.score) {
+          continue;
+        }
+
+        const teamAKey = createTeamKey(match.teamA);
+        const teamBKey = createTeamKey(match.teamB);
+        const teamAScore = match.score.teamA;
+        const teamBScore = match.score.teamB;
+        const winner = teamAScore === teamBScore ? null : teamAScore > teamBScore ? "A" : "B";
+
+        rankingMap[teamAKey].played += 1;
+        rankingMap[teamAKey].gamesFor += teamAScore;
+        rankingMap[teamAKey].gamesAgainst += teamBScore;
+        rankingMap[teamAKey].points += teamAScore;
+
+        rankingMap[teamBKey].played += 1;
+        rankingMap[teamBKey].gamesFor += teamBScore;
+        rankingMap[teamBKey].gamesAgainst += teamAScore;
+        rankingMap[teamBKey].points += teamBScore;
+
+        if (winner === "A") {
+          rankingMap[teamAKey].wins += 1;
+          rankingMap[teamBKey].losses += 1;
+        } else if (winner === "B") {
+          rankingMap[teamBKey].wins += 1;
+          rankingMap[teamAKey].losses += 1;
+        } else {
+          rankingMap[teamAKey].draws += 1;
+          rankingMap[teamBKey].draws += 1;
+        }
+      }
+    }
+
+    return Object.values(rankingMap)
+      .map((row) => ({
+        ...row,
+        gameDiff: row.gamesFor - row.gamesAgainst,
+      }))
+      .sort(
+        (left, right) =>
+          right.points - left.points ||
+          right.gameDiff - left.gameDiff ||
+          right.gamesFor - left.gamesFor ||
+          left.name.localeCompare(right.name, "es"),
+      );
+  }
+
   const rankingMap = createRankingMap(tournament.players);
 
   for (const round of tournament.rounds) {

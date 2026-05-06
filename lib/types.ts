@@ -45,6 +45,8 @@ export type RankingRow = {
   gameDiff: number;
   points: number;
   rests: number;
+  isTeam?: boolean;
+  memberIds?: string[];
 };
 
 export type PlayerStats = RankingRow & {
