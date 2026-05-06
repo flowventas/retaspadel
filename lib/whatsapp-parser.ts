@@ -1,6 +1,7 @@
 type ParsedWhatsAppPlayers = {
   names: string[];
   totalDetected: number;
+  pairingMode: "rotating" | "fixed";
 };
 
 const STOP_PATTERNS = [
@@ -17,7 +18,9 @@ const COURT_PATTERNS = [
 
 const PLAYER_LINE_STANDARD = /^\s*(\d+)\s*[-.)]\s*(.+?)\s*$/u;
 const PLAYER_LINE_WITH_SYMBOL = /^\s*(\d+)\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
-const PLAYER_LINE_COURT_BULLET = /^\s*🎾+\s*(.+?)\s*$/u;
+const PLAYER_LINE_COURT_BULLET = /^\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
+const FIXED_PAIR_HINT = /parejas?\s+fijas?/iu;
+const PAIR_SEPARATOR = /\s*\/\s*/u;
 
 function normalizeName(value: string) {
   return value
@@ -28,10 +31,15 @@ function normalizeName(value: string) {
     .trim();
 }
 
+function isLikelyPairLine(value: string) {
+  return value.split(PAIR_SEPARATOR).filter(Boolean).length === 2;
+}
+
 export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
   const seen = new Set<string>();
   const detected: string[] = [];
   let insideCourtList = false;
+  let pairingMode: "rotating" | "fixed" = FIXED_PAIR_HINT.test(message) ? "fixed" : "rotating";
 
   for (const rawLine of message.split(/\r?\n/)) {
     const line = rawLine.replace(/\u00A0/g, " ").trim();
@@ -54,18 +62,36 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
       continue;
     }
 
-    const name = normalizeName(match?.[2] ?? courtMatch?.[1] ?? "");
-    const key = name.toLocaleLowerCase();
-    if (!name || seen.has(key)) {
+    const rawName = normalizeName(match?.[2] ?? courtMatch?.[1] ?? "");
+    if (!rawName) {
       continue;
     }
 
-    seen.add(key);
-    detected.push(name);
+    const namesToInsert = isLikelyPairLine(rawName)
+      ? rawName
+          .split(PAIR_SEPARATOR)
+          .map((item) => normalizeName(item))
+          .filter(Boolean)
+      : [rawName];
+
+    if (namesToInsert.length === 2) {
+      pairingMode = "fixed";
+    }
+
+    for (const candidate of namesToInsert) {
+      const key = candidate.toLocaleLowerCase();
+      if (!candidate || seen.has(key)) {
+        continue;
+      }
+
+      seen.add(key);
+      detected.push(candidate);
+    }
   }
 
   return {
     names: detected,
     totalDetected: detected.length,
+    pairingMode,
   };
 }
