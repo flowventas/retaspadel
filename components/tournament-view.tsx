@@ -290,7 +290,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </h1>
               <p className="mt-2 max-w-3xl break-words text-sm text-[var(--hero-muted)] md:text-base">
                 {tournament.format} jugadores, partidos a {tournament.gamesPerMatch} juegos,{" "}
-                {tournament.rounds.length} rondas
+                {tournament.rounds.length} rondas,{" "}
+                {tournament.pairingMode === "fixed" ? "parejas fijas" : "parejas rotativas"}
               </p>
               <p className="mt-3 break-words text-sm text-[var(--hero-muted)]">
                 Jugadores: {formatPlayerList(tournament.players.map((player) => player.id), names)}

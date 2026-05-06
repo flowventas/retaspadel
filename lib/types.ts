@@ -12,6 +12,7 @@ export type MatchScore = {
 };
 
 export type GamesPerMatch = 5 | 6;
+export type PairingMode = "rotating" | "fixed";
 
 export type Match = {
   id: string;
@@ -59,6 +60,7 @@ export type Tournament = {
   name: string;
   format: TournamentFormat;
   gamesPerMatch: GamesPerMatch;
+  pairingMode: PairingMode;
   createdAt: string;
   players: Player[];
   rounds: Round[];

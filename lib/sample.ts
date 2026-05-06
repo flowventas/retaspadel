@@ -37,5 +37,5 @@ export function sampleNames(format: TournamentFormat) {
 
 export function sampleTournament(format: TournamentFormat, gamesPerMatch: GamesPerMatch = 6) {
   const players = createPlayers(SAMPLE_PLAYERS[format]);
-  return createTournament(`Demo ${format} jugadores`, players, format, gamesPerMatch);
+  return createTournament(`Demo ${format} jugadores`, players, format, gamesPerMatch, "rotating");
 }

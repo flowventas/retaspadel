@@ -1,6 +1,6 @@
 "use client";
 
-import { GamesPerMatch, Tournament, TournamentStore } from "@/lib/types";
+import { GamesPerMatch, PairingMode, Tournament, TournamentStore } from "@/lib/types";
 
 const STORAGE_KEY = "padel-locos-store";
 
@@ -15,6 +15,7 @@ function normalizeTournament(tournament: Tournament): Tournament {
   return {
     ...tournament,
     gamesPerMatch: (tournament.gamesPerMatch ?? 6) as GamesPerMatch,
+    pairingMode: (tournament.pairingMode ?? "rotating") as PairingMode,
   };
 }
 

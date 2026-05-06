@@ -3,13 +3,14 @@
 import { useMemo, useState } from "react";
 import { sampleNames } from "@/lib/sample";
 import { parseWhatsAppPlayers } from "@/lib/whatsapp-parser";
-import { GamesPerMatch, TournamentFormat } from "@/lib/types";
+import { GamesPerMatch, PairingMode, TournamentFormat } from "@/lib/types";
 
 type NewTournamentFormProps = {
   onCreate: (payload: {
     name: string;
     format: TournamentFormat;
     gamesPerMatch: GamesPerMatch;
+    pairingMode: PairingMode;
     names: string[];
   }) => void;
   savedPlayers: string[];
@@ -19,6 +20,10 @@ type NewTournamentFormProps = {
 
 const PLAYER_OPTIONS: TournamentFormat[] = [8, 12, 16, 20];
 const GAME_OPTIONS: GamesPerMatch[] = [5, 6];
+const PAIRING_MODE_OPTIONS: { value: PairingMode; label: string; description: string }[] = [
+  { value: "rotating", label: "Parejas rotativas", description: "Las parejas cambian en cada ronda." },
+  { value: "fixed", label: "Parejas fijas", description: "Se respetan las parejas 1-2, 3-4, 5-6..." },
+];
 
 function buildTournamentName(format: TournamentFormat, gamesPerMatch: GamesPerMatch) {
   return `Reta ${format} jugadores · a ${gamesPerMatch} juegos`;
@@ -32,6 +37,7 @@ export function NewTournamentForm({
 }: NewTournamentFormProps) {
   const [format, setFormat] = useState<TournamentFormat>(8);
   const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
+  const [pairingMode, setPairingMode] = useState<PairingMode>("rotating");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRecentOpen, setIsRecentOpen] = useState(false);
   const [names, setNames] = useState<string[]>([]);
@@ -118,6 +124,7 @@ export function NewTournamentForm({
         name: buildTournamentName(format, gamesPerMatch),
         format,
         gamesPerMatch,
+        pairingMode,
         names: currentNames,
       });
       closePlayerModal();
@@ -146,6 +153,7 @@ export function NewTournamentForm({
       name: buildTournamentName(format, gamesPerMatch),
       format,
       gamesPerMatch,
+      pairingMode,
       names: sampleNames(format),
     });
   }
@@ -200,6 +208,7 @@ export function NewTournamentForm({
         name: buildTournamentName(format, gamesPerMatch),
         format,
         gamesPerMatch,
+        pairingMode,
         names: importedNames,
       });
       setWhatsAppMessage("");
@@ -287,6 +296,29 @@ export function NewTournamentForm({
             </div>
           </label>
         </div>
+
+        <label className="grid gap-2 text-sm font-medium text-[var(--app-text)]">
+          Modalidad de parejas
+          <div className="grid gap-2 rounded-2xl bg-[var(--surface-subtle)] p-1 md:grid-cols-2">
+            {PAIRING_MODE_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setPairingMode(option.value)}
+                className={`grid gap-1 rounded-[1rem] px-4 py-3 text-left transition ${
+                  pairingMode === option.value
+                    ? "bg-[var(--brand-secondary)] text-white shadow-lg"
+                    : "text-[var(--muted)] hover:bg-white"
+                }`}
+              >
+                <span className="text-sm font-bold">{option.label}</span>
+                <span className={`text-xs ${pairingMode === option.value ? "text-white/85" : "text-[var(--muted)]"}`}>
+                  {option.description}
+                </span>
+              </button>
+            ))}
+          </div>
+        </label>
 
         <div className="grid gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] p-4">
           <button
@@ -387,9 +419,11 @@ export function NewTournamentForm({
               {format} jugadores · {gamesPerMatch} juegos
             </p>
           </div>
-          <p className="max-w-sm text-right text-sm text-[var(--muted)]">
-            Al iniciar, la app te ira pidiendo un nombre por jugador en popups consecutivos.
-          </p>
+            <p className="max-w-sm text-right text-sm text-[var(--muted)]">
+              {pairingMode === "fixed"
+                ? "En parejas fijas, el orden de captura define las parejas: 1-2, 3-4, 5-6..."
+                : "Al iniciar, la app te ira pidiendo un nombre por jugador en popups consecutivos."}
+            </p>
         </div>
 
         <button

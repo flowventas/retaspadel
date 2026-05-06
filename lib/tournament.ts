@@ -8,6 +8,7 @@ import {
   Tournament,
   TournamentFormat,
   GamesPerMatch,
+  PairingMode,
 } from "@/lib/types";
 
 type GeneratorState = {
@@ -18,6 +19,7 @@ type GeneratorState = {
 
 type Pair = [string, string];
 type Matchup = [Pair, Pair];
+type NullablePair = Pair | null;
 
 const DEFAULT_ROUNDS: Record<TournamentFormat, number> = {
   8: 7,
@@ -233,6 +235,74 @@ function generateRandomRoundMatches(players: Player[]) {
   return matches;
 }
 
+function createFixedPairs(players: Player[]) {
+  const pairs: Pair[] = [];
+
+  for (let index = 0; index < players.length; index += 2) {
+    const left = players[index];
+    const right = players[index + 1];
+
+    if (!left || !right) {
+      continue;
+    }
+
+    pairs.push([left.id, right.id]);
+  }
+
+  return shuffle(pairs);
+}
+
+function rotateRoundRobinPairs(pairs: NullablePair[]) {
+  if (pairs.length <= 2) {
+    return pairs;
+  }
+
+  return [pairs[0], pairs.at(-1) ?? null, ...pairs.slice(1, -1)];
+}
+
+function generateFixedPairTemplates(players: Player[]) {
+  const basePairs = createFixedPairs(players);
+  const pool: NullablePair[] = basePairs.length % 2 === 0 ? basePairs : [...basePairs, null];
+  const totalRounds = pool.length - 1;
+  const templates: Matchup[][] = [];
+  let rotation = [...pool];
+
+  for (let roundIndex = 0; roundIndex < totalRounds; roundIndex += 1) {
+    const matches: Matchup[] = [];
+
+    for (let index = 0; index < rotation.length / 2; index += 1) {
+      const teamA = rotation[index];
+      const teamB = rotation[rotation.length - 1 - index];
+
+      if (!teamA || !teamB) {
+        continue;
+      }
+
+      matches.push([teamA, teamB]);
+    }
+
+    templates.push(matches);
+    rotation = rotateRoundRobinPairs(rotation);
+  }
+
+  return templates;
+}
+
+function generateFixedPairRounds(players: Player[], format: TournamentFormat) {
+  const templates = generateFixedPairTemplates(players);
+  const roundCount = DEFAULT_ROUNDS[format];
+
+  return Array.from({ length: roundCount }, (_, roundIndex) => {
+    const template = templates[roundIndex % templates.length] ?? [];
+    const cycle = Math.floor(roundIndex / templates.length);
+
+    return template.map(([teamA, teamB]) => ({
+      teamA: cycle % 2 === 0 ? teamA : teamB,
+      teamB: cycle % 2 === 0 ? teamB : teamA,
+    }));
+  });
+}
+
 function applyGeneratedRound(round: Round, state: GeneratorState) {
   for (const match of round.matches) {
     const activePlayers = [...match.teamA, ...match.teamB];
@@ -255,7 +325,30 @@ function applyGeneratedRound(round: Round, state: GeneratorState) {
   }
 }
 
-export function generateRounds(players: Player[], format: TournamentFormat) {
+export function generateRounds(
+  players: Player[],
+  format: TournamentFormat,
+  pairingMode: PairingMode = "rotating",
+) {
+  if (pairingMode === "fixed") {
+    const scheduledRounds = generateFixedPairRounds(players, format);
+
+    return scheduledRounds.map((matches, roundIndex) => ({
+      id: `round-${roundIndex + 1}`,
+      number: roundIndex + 1,
+      restingPlayerIds: [],
+      status: "pending" as const,
+      updatedAt: null,
+      matches: matches.map((match, matchIndex) => ({
+        id: `round-${roundIndex + 1}-match-${matchIndex + 1}`,
+        court: matchIndex + 1,
+        teamA: match.teamA,
+        teamB: match.teamB,
+        score: null,
+      })),
+    }));
+  }
+
   const rounds: Round[] = [];
   const state = initGeneratorState(players);
   const roundCount = DEFAULT_ROUNDS[format];
@@ -293,15 +386,17 @@ export function createTournament(
   players: Player[],
   format: TournamentFormat,
   gamesPerMatch: GamesPerMatch,
+  pairingMode: PairingMode = "rotating",
 ): Tournament {
   return {
     id: crypto.randomUUID(),
     name,
     format,
     gamesPerMatch,
+    pairingMode,
     createdAt: new Date().toISOString(),
     players,
-    rounds: generateRounds(players, format),
+    rounds: generateRounds(players, format, pairingMode),
     currentRoundIndex: 0,
     completed: false,
   };
@@ -638,6 +733,7 @@ export function duplicateTournament(tournament: Tournament) {
     tournament.players.map((player) => ({ ...player })),
     tournament.format,
     tournament.gamesPerMatch,
+    tournament.pairingMode,
   );
 }
 
