@@ -18,6 +18,7 @@ const COURT_PATTERNS = [
 
 const PLAYER_LINE_STANDARD = /^\s*(\d+)\s*[-.)]\s*(.+?)\s*$/u;
 const PLAYER_LINE_WITH_SYMBOL = /^\s*(\d+)\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
+const PLAYER_LINE_BULLET = /^\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
 const PLAYER_LINE_COURT_BULLET = /^\s*[^\p{L}\p{N}\s]+\s*(.+?)\s*$/u;
 const FIXED_PAIR_HINT = /parejas?\s+fijas?/iu;
 const PAIR_SEPARATOR = /\s*\/\s*/u;
@@ -57,12 +58,15 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
     }
 
     const match = line.match(PLAYER_LINE_STANDARD) ?? line.match(PLAYER_LINE_WITH_SYMBOL);
+    const bulletMatch = line.match(PLAYER_LINE_BULLET);
     const courtMatch = insideCourtList ? line.match(PLAYER_LINE_COURT_BULLET) : null;
-    if (!match && !courtMatch) {
+    const candidateSource = match?.[2] ?? courtMatch?.[1] ?? bulletMatch?.[1] ?? "";
+
+    if (!candidateSource) {
       continue;
     }
 
-    const rawName = normalizeName(match?.[2] ?? courtMatch?.[1] ?? "");
+    const rawName = normalizeName(candidateSource);
     if (!rawName) {
       continue;
     }
