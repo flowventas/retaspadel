@@ -688,6 +688,17 @@ export function calculateRanking(tournament: Tournament): RankingRow[] {
 }
 
 export function getPlayerStats(tournament: Tournament): PlayerStats[] {
+  if (tournament.pairingMode === "fixed") {
+    return calculateRanking(tournament).map((row) => ({
+      ...row,
+      winRate: row.played ? row.wins / row.played : 0,
+      averageGamesFor: row.played ? row.gamesFor / row.played : 0,
+      averageGamesAgainst: row.played ? row.gamesAgainst / row.played : 0,
+      partners: [],
+      opponents: [],
+    }));
+  }
+
   const rankingMap = Object.fromEntries(
     calculateRanking(tournament).map((row) => [
       row.playerId,
