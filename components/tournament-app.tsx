@@ -8,7 +8,7 @@ import { NewTournamentForm } from "@/components/new-tournament-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { defaultStore, loadStore, saveStore } from "@/lib/storage";
 import { createPlayers, createTournament } from "@/lib/tournament";
-import { GamesPerMatch, PairingMode, TournamentFormat, TournamentStore } from "@/lib/types";
+import { GamesPerMatch, PairingMode, PlayMode, TournamentFormat, TournamentStore } from "@/lib/types";
 
 function mergeSavedPlayers(current: string[], incoming: string[]) {
   const seen = new Set<string>();
@@ -51,6 +51,7 @@ export default function TournamentApp() {
     format: TournamentFormat;
     gamesPerMatch: GamesPerMatch;
     pairingMode: PairingMode;
+    playMode: PlayMode;
     names: string[];
   }) {
     const tournament = createTournament(
@@ -59,6 +60,7 @@ export default function TournamentApp() {
       payload.format,
       payload.gamesPerMatch,
       payload.pairingMode,
+      payload.playMode,
     );
 
     const nextStore = {
@@ -183,7 +185,8 @@ export default function TournamentApp() {
                           <p className="font-black text-[var(--app-text)]">{tournament.name}</p>
                           <p className="text-sm text-[var(--muted)]">
                             {tournament.format} jugadores, a {tournament.gamesPerMatch} juegos,{" "}
-                            {tournament.rounds.length} rondas,{" "}
+                            {tournament.totalRounds} rondas,{" "}
+                            {tournament.playMode === "ladder" ? "escalera" : "rotativo"},{" "}
                             {tournament.pairingMode === "fixed" ? "parejas fijas" : "parejas rotativas"}
                           </p>
                         </Link>

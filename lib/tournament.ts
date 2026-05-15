@@ -9,6 +9,7 @@ import {
   TournamentFormat,
   GamesPerMatch,
   PairingMode,
+  PlayMode,
 } from "@/lib/types";
 
 type GeneratorState = {
@@ -303,6 +304,144 @@ function generateFixedPairRounds(players: Player[], format: TournamentFormat) {
   });
 }
 
+function createRoundFromMatchups(matchups: Matchup[], roundNumber: number): Round {
+  return {
+    id: `round-${roundNumber}`,
+    number: roundNumber,
+    restingPlayerIds: [],
+    status: "pending",
+    updatedAt: null,
+    matches: matchups.map(([teamA, teamB], index) => ({
+      id: `round-${roundNumber}-match-${index + 1}`,
+      court: index + 1,
+      teamA,
+      teamB,
+      score: null,
+    })),
+  };
+}
+
+function createInitialLadderMatchups(players: Player[], pairingMode: PairingMode) {
+  if (pairingMode === "fixed") {
+    const pairs = createFixedPairs(players);
+    const matches: Matchup[] = [];
+
+    for (let index = 0; index < pairs.length; index += 2) {
+      const teamA = pairs[index];
+      const teamB = pairs[index + 1];
+
+      if (!teamA || !teamB) {
+        continue;
+      }
+
+      matches.push([teamA, teamB]);
+    }
+
+    return matches;
+  }
+
+  return generateRandomRoundMatches(players);
+}
+
+function getWinningTeam(match: Match) {
+  if (!match.score) {
+    return null;
+  }
+
+  if (match.score.teamA === match.score.teamB) {
+    return null;
+  }
+
+  return match.score.teamA > match.score.teamB ? match.teamA : match.teamB;
+}
+
+function getLosingTeam(match: Match) {
+  if (!match.score) {
+    return null;
+  }
+
+  if (match.score.teamA === match.score.teamB) {
+    return null;
+  }
+
+  return match.score.teamA > match.score.teamB ? match.teamB : match.teamA;
+}
+
+function buildLadderPoolsFromRound(round: Round) {
+  const winners = round.matches.map((match) => getWinningTeam(match));
+  const losers = round.matches.map((match) => getLosingTeam(match));
+  const courtCount = round.matches.length;
+  const pools: string[][] = [];
+
+  for (let courtIndex = 0; courtIndex < courtCount; courtIndex += 1) {
+    if (courtIndex === 0) {
+      pools.push([...(winners[0] ?? []), ...(winners[1] ?? [])]);
+      continue;
+    }
+
+    if (courtIndex === courtCount - 1) {
+      pools.push([...(losers[courtIndex - 1] ?? []), ...(losers[courtIndex] ?? [])]);
+      continue;
+    }
+
+    pools.push([...(losers[courtIndex - 1] ?? []), ...(winners[courtIndex + 1] ?? [])]);
+  }
+
+  return pools;
+}
+
+function createBalancedCourtMatchup(pool: string[], previousRound: Round) {
+  const [a, b, c, d] = pool;
+  const options: Matchup[] = [
+    [[a, b], [c, d]],
+    [[a, c], [b, d]],
+    [[a, d], [b, c]],
+  ]
+    .filter((matchup) => matchup.every((team) => team[0] && team[1])) as Matchup[];
+
+  const previousPairs = new Set<string>();
+  for (const match of previousRound.matches) {
+    previousPairs.add(pairSignature(match.teamA));
+    previousPairs.add(pairSignature(match.teamB));
+  }
+
+  let best = options[0];
+  let bestScore = Number.POSITIVE_INFINITY;
+
+  for (const option of options) {
+    const repeats =
+      (previousPairs.has(pairSignature(option[0])) ? 1 : 0) +
+      (previousPairs.has(pairSignature(option[1])) ? 1 : 0);
+
+    if (repeats < bestScore) {
+      best = option;
+      bestScore = repeats;
+    }
+  }
+
+  return best;
+}
+
+function generateNextLadderRound(tournament: Tournament, previousRound: Round): Round {
+  const pools = buildLadderPoolsFromRound(previousRound);
+  const matchups: Matchup[] = [];
+
+  if (tournament.pairingMode === "fixed") {
+    for (let index = 0; index < pools.length; index += 1) {
+      const pool = pools[index];
+      const teamA = [pool[0], pool[1]] as Pair;
+      const teamB = [pool[2], pool[3]] as Pair;
+      matchups.push([teamA, teamB]);
+    }
+  } else {
+    for (const pool of pools) {
+      matchups.push(createBalancedCourtMatchup(pool, previousRound));
+    }
+  }
+
+  return createRoundFromMatchups(matchups, previousRound.number + 1);
+}
+
 function applyGeneratedRound(round: Round, state: GeneratorState) {
   for (const match of round.matches) {
     const activePlayers = [...match.teamA, ...match.teamB];
@@ -329,24 +468,21 @@ export function generateRounds(
   players: Player[],
   format: TournamentFormat,
   pairingMode: PairingMode = "rotating",
+  playMode: PlayMode = "standard",
 ) {
+  if (playMode === "ladder") {
+    return [createRoundFromMatchups(createInitialLadderMatchups(players, pairingMode), 1)];
+  }
+
   if (pairingMode === "fixed") {
     const scheduledRounds = generateFixedPairRounds(players, format);
 
-    return scheduledRounds.map((matches, roundIndex) => ({
-      id: `round-${roundIndex + 1}`,
-      number: roundIndex + 1,
-      restingPlayerIds: [],
-      status: "pending" as const,
-      updatedAt: null,
-      matches: matches.map((match, matchIndex) => ({
-        id: `round-${roundIndex + 1}-match-${matchIndex + 1}`,
-        court: matchIndex + 1,
-        teamA: match.teamA,
-        teamB: match.teamB,
-        score: null,
-      })),
-    }));
+    return scheduledRounds.map((matches, roundIndex) =>
+      createRoundFromMatchups(
+        matches.map((match) => [match.teamA, match.teamB] as Matchup),
+        roundIndex + 1,
+      ),
+    );
   }
 
   const rounds: Round[] = [];
@@ -359,20 +495,7 @@ export function generateRounds(
         ? generateRandomRoundMatches(players)
         : generateRoundMatches(players, state, roundNumber);
 
-    const round: Round = {
-      id: `round-${roundNumber}`,
-      number: roundNumber,
-      restingPlayerIds: [],
-      status: "pending",
-      updatedAt: null,
-      matches: matchups.map(([teamA, teamB], index) => ({
-        id: `round-${roundNumber}-match-${index + 1}`,
-        court: index + 1,
-        teamA,
-        teamB,
-        score: null,
-      })),
-    };
+    const round = createRoundFromMatchups(matchups, roundNumber);
 
     applyGeneratedRound(round, state);
     rounds.push(round);
@@ -387,16 +510,20 @@ export function createTournament(
   format: TournamentFormat,
   gamesPerMatch: GamesPerMatch,
   pairingMode: PairingMode = "rotating",
+  playMode: PlayMode = "standard",
 ): Tournament {
+  const rounds = generateRounds(players, format, pairingMode, playMode);
   return {
     id: crypto.randomUUID(),
     name,
     format,
     gamesPerMatch,
     pairingMode,
+    playMode,
     createdAt: new Date().toISOString(),
     players,
-    rounds: generateRounds(players, format, pairingMode),
+    rounds,
+    totalRounds: DEFAULT_ROUNDS[format],
     currentRoundIndex: 0,
     completed: false,
   };
@@ -477,13 +604,26 @@ export function saveRound(tournament: Tournament, roundId: string) {
         },
   );
 
-  const currentRoundIndex = rounds.findIndex((round) => round.status === "pending");
+  let nextRounds = rounds;
+  const currentRound = rounds.find((round) => round.id === roundId) ?? null;
+
+  if (
+    tournament.playMode === "ladder" &&
+    currentRound &&
+    currentRound.number < tournament.totalRounds &&
+    rounds.every((round) => round.number !== currentRound.number + 1)
+  ) {
+    nextRounds = [...rounds, generateNextLadderRound(tournament, currentRound)];
+  }
+
+  const currentRoundIndex = nextRounds.findIndex((round) => round.status === "pending");
 
   return {
     ...tournament,
-    rounds,
-    currentRoundIndex: currentRoundIndex === -1 ? tournament.rounds.length - 1 : currentRoundIndex,
-    completed: rounds.every((round) => round.status === "completed"),
+    rounds: nextRounds,
+    currentRoundIndex: currentRoundIndex === -1 ? nextRounds.length - 1 : currentRoundIndex,
+    completed:
+      nextRounds.filter((round) => round.status === "completed").length >= tournament.totalRounds,
   };
 }
 
@@ -496,6 +636,27 @@ export function finishTournament(tournament: Tournament) {
 
 export function reopenRound(tournament: Tournament, roundId: string) {
   const roundIndex = tournament.rounds.findIndex((round) => round.id === roundId);
+  if (tournament.playMode === "ladder") {
+    const rounds = tournament.rounds
+      .slice(0, roundIndex + 1)
+      .map((round, index) =>
+        index < roundIndex
+          ? round
+          : {
+              ...round,
+              status: "pending" as const,
+              updatedAt: null,
+            },
+      );
+
+    return {
+      ...tournament,
+      rounds,
+      currentRoundIndex: roundIndex,
+      completed: false,
+    };
+  }
+
   const rounds = tournament.rounds.map((round, index) =>
     index < roundIndex
       ? round
@@ -820,8 +981,8 @@ export function tournamentProgress(tournament: Tournament) {
   const completed = tournament.rounds.filter((round) => round.status === "completed").length;
   return {
     completed,
-    total: tournament.rounds.length,
-    percentage: Math.round((completed / tournament.rounds.length) * 100),
+    total: tournament.totalRounds,
+    percentage: Math.round((completed / tournament.totalRounds) * 100),
   };
 }
 
@@ -832,6 +993,7 @@ export function duplicateTournament(tournament: Tournament) {
     tournament.format,
     tournament.gamesPerMatch,
     tournament.pairingMode,
+    tournament.playMode,
   );
 }
 

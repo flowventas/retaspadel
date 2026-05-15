@@ -168,6 +168,14 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       return;
     }
 
+    if (
+      tournament.playMode === "ladder" &&
+      currentRound.matches.some((match) => match.score && match.score.teamA === match.score.teamB)
+    ) {
+      setError("En formato escalera no puede haber empate, porque siempre debe subir y bajar alguien.");
+      return;
+    }
+
     if (!isRoundReady(currentRound, tournament.gamesPerMatch)) {
       setError("Completa y valida todos los scores antes de guardar.");
       return;
@@ -290,7 +298,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               </h1>
               <p className="mt-2 max-w-3xl break-words text-sm text-[var(--hero-muted)] md:text-base">
                 {tournament.format} jugadores, partidos a {tournament.gamesPerMatch} juegos,{" "}
-                {tournament.rounds.length} rondas,{" "}
+                {tournament.totalRounds} rondas,{" "}
+                {tournament.playMode === "ladder" ? "formato escalera" : "formato rotativo"},{" "}
                 {tournament.pairingMode === "fixed" ? "parejas fijas" : "parejas rotativas"}
               </p>
               <p className="mt-3 break-words text-sm text-[var(--hero-muted)]">

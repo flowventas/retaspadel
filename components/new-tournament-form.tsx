@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { sampleNames } from "@/lib/sample";
 import { parseWhatsAppPlayers } from "@/lib/whatsapp-parser";
-import { GamesPerMatch, PairingMode, TournamentFormat } from "@/lib/types";
+import { GamesPerMatch, PairingMode, PlayMode, TournamentFormat } from "@/lib/types";
 
 type NewTournamentFormProps = {
   onCreate: (payload: {
@@ -11,6 +11,7 @@ type NewTournamentFormProps = {
     format: TournamentFormat;
     gamesPerMatch: GamesPerMatch;
     pairingMode: PairingMode;
+    playMode: PlayMode;
     names: string[];
   }) => void;
   savedPlayers: string[];
@@ -38,7 +39,9 @@ export function NewTournamentForm({
   const [format, setFormat] = useState<TournamentFormat>(8);
   const [gamesPerMatch, setGamesPerMatch] = useState<GamesPerMatch>(6);
   const [pairingMode, setPairingMode] = useState<PairingMode>("rotating");
+  const [playMode, setPlayMode] = useState<PlayMode>("standard");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPlayModeModalOpen, setIsPlayModeModalOpen] = useState(false);
   const [isRecentOpen, setIsRecentOpen] = useState(false);
   const [names, setNames] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,6 +52,7 @@ export function NewTournamentForm({
   const [importMessage, setImportMessage] = useState("");
   const [importError, setImportError] = useState("");
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
+  const [pendingNames, setPendingNames] = useState<string[] | null>(null);
 
   const progress = useMemo(() => `${Math.min(currentIndex + 1, format)}/${format}`, [currentIndex, format]);
   const suggestedPlayers = useMemo(() => {
@@ -80,6 +84,38 @@ export function NewTournamentForm({
     setError("");
     setIsRecentOpen(false);
     setIsModalOpen(true);
+  }
+
+  function completeStartFlow(initialNames?: string[], nextPlayMode: PlayMode = playMode) {
+    setPlayMode(nextPlayMode);
+
+    if (initialNames?.length === format) {
+      onCreate({
+        name: buildTournamentName(format, gamesPerMatch),
+        format,
+        gamesPerMatch,
+        pairingMode,
+        playMode: nextPlayMode,
+        names: initialNames,
+      });
+      setWhatsAppMessage("");
+      setImportedNames([]);
+      setImportMessage("");
+      setImportError("");
+      return;
+    }
+
+    openPlayerModal(initialNames);
+  }
+
+  function beginStartFlow(initialNames?: string[]) {
+    if (format >= 12) {
+      setPendingNames(initialNames ?? null);
+      setIsPlayModeModalOpen(true);
+      return;
+    }
+
+    completeStartFlow(initialNames, "standard");
   }
 
   function closePlayerModal() {
@@ -125,6 +161,7 @@ export function NewTournamentForm({
         format,
         gamesPerMatch,
         pairingMode,
+        playMode,
         names: currentNames,
       });
       closePlayerModal();
@@ -149,13 +186,7 @@ export function NewTournamentForm({
   }
 
   function handleUseDemo() {
-    onCreate({
-      name: buildTournamentName(format, gamesPerMatch),
-      format,
-      gamesPerMatch,
-      pairingMode,
-      names: sampleNames(format),
-    });
+    beginStartFlow(sampleNames(format));
   }
 
   function handleImportWhatsAppMessage() {
@@ -208,23 +239,7 @@ export function NewTournamentForm({
     if (!importedNames.length) {
       return;
     }
-
-    if (importedNames.length === format) {
-      onCreate({
-        name: buildTournamentName(format, gamesPerMatch),
-        format,
-        gamesPerMatch,
-        pairingMode,
-        names: importedNames,
-      });
-      setWhatsAppMessage("");
-      setImportedNames([]);
-      setImportMessage("");
-      setImportError("");
-      return;
-    }
-
-    openPlayerModal(importedNames);
+    beginStartFlow(importedNames);
   }
 
   function handleImportedNameChange(index: number, value: string) {
@@ -434,12 +449,69 @@ export function NewTournamentForm({
 
         <button
           type="button"
-          onClick={() => openPlayerModal()}
+          onClick={() => beginStartFlow()}
           className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
         >
           Iniciar reta
         </button>
       </section>
+
+      {isPlayModeModalOpen ? (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
+          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
+              Formato de reta
+            </p>
+            <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Como quieres jugar esta reta?</h3>
+            <p className="mt-3 text-sm text-[var(--muted)]">
+              La modalidad de parejas que elegiste se respetara dentro del formato.
+            </p>
+
+            <div className="mt-6 grid gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsPlayModeModalOpen(false);
+                  completeStartFlow(pendingNames ?? undefined, "standard");
+                  setPendingNames(null);
+                }}
+                className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
+              >
+                <span className="text-base font-black text-[var(--app-text)]">Rotativo</span>
+                <span className="text-sm text-[var(--muted)]">La app rota rondas como hasta ahora.</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsPlayModeModalOpen(false);
+                  completeStartFlow(pendingNames ?? undefined, "ladder");
+                  setPendingNames(null);
+                }}
+                className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
+              >
+                <span className="text-base font-black text-[var(--app-text)]">Escalera</span>
+                <span className="text-sm text-[var(--muted)]">
+                  Los jugadores o parejas suben y bajan de cancha segun resultados.
+                </span>
+              </button>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsPlayModeModalOpen(false);
+                  setPendingNames(null);
+                }}
+                className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {isModalOpen ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
