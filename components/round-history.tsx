@@ -5,9 +5,10 @@ type RoundHistoryProps = {
   rounds: Round[];
   names: Record<string, string>;
   onEdit: (roundId: string) => void;
+  editableRoundId?: string;
 };
 
-export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
+export function RoundHistory({ rounds, names, onEdit, editableRoundId }: RoundHistoryProps) {
   return (
     <div className="grid min-w-0 gap-4">
       {rounds.map((round) => (
@@ -36,7 +37,7 @@ export function RoundHistory({ rounds, names, onEdit }: RoundHistoryProps) {
               ) : null}
             </div>
 
-            {roundHasScores(round) ? (
+            {roundHasScores(round) && (!editableRoundId || editableRoundId === round.id) ? (
               <button
                 type="button"
                 onClick={() => onEdit(round.id)}

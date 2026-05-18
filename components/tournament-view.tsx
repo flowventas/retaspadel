@@ -106,6 +106,8 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const names = playerNameMap(tournament.players);
   const progress = tournamentProgress(tournament);
   const finishedRounds = tournament.rounds.filter((round) => round.status === "completed");
+  const orderedFinishedRounds = [...finishedRounds].sort((left, right) => right.number - left.number);
+  const editableHistoryRoundId = tournament.playMode === "ladder" ? orderedFinishedRounds[0]?.id : undefined;
 
   function updateStore(updater: (current: TournamentStore) => TournamentStore) {
     setStore((current) => updater(current));
@@ -445,7 +447,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Historial</p>
                 <h2 className="mt-2 text-2xl font-black text-[var(--app-text)]">Rondas anteriores</h2>
               </div>
-              <RoundHistory rounds={finishedRounds} names={names} onEdit={handleEditRound} />
+              <RoundHistory
+                rounds={orderedFinishedRounds}
+                names={names}
+                onEdit={handleEditRound}
+                editableRoundId={editableHistoryRoundId}
+              />
             </section>
 
             <section className="motion-card motion-delay-3 grid gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_18px_50px_-42px_rgba(15,23,42,0.45)] sm:p-5">
