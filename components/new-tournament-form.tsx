@@ -90,12 +90,16 @@ export function NewTournamentForm({
 
   function completeStartFlow(initialNames?: string[], nextPlayMode: PlayMode = playMode) {
     setPlayMode(nextPlayMode);
+    const nextGamesPerMatch = nextPlayMode === "ladder" ? 5 : gamesPerMatch;
+    if (nextPlayMode === "ladder") {
+      setGamesPerMatch(5);
+    }
 
     if (initialNames?.length === format) {
       onCreate({
         name: buildTournamentName(format, gamesPerMatch),
         format,
-        gamesPerMatch,
+        gamesPerMatch: nextGamesPerMatch,
         pairingMode,
         playMode: nextPlayMode,
         names: initialNames,
@@ -319,16 +323,20 @@ export function NewTournamentForm({
                   key={option}
                   type="button"
                   onClick={() => setGamesPerMatch(option)}
+                  disabled={playMode === "ladder" && option === 6}
                   className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
                     gamesPerMatch === option
                       ? "bg-[var(--brand-secondary)] text-white shadow-lg"
                       : "text-[var(--muted)] hover:bg-white"
-                  }`}
+                  } ${playMode === "ladder" && option === 6 ? "cursor-not-allowed opacity-45 hover:bg-transparent" : ""}`}
                 >
                   Reta a {option}
                 </button>
               ))}
             </div>
+            {playMode === "ladder" ? (
+              <p className="text-xs text-[var(--muted)]">En formato escalera la reta siempre se juega a 5 juegos.</p>
+            ) : null}
           </label>
         </div>
 
