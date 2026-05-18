@@ -110,12 +110,20 @@ export function NewTournamentForm({
 
   function beginStartFlow(initialNames?: string[]) {
     if (format >= 12) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
       setPendingNames(initialNames ?? null);
-      setIsPlayModeModalOpen(true);
+
+      const openPlayModeModal = () => setIsPlayModeModalOpen(true);
+
+      if (typeof window !== "undefined") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        window.setTimeout(openPlayModeModal, 320);
+      } else {
+        openPlayModeModal();
+      }
+
       return;
     }
 
