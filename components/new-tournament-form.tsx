@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { sampleNames } from "@/lib/sample";
 import { parseWhatsAppPlayers } from "@/lib/whatsapp-parser";
 import { GamesPerMatch, PairingMode, PlayMode, TournamentFormat } from "@/lib/types";
@@ -53,6 +54,7 @@ export function NewTournamentForm({
   const [importError, setImportError] = useState("");
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [pendingNames, setPendingNames] = useState<string[] | null>(null);
+  const canUsePortal = typeof window !== "undefined";
 
   const progress = useMemo(() => `${Math.min(currentIndex + 1, format)}/${format}`, [currentIndex, format]);
   const suggestedPlayers = useMemo(() => {
@@ -468,7 +470,8 @@ export function NewTournamentForm({
         </button>
       </section>
 
-      {isPlayModeModalOpen ? (
+      {canUsePortal && isPlayModeModalOpen
+        ? createPortal(
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -523,9 +526,13 @@ export function NewTournamentForm({
             </div>
           </div>
         </div>
-      ) : null}
+          ,
+          document.body,
+        )
+        : null}
 
-      {isModalOpen ? (
+      {canUsePortal && isModalOpen
+        ? createPortal(
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
             <div className="flex items-center justify-between gap-3">
@@ -637,7 +644,10 @@ export function NewTournamentForm({
             </div>
           </div>
         </div>
-      ) : null}
+          ,
+          document.body,
+        )
+        : null}
     </>
   );
 }
