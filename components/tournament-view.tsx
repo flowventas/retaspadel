@@ -196,6 +196,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   function handleEditRound(roundId: string) {
     persistTournament(reopenRound(tournament, roundId));
     setError("");
+    window.requestAnimationFrame(() => {
+      currentRoundSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   }
 
   function handleDeleteTournament() {
