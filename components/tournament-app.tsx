@@ -128,7 +128,7 @@ export default function TournamentApp() {
       <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="motion-hero mb-8 flex flex-col gap-5 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-6 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
+        <header className="app-hero motion-hero mb-8 flex flex-col gap-5 px-6 py-6">
           <div className="relative min-h-10">
             <BrandLogo
               theme={store.theme}
@@ -159,7 +159,7 @@ export default function TournamentApp() {
           </div>
 
           <div className="motion-card motion-delay-2 grid content-start gap-6">
-            <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.5)] backdrop-blur">
+            <div className="app-card p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -168,7 +168,7 @@ export default function TournamentApp() {
                   <h2 className="mt-1 text-xl font-black text-[var(--app-text)]">Retas guardadas</h2>
                   <p className="mt-1 text-sm text-[var(--muted)]">Continua donde se quedo la batalla.</p>
                 </div>
-                <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
+                <span className="app-pill bg-[var(--surface-soft)] px-3 py-1 text-xs">
                   {tournaments.length} total
                 </span>
               </div>
@@ -178,7 +178,7 @@ export default function TournamentApp() {
                   {tournaments.map((tournament) => (
                     <div
                       key={tournament.id}
-                      className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-4 transition hover:border-[var(--brand-primary)]"
+                      className="app-panel px-4 py-4 transition hover:border-[var(--brand-primary)]"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <Link href={`/torneo/${tournament.id}`} className="min-w-0 flex-1 text-left">
@@ -191,13 +191,13 @@ export default function TournamentApp() {
                           </p>
                         </Link>
                         <div className="flex items-center gap-2">
-                          <span className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--app-text)]">
+                          <span className="app-pill border border-[var(--line)] px-3 py-1 text-xs text-[var(--app-text)]">
                             {tournament.completed ? "Finalizado" : "En curso"}
                           </span>
                           <button
                             type="button"
                             onClick={() => handleDeleteTournament(tournament.id)}
-                            className="rounded-full border border-[color:color-mix(in_srgb,var(--danger-text)_45%,var(--line))] bg-[var(--surface-strong)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                            className="app-button app-button-danger px-3 py-2 text-xs"
                           >
                             Borrar
                           </button>

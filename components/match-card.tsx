@@ -56,7 +56,7 @@ export function MatchCard({
   const winner = matchWinner(match.score);
 
   return (
-    <article className="min-w-0 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)] sm:p-5">
+    <article className="app-card min-w-0 p-4 sm:p-5">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -64,7 +64,7 @@ export function MatchCard({
           </p>
           <h4 className="mt-1 text-lg font-black text-[var(--app-text)]">Partido {match.court}</h4>
         </div>
-        <div className="self-start rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
+        <div className="app-pill self-start bg-[var(--surface-soft)] px-3 py-1 text-xs">
           A {gamesPerMatch} juegos
         </div>
       </div>

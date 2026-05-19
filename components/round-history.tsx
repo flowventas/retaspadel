@@ -12,10 +12,7 @@ export function RoundHistory({ rounds, names, onEdit, editableRoundId }: RoundHi
   return (
     <div className="grid min-w-0 gap-4">
       {rounds.map((round) => (
-        <section
-          key={round.id}
-          className="min-w-0 rounded-[1.75rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_20px_50px_-40px_rgba(15,23,42,0.45)] sm:p-5"
-        >
+        <section key={round.id} className="app-card min-w-0 p-4 sm:p-5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-3">
@@ -41,7 +38,7 @@ export function RoundHistory({ rounds, names, onEdit, editableRoundId }: RoundHi
               <button
                 type="button"
                 onClick={() => onEdit(round.id)}
-                className="w-full rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] md:w-auto"
+                className="app-button app-button-secondary w-full px-4 py-2 text-sm md:w-auto"
               >
                 Editar esta ronda
               </button>

@@ -6,7 +6,7 @@ type RankingTableProps = {
 
 export function RankingTable({ rows }: RankingTableProps) {
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--card)] shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
+    <div className="app-card overflow-hidden">
       <div className="flex flex-col gap-3 border-b border-[var(--line)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -18,7 +18,7 @@ export function RankingTable({ rows }: RankingTableProps) {
           </p>
         </div>
         {rows[0] ? (
-          <div className="rounded-full bg-[var(--brand-accent-soft)] px-4 py-2 text-sm font-bold text-[var(--brand-secondary)]">
+          <div className="app-pill bg-[var(--brand-accent-soft)] px-4 py-2 text-sm text-[var(--brand-secondary)]">
             Lider de la reta: {rows[0].name}
           </div>
         ) : null}

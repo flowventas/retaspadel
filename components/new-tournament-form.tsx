@@ -272,7 +272,7 @@ export function NewTournamentForm({
 
   return (
     <>
-      <section className="grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.55)] backdrop-blur md:p-8">
+      <section className="app-card grid gap-6 p-6 md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -285,11 +285,7 @@ export function NewTournamentForm({
               Elige jugadores, define si van a 5 o 6 juegos y arranca sin complicarte.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={handleUseDemo}
-            className="rounded-full border border-[var(--brand-primary)] bg-[var(--brand-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-secondary)]"
-          >
+          <button type="button" onClick={handleUseDemo} className="app-button app-button-primary px-4 py-2 text-sm">
             Probar demo
           </button>
         </div>
@@ -387,14 +383,14 @@ export function NewTournamentForm({
                 onChange={(event) => setWhatsAppMessage(event.target.value)}
                 rows={7}
                 placeholder="Pega aqui el mensaje completo de la reta..."
-                className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-sm text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
+                className="app-input w-full px-4 py-4 text-sm"
               />
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
                   onClick={handleImportWhatsAppMessage}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:bg-[var(--surface-soft)]"
+                  className="app-button app-button-secondary px-4 py-3 text-sm"
                 >
                   Extraer jugadores
                 </button>
@@ -437,14 +433,14 @@ export function NewTournamentForm({
                     <button
                       type="button"
                       onClick={handleClearImportedPlayers}
-                      className="inline-flex items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface-subtle)] px-3 py-2 text-xs font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                      className="app-button app-button-danger px-3 py-2 text-xs"
                     >
                       Vaciar lista
                     </button>
                     <button
                       type="button"
                       onClick={handleUseImportedPlayers}
-                      className="inline-flex items-center justify-center rounded-full bg-[var(--brand-primary)] px-4 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                      className="app-button app-button-primary px-4 py-3 text-sm"
                     >
                       {importedNames.length === format ? "Arrancar con estos jugadores" : "Completar jugadores detectados"}
                     </button>
@@ -472,7 +468,7 @@ export function NewTournamentForm({
         <button
           type="button"
           onClick={() => beginStartFlow()}
-          className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
+          className="app-button app-button-primary px-6 py-4 text-base"
         >
           Iniciar reta
         </button>

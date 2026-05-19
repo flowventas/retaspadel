@@ -290,7 +290,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
           </div>
         ) : null}
 
-        <header className="motion-hero mb-6 flex min-w-0 flex-col gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
+        <header className="app-hero motion-hero mb-6 flex min-w-0 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-6">
           <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
               <BrandLogo
@@ -347,7 +347,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
         <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div className="grid min-w-0 content-start gap-6">
             {tournament.completed ? (
-              <section className="motion-card motion-delay-1 grid gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+              <section className="app-card motion-card motion-delay-1 grid gap-6 p-5">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Torneo finalizado
@@ -382,7 +382,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             ) : currentRound ? (
               <section
                 ref={currentRoundSectionRef}
-                className="motion-card motion-delay-1 grid gap-4 min-[541px]:gap-6 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-3 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] backdrop-blur min-[541px]:p-4 sm:p-5"
+                className="app-card motion-card motion-delay-1 grid gap-4 p-3 min-[541px]:gap-6 min-[541px]:p-4 sm:p-5"
               >
                 <div className="flex flex-col gap-4">
                   <div className="min-w-0">
@@ -416,11 +416,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleSaveRound}
-                  className="w-full rounded-full bg-linear-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[color:color-mix(in_srgb,var(--brand-primary)_28%,transparent)] transition hover:scale-[1.01]"
-                >
+                <button type="button" onClick={handleSaveRound} className="app-button app-button-primary w-full px-4 py-3 text-sm">
                   Guardar score
                 </button>
               </section>
@@ -431,12 +427,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <RankingTable rows={ranking} />
               </div>
               {tournament.completed ? (
-                <button
-                  type="button"
-                  onClick={handleDownloadFinalRanking}
-                  disabled={isExportingRanking}
-                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
-                >
+                <button type="button" onClick={handleDownloadFinalRanking} disabled={isExportingRanking} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait">
                   {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
                 </button>
               ) : null}
@@ -455,25 +446,16 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               />
             </section>
 
-            <section className="motion-card motion-delay-3 grid gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_18px_50px_-42px_rgba(15,23,42,0.45)] sm:p-5">
+            <section className="app-card motion-card motion-delay-3 grid gap-3 p-4 sm:p-5">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Acciones</p>
                 <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
               </div>
               <div className="grid gap-3 sm:flex sm:flex-wrap">
-                <button
-                  type="button"
-                  onClick={handleFinishTournament}
-                  disabled={tournament.completed}
-                  className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-default disabled:opacity-60 sm:w-auto"
-                >
+                <button type="button" onClick={handleFinishTournament} disabled={tournament.completed} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-default sm:w-auto">
                   {tournament.completed ? "Reta finalizada" : "Terminar reta"}
                 </button>
-                <button
-                  type="button"
-                  onClick={handleDeleteTournament}
-                  className="w-full rounded-full border border-rose-200 bg-[var(--danger-bg)] px-4 py-3 text-sm font-semibold text-[var(--danger-text)] transition hover:bg-rose-100 sm:w-auto"
-                >
+                <button type="button" onClick={handleDeleteTournament} className="app-button app-button-danger w-full px-4 py-3 text-sm sm:w-auto">
                   Borrar reta
                 </button>
               </div>
@@ -485,12 +467,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <RankingTable rows={ranking} />
             </div>
             {tournament.completed ? (
-              <button
-                type="button"
-                onClick={handleDownloadFinalRanking}
-                disabled={isExportingRanking}
-                className="w-full rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)] hover:text-[var(--brand-secondary)] disabled:cursor-wait disabled:opacity-70"
-              >
+              <button type="button" onClick={handleDownloadFinalRanking} disabled={isExportingRanking} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait">
                 {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
               </button>
             ) : null}
