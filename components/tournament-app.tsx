@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { BrandLogo } from "@/components/brand-logo";
 import { NewTournamentForm } from "@/components/new-tournament-form";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -36,6 +36,8 @@ export default function TournamentApp() {
   );
   const router = useRouter();
   const [store, setStore] = useState<TournamentStore>(() => loadStore());
+  const formSectionRef = useRef<HTMLDivElement | null>(null);
+  const savedSectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isClient) {
@@ -117,6 +119,13 @@ export default function TournamentApp() {
     }));
   }
 
+  function scrollToSection(target: HTMLDivElement | null) {
+    target?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
   if (!isClient) {
     return <main className="min-h-screen bg-[var(--app-bg)]" />;
   }
@@ -128,7 +137,7 @@ export default function TournamentApp() {
       <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="app-hero motion-hero mb-8 flex flex-col gap-5 px-6 py-6">
+        <header className="app-hero motion-hero mb-8 grid gap-8 px-6 py-6 md:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] md:px-8 md:py-8">
           <div className="relative min-h-10">
             <BrandLogo
               theme={store.theme}
@@ -138,18 +147,68 @@ export default function TournamentApp() {
               <ThemeToggle theme={store.theme} onToggle={handleThemeToggle} />
             </div>
           </div>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl font-black tracking-tight md:text-5xl">
-              Arma la reta. Que la cancha decida.
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm text-[var(--hero-muted)] md:text-base">
-              Configura jugadores, captura scores y deja que el ranking diga quien manda.
-            </p>
+          <div className="grid gap-6 md:col-span-2 md:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] md:items-end">
+            <div className="max-w-3xl">
+              <p className="app-kicker text-[var(--hero-muted)]">Retas de padel organizadas en minutos</p>
+              <h1 className="mt-3 text-5xl font-black tracking-tight text-[var(--hero-text)] sm:text-6xl lg:text-7xl">
+                Organiza la reta, guarda cada score y deja claro quien manda.
+              </h1>
+              <p className="mt-4 max-w-2xl text-base text-[var(--hero-muted)] sm:text-lg">
+                6 loco te ayuda a armar partidos, capturar resultados desde el celular y mantener
+                una tabla de poder lista para compartir.
+              </p>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection(formSectionRef.current)}
+                  className="app-button app-button-primary px-6 py-3 text-sm sm:text-base"
+                >
+                  Crear una reta
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection(savedSectionRef.current)}
+                  className="app-button app-button-secondary px-6 py-3 text-sm sm:text-base"
+                >
+                  Ver retas guardadas
+                </button>
+              </div>
+
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--hero-muted)]">
+                <span className="font-semibold text-[var(--hero-text)]">Rapida en celular</span>
+                <span>Importa jugadores desde WhatsApp</span>
+                <span>Ranking en vivo al instante</span>
+              </div>
+            </div>
+
+            <div className="app-panel grid gap-3 px-5 py-5 md:max-w-sm md:justify-self-end">
+              <p className="app-kicker">Lista para jugar</p>
+              <h2 className="text-2xl font-black text-[var(--app-text)]">Menos organizacion, mas cancha.</h2>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                  <p className="text-xl font-black text-[var(--app-text)]">8-20</p>
+                  <p className="mt-1 text-xs font-semibold text-[var(--muted)]">jugadores</p>
+                </div>
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                  <p className="text-xl font-black text-[var(--app-text)]">5-6</p>
+                  <p className="mt-1 text-xs font-semibold text-[var(--muted)]">juegos</p>
+                </div>
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                  <p className="text-xl font-black text-[var(--app-text)]">1 tap</p>
+                  <p className="mt-1 text-xs font-semibold text-[var(--muted)]">para guardar</p>
+                </div>
+              </div>
+              <p className="text-sm text-[var(--muted)]">
+                Ideal para grupos, clubes y retas privadas donde importa jugar rapido y llevar el
+                orden sin hojas ni chats sueltos.
+              </p>
+            </div>
           </div>
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="motion-card motion-delay-1 grid content-start gap-6">
+          <div ref={formSectionRef} className="motion-card motion-delay-1 grid content-start gap-6">
             <NewTournamentForm
               onCreate={handleCreateTournament}
               savedPlayers={store.savedPlayers ?? []}
@@ -158,7 +217,7 @@ export default function TournamentApp() {
             />
           </div>
 
-          <div className="motion-card motion-delay-2 grid content-start gap-6">
+          <div ref={savedSectionRef} className="motion-card motion-delay-2 grid content-start gap-6">
             <div className="app-card p-5">
               <div className="flex items-center justify-between">
                 <div>
