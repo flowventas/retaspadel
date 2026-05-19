@@ -116,6 +116,11 @@ textarea {
   background: var(--card);
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(18px);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
 }
 
 .app-panel {
@@ -123,6 +128,25 @@ textarea {
   border-radius: var(--radius-panel);
   background: var(--surface-subtle);
   box-shadow: var(--shadow-soft);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.app-card-interactive:hover,
+.app-panel-interactive:hover {
+  border-color: color-mix(in srgb, var(--brand-primary) 52%, var(--line));
+  transform: translateY(-1px);
+}
+
+.app-card-interactive:hover {
+  box-shadow: 0 28px 76px -44px rgba(15, 23, 42, 0.5);
+}
+
+.app-panel-interactive:hover {
+  box-shadow: 0 20px 54px -40px rgba(15, 23, 42, 0.42);
 }
 
 .app-hero {
@@ -195,6 +219,10 @@ textarea {
   box-shadow: 0 16px 34px -22px color-mix(in srgb, var(--brand-primary) 44%, transparent);
 }
 
+.app-button-primary:hover {
+  box-shadow: 0 20px 40px -22px color-mix(in srgb, var(--brand-primary) 52%, transparent);
+}
+
 .app-button-secondary {
   border: 1px solid var(--line);
   background: var(--surface-strong);
@@ -211,6 +239,10 @@ textarea {
   border: 1px solid color-mix(in srgb, var(--danger-text) 45%, var(--line));
   background: var(--danger-bg);
   color: var(--danger-text);
+}
+
+.app-button-danger:hover {
+  border-color: color-mix(in srgb, var(--danger-text) 65%, var(--line));
 }
 
 .app-icon-button {

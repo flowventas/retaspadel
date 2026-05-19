@@ -177,26 +177,38 @@ export default function TournamentApp() {
                 </button>
               </div>
 
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[var(--hero-muted)]">
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Rapida en celular
+                </span>
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Importa desde WhatsApp
+                </span>
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Tabla lista para compartir
+                </span>
+              </div>
+
               <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--hero-muted)]">
-                <span className="font-semibold text-[var(--hero-text)]">Rapida en celular</span>
-                <span>Importa jugadores desde WhatsApp</span>
-                <span>Ranking en vivo al instante</span>
+                <span>Sin cuenta obligatoria</span>
+                <span>Datos guardados en este dispositivo</span>
+                <span>Sin hojas ni chats sueltos</span>
               </div>
             </div>
 
-            <div className="app-panel grid gap-3 px-5 py-5 md:max-w-sm md:justify-self-end">
+            <div className="app-panel app-panel-interactive grid gap-4 px-5 py-5 md:max-w-sm md:justify-self-end">
               <p className="app-kicker">Lista para jugar</p>
               <h2 className="text-2xl font-black text-[var(--app-text)]">Menos organizacion, mas cancha.</h2>
               <div className="grid grid-cols-3 gap-2">
-                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center shadow-[var(--shadow-soft)]">
                   <p className="text-xl font-black text-[var(--app-text)]">8-20</p>
                   <p className="mt-1 text-xs font-semibold text-[var(--muted)]">jugadores</p>
                 </div>
-                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center shadow-[var(--shadow-soft)]">
                   <p className="text-xl font-black text-[var(--app-text)]">5-6</p>
                   <p className="mt-1 text-xs font-semibold text-[var(--muted)]">juegos</p>
                 </div>
-                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center">
+                <div className="rounded-[1rem] bg-[var(--surface-strong)] px-3 py-3 text-center shadow-[var(--shadow-soft)]">
                   <p className="text-xl font-black text-[var(--app-text)]">1 tap</p>
                   <p className="mt-1 text-xs font-semibold text-[var(--muted)]">para guardar</p>
                 </div>
@@ -205,6 +217,13 @@ export default function TournamentApp() {
                 Ideal para grupos, clubes y retas privadas donde importa jugar rapido y llevar el
                 orden sin hojas ni chats sueltos.
               </p>
+              <div className="grid gap-2 rounded-[1.25rem] border border-[var(--line)] bg-[color-mix(in_srgb,var(--surface-strong)_72%,transparent)] px-4 py-4 text-sm">
+                <p className="font-black text-[var(--app-text)]">Senales de confianza</p>
+                <p className="text-[var(--muted)]">
+                  Captura simple, guardado local y clasificacion visible para todo el grupo desde el
+                  primer momento.
+                </p>
+              </div>
             </div>
           </div>
         </header>
@@ -220,19 +239,19 @@ export default function TournamentApp() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-1">
-            <div className="app-panel px-4 py-4">
+            <div className="app-panel app-panel-interactive px-4 py-4">
               <p className="text-sm font-black text-[var(--app-text)]">Arma la reta en minutos</p>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 Desde 8 hasta 20 jugadores, con flujo rapido y listo para compartir.
               </p>
             </div>
-            <div className="app-panel px-4 py-4">
+            <div className="app-panel app-panel-interactive px-4 py-4">
               <p className="text-sm font-black text-[var(--app-text)]">Captura clara en cancha</p>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 Scores simples, validacion por formato y scroll pensado para usarlo en vivo.
               </p>
             </div>
-            <div className="app-panel px-4 py-4">
+            <div className="app-panel app-panel-interactive px-4 py-4">
               <p className="text-sm font-black text-[var(--app-text)]">Tabla lista al instante</p>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 La clasificacion se actualiza sola para que todos vean quien va arriba.
@@ -261,28 +280,35 @@ export default function TournamentApp() {
           </div>
 
           <aside className="motion-card motion-delay-2 grid gap-4 content-start">
-            <div className="app-card p-5">
+            <div className="app-card p-6">
               <p className="app-kicker">Lo esencial</p>
               <h3 className="mt-2 text-2xl font-black text-[var(--app-text)]">Pensada para organizar sin frenar la reta.</h3>
               <div className="mt-4 grid gap-3">
-                <div className="app-panel px-4 py-4">
+                <div className="app-panel app-panel-interactive px-4 py-4">
                   <p className="text-sm font-black text-[var(--app-text)]">Importa listas reales</p>
                   <p className="mt-1 text-sm text-[var(--muted)]">
                     Pega mensajes de WhatsApp y evita volver a capturar nombres uno por uno.
                   </p>
                 </div>
-                <div className="app-panel px-4 py-4">
+                <div className="app-panel app-panel-interactive px-4 py-4">
                   <p className="text-sm font-black text-[var(--app-text)]">Adapta la reta al grupo</p>
                   <p className="mt-1 text-sm text-[var(--muted)]">
                     Retas rotativas, parejas fijas y escalera para grupos grandes.
                   </p>
                 </div>
-                <div className="app-panel px-4 py-4">
+                <div className="app-panel app-panel-interactive px-4 py-4">
                   <p className="text-sm font-black text-[var(--app-text)]">Comparte resultados faciles</p>
                   <p className="mt-1 text-sm text-[var(--muted)]">
                     Guarda scores en vivo y descarga la tabla de poder final en PNG.
                   </p>
                 </div>
+              </div>
+              <div className="mt-4 rounded-[1.25rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-4">
+                <p className="text-sm font-black text-[var(--app-text)]">Hecha para grupos reales</p>
+                <p className="mt-1 text-sm text-[var(--muted)]">
+                  Ideal para organizar retas privadas, clubes o amistosos recurrentes sin meter al
+                  grupo a un sistema pesado.
+                </p>
               </div>
             </div>
           </aside>
@@ -314,7 +340,7 @@ export default function TournamentApp() {
 
           <div className="grid content-start gap-6">
             <div className="app-card p-5">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                     Guardados
@@ -332,7 +358,7 @@ export default function TournamentApp() {
                   {tournaments.map((tournament) => (
                     <div
                       key={tournament.id}
-                      className="app-panel px-4 py-4 transition hover:border-[var(--brand-primary)]"
+                      className="app-panel app-panel-interactive px-4 py-4"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <Link href={`/torneo/${tournament.id}`} className="min-w-0 flex-1 text-left">
@@ -361,9 +387,27 @@ export default function TournamentApp() {
                   ))}
                 </div>
               ) : (
-                <div className="mt-4 rounded-[1.5rem] border border-dashed border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-6 text-sm text-[var(--muted)]">
-                  Aun no hay retas guardadas. Crea la primera y 6 loco te llevara directo a la
-                  vista de juego.
+                <div className="mt-4 grid gap-4 rounded-[1.5rem] border border-dashed border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-6 text-sm text-[var(--muted)]">
+                  <div>
+                    <p className="font-black text-[var(--app-text)]">Todavia no hay retas guardadas.</p>
+                    <p className="mt-1">
+                      Crea la primera y 6 loco te llevara directo a la vista de juego sin perder el
+                      flujo.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="app-pill bg-[var(--surface-strong)] px-3 py-2 text-xs">Guardado local automatico</span>
+                    <span className="app-pill bg-[var(--surface-strong)] px-3 py-2 text-xs">Sin configuracion extra</span>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection(formSectionRef.current)}
+                      className="app-button app-button-primary px-5 py-3 text-sm"
+                    >
+                      Crear una reta
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -381,6 +425,17 @@ export default function TournamentApp() {
                 Arma una reta nueva, importa nombres desde WhatsApp o vuelve a una guardada para
                 seguir la competencia sin perder tiempo.
               </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[var(--hero-muted)]">
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Guardado automatico
+                </span>
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Scores claros en celular
+                </span>
+                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                  Tabla final compartible
+                </span>
+              </div>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col">

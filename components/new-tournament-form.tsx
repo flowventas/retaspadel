@@ -523,7 +523,7 @@ export function NewTournamentForm({
                   setIsPlayModeModalOpen(false);
                   setPendingNames(null);
                 }}
-                className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+                className="app-button app-button-secondary px-4 py-3 text-sm"
               >
                 Cancelar
               </button>
@@ -563,7 +563,7 @@ export function NewTournamentForm({
                     handleNextPlayer();
                   }
                 }}
-                className="rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-lg text-[var(--app-text)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--brand-primary)]"
+                className="app-input px-4 py-4 text-lg"
                 placeholder={`Jugador ${currentIndex + 1}`}
               />
             </label>
@@ -634,14 +634,14 @@ export function NewTournamentForm({
               <button
                 type="button"
                 onClick={closePlayerModal}
-                className="rounded-full border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+                className="app-button app-button-secondary px-4 py-3 text-sm"
               >
                 Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleNextPlayer}
-                className="rounded-full bg-[var(--brand-primary)] px-5 py-3 text-sm font-bold text-white transition hover:bg-[var(--brand-secondary)]"
+                className="app-button app-button-primary px-5 py-3 text-sm"
               >
                 {currentIndex === format - 1 ? "Generar reta" : "Siguiente jugador"}
               </button>
