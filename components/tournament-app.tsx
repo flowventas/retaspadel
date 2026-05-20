@@ -160,18 +160,18 @@ export default function TournamentApp() {
                 una tabla de poder lista para compartir.
               </p>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <button
                   type="button"
                   onClick={() => scrollToSection(formSectionRef.current)}
-                  className="app-button app-button-primary px-6 py-3 text-sm sm:text-base"
+                  className="app-button app-button-primary w-full px-6 py-3 text-sm sm:w-auto sm:text-base"
                 >
                   Crear una reta
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection(savedSectionRef.current)}
-                  className="app-button app-button-secondary px-6 py-3 text-sm sm:text-base"
+                  className="app-button app-button-secondary w-full px-6 py-3 text-sm sm:w-auto sm:text-base"
                 >
                   Ver retas guardadas
                 </button>
@@ -442,14 +442,14 @@ export default function TournamentApp() {
               <button
                 type="button"
                 onClick={() => scrollToSection(formSectionRef.current)}
-                className="app-button app-button-primary px-6 py-3 text-sm sm:text-base"
+                className="app-button app-button-primary w-full px-6 py-3 text-sm sm:w-auto sm:text-base"
               >
                 Crear una reta
               </button>
               <button
                 type="button"
                 onClick={() => scrollToSection(savedSectionRef.current)}
-                className="app-button app-button-secondary px-6 py-3 text-sm sm:text-base"
+                className="app-button app-button-secondary w-full px-6 py-3 text-sm sm:w-auto sm:text-base"
               >
                 Ver retas guardadas
               </button>

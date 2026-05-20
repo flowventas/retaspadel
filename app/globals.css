@@ -212,11 +212,13 @@ textarea:focus-visible {
   gap: 0.5rem;
   border-radius: 9999px;
   font-weight: 800;
+  white-space: nowrap;
   transition:
     transform 160ms ease,
     border-color 160ms ease,
     background-color 160ms ease,
     color 160ms ease,
+    box-shadow 160ms ease,
     opacity 160ms ease;
 }
 
@@ -236,23 +238,28 @@ textarea:focus-visible {
 
 .app-button-primary {
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  border: 1px solid color-mix(in srgb, var(--brand-secondary) 24%, transparent);
   color: white;
-  box-shadow: 0 10px 20px -18px color-mix(in srgb, var(--brand-primary) 14%, transparent);
+  box-shadow:
+    0 12px 22px -18px color-mix(in srgb, var(--brand-secondary) 20%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .app-button-primary:hover {
-  box-shadow: 0 12px 22px -18px color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  box-shadow:
+    0 14px 24px -18px color-mix(in srgb, var(--brand-secondary) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .app-button-secondary {
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
-  color: color-mix(in srgb, var(--app-text) 86%, var(--muted));
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+  color: color-mix(in srgb, var(--muted) 78%, var(--app-text));
 }
 
 .app-button-secondary:hover {
   border-color: color-mix(in srgb, var(--brand-primary) 26%, var(--line));
-  background: var(--surface-soft);
+  background: color-mix(in srgb, var(--surface-soft) 92%, transparent);
   color: var(--app-text);
 }
 
