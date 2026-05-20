@@ -1,56 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #f5f7ef;
-  --app-text: #203252;
-  --card: rgba(255, 255, 255, 0.97);
-  --muted: #5a6f89;
-  --line: rgba(38, 59, 106, 0.1);
-  --surface-subtle: #eef4e3;
-  --surface-soft: #e3ecd0;
-  --surface-strong: #ffffff;
-  --brand-primary: #8ac56f;
-  --brand-secondary: #5f7fa8;
-  --brand-accent: #263b6a;
-  --brand-accent-soft: rgba(138, 197, 111, 0.12);
-  --hero-bg: #ffffff;
-  --hero-border: rgba(38, 59, 106, 0.08);
-  --hero-text: #263b6a;
-  --hero-muted: rgba(38, 59, 106, 0.74);
-  --danger-bg: #f6ecef;
-  --danger-text: #8a4d5e;
+  --app-bg: #f5f4ee;
+  --app-text: #283347;
+  --card: rgba(251, 250, 246, 0.96);
+  --muted: #6c7585;
+  --line: rgba(40, 51, 71, 0.08);
+  --surface-subtle: #efefe8;
+  --surface-soft: #e6e7dd;
+  --surface-strong: #faf9f4;
+  --brand-primary: #879b78;
+  --brand-secondary: #68778e;
+  --brand-accent: #283347;
+  --brand-accent-soft: rgba(135, 155, 120, 0.08);
+  --hero-bg: #f9f8f2;
+  --hero-border: rgba(40, 51, 71, 0.06);
+  --hero-text: #283347;
+  --hero-muted: rgba(40, 51, 71, 0.68);
+  --danger-bg: #f3ecec;
+  --danger-text: #7d5a63;
   --radius-panel: 1.5rem;
   --radius-card: 2rem;
   --radius-chip: 1rem;
-  --shadow-soft: 0 18px 48px -40px rgba(15, 23, 42, 0.32);
-  --shadow-card: 0 24px 70px -44px rgba(15, 23, 42, 0.42);
-  --shadow-hero: 0 24px 72px -30px rgba(15, 23, 42, 0.18);
-  --shadow-floating: 0 10px 30px -20px rgba(15, 23, 42, 0.45);
+  --shadow-soft: 0 14px 34px -34px rgba(16, 22, 34, 0.16);
+  --shadow-card: 0 18px 44px -34px rgba(16, 22, 34, 0.2);
+  --shadow-hero: 0 18px 44px -28px rgba(16, 22, 34, 0.12);
+  --shadow-floating: 0 8px 18px -14px rgba(16, 22, 34, 0.16);
 }
 
 .dark {
-  --app-bg: #263b6a;
-  --app-text: #eefabd;
-  --card: rgba(38, 59, 106, 0.9);
-  --muted: #bdd8a0;
-  --line: rgba(238, 250, 189, 0.12);
-  --surface-subtle: rgba(47, 72, 123, 0.82);
-  --surface-soft: rgba(35, 56, 101, 0.96);
-  --surface-strong: rgba(63, 90, 147, 0.94);
-  --brand-primary: #9bcf81;
-  --brand-secondary: #7f9dc0;
-  --brand-accent: #eefabd;
-  --brand-accent-soft: rgba(155, 207, 129, 0.14);
-  --hero-bg: linear-gradient(135deg, #263b6a 0%, #32507f 58%, #6180aa 100%);
-  --hero-border: rgba(238, 250, 189, 0.08);
-  --hero-text: #eefabd;
-  --hero-muted: rgba(238, 250, 189, 0.72);
-  --danger-bg: rgba(141, 77, 96, 0.18);
-  --danger-text: #eefabd;
-  --shadow-soft: 0 18px 48px -40px rgba(4, 10, 22, 0.55);
-  --shadow-card: 0 24px 70px -44px rgba(4, 10, 22, 0.6);
-  --shadow-hero: 0 24px 72px -30px rgba(4, 10, 22, 0.55);
-  --shadow-floating: 0 10px 30px -20px rgba(4, 10, 22, 0.65);
+  --app-bg: #0f1115;
+  --app-text: #ece9de;
+  --card: rgba(18, 18, 18, 0.96);
+  --muted: #a5ab9d;
+  --line: rgba(236, 233, 222, 0.08);
+  --surface-subtle: rgba(20, 22, 26, 0.94);
+  --surface-soft: rgba(24, 27, 32, 0.98);
+  --surface-strong: rgba(31, 35, 41, 0.98);
+  --brand-primary: #8b9e7d;
+  --brand-secondary: #6b788d;
+  --brand-accent: #ece9de;
+  --brand-accent-soft: rgba(139, 158, 125, 0.1);
+  --hero-bg: linear-gradient(135deg, #101114 0%, #13161b 58%, #191d24 100%);
+  --hero-border: rgba(236, 233, 222, 0.05);
+  --hero-text: #ece9de;
+  --hero-muted: rgba(236, 233, 222, 0.68);
+  --danger-bg: rgba(125, 90, 99, 0.14);
+  --danger-text: #e4d5da;
+  --shadow-soft: 0 14px 34px -30px rgba(0, 0, 0, 0.34);
+  --shadow-card: 0 18px 42px -30px rgba(0, 0, 0, 0.4);
+  --shadow-hero: 0 18px 46px -28px rgba(0, 0, 0, 0.36);
+  --shadow-floating: 0 8px 18px -14px rgba(0, 0, 0, 0.34);
 }
 
 @theme inline {
@@ -81,8 +81,8 @@ body {
 
 .dark body {
   background:
-    radial-gradient(circle at top left, rgba(160, 213, 133, 0.1), transparent 22%),
-    radial-gradient(circle at top right, rgba(105, 132, 169, 0.08), transparent 20%),
+    radial-gradient(circle at top left, rgba(139, 158, 125, 0.03), transparent 24%),
+    radial-gradient(circle at top right, rgba(107, 120, 141, 0.022), transparent 22%),
     var(--app-bg);
 }
 
@@ -159,11 +159,11 @@ textarea:focus-visible {
 }
 
 .app-card-interactive:hover {
-  box-shadow: 0 28px 76px -44px rgba(15, 23, 42, 0.5);
+  box-shadow: 0 22px 52px -36px rgba(15, 23, 42, 0.22);
 }
 
 .app-panel-interactive:hover {
-  box-shadow: 0 20px 54px -40px rgba(15, 23, 42, 0.42);
+  box-shadow: 0 16px 40px -32px rgba(15, 23, 42, 0.18);
 }
 
 .app-hero {
@@ -237,11 +237,11 @@ textarea:focus-visible {
 .app-button-primary {
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
   color: white;
-  box-shadow: 0 16px 34px -22px color-mix(in srgb, var(--brand-primary) 44%, transparent);
+  box-shadow: 0 12px 24px -20px color-mix(in srgb, var(--brand-primary) 18%, transparent);
 }
 
 .app-button-primary:hover {
-  box-shadow: 0 20px 40px -22px color-mix(in srgb, var(--brand-primary) 52%, transparent);
+  box-shadow: 0 14px 28px -20px color-mix(in srgb, var(--brand-primary) 24%, transparent);
 }
 
 .app-button-secondary {
