@@ -301,8 +301,8 @@ export function NewTournamentForm({
                   onClick={() => handleFormatChange(option)}
                   className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
                     format === option
-                      ? "bg-[var(--brand-secondary)] text-white shadow-lg"
-                      : "text-[var(--muted)] hover:bg-white"
+                      ? "bg-[var(--brand-secondary)] text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]"
+                      : "text-[var(--muted)] hover:bg-[var(--surface-strong)]"
                   }`}
                 >
                   {option}
@@ -322,8 +322,8 @@ export function NewTournamentForm({
                   disabled={playMode === "ladder" && option === 6}
                   className={`rounded-[1rem] px-4 py-3 text-sm font-bold transition ${
                     gamesPerMatch === option
-                      ? "bg-[var(--brand-secondary)] text-white shadow-lg"
-                      : "text-[var(--muted)] hover:bg-white"
+                      ? "bg-[var(--brand-secondary)] text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]"
+                      : "text-[var(--muted)] hover:bg-[var(--surface-strong)]"
                   } ${playMode === "ladder" && option === 6 ? "cursor-not-allowed opacity-45 hover:bg-transparent" : ""}`}
                 >
                   Reta a {option}
@@ -346,8 +346,8 @@ export function NewTournamentForm({
                 onClick={() => setPairingMode(option.value)}
                 className={`grid gap-1 rounded-[1rem] px-4 py-3 text-left transition ${
                   pairingMode === option.value
-                    ? "bg-[var(--brand-secondary)] text-white shadow-lg"
-                    : "text-[var(--muted)] hover:bg-white"
+                    ? "bg-[var(--brand-secondary)] text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]"
+                    : "text-[var(--muted)] hover:bg-[var(--surface-strong)]"
                 }`}
               >
                 <span className="text-sm font-bold">{option.label}</span>
@@ -483,7 +483,7 @@ export function NewTournamentForm({
       {canUsePortal && isPlayModeModalOpen
         ? createPortal(
             <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.24)]">
                 <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                   Formato de reta
                 </p>
@@ -543,7 +543,7 @@ export function NewTournamentForm({
       {canUsePortal && isModalOpen
         ? createPortal(
             <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.24)]">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">

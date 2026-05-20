@@ -136,7 +136,7 @@ export default function TournamentApp() {
 
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_16%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_9%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         <header className="app-hero motion-hero mb-12 grid gap-8 px-6 py-6 md:mb-16 md:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] md:px-8 md:py-8">
@@ -178,13 +178,13 @@ export default function TournamentApp() {
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[var(--hero-muted)]">
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Rapida en celular
                 </span>
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Importa desde WhatsApp
                 </span>
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Tabla lista para compartir
                 </span>
               </div>
@@ -426,13 +426,13 @@ export default function TournamentApp() {
                 seguir la competencia sin perder tiempo.
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[var(--hero-muted)]">
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Guardado automatico
                 </span>
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Scores claros en celular
                 </span>
-                <span className="app-pill bg-white/75 px-3 py-2 text-[var(--hero-text)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_70%,transparent)] dark:text-[var(--hero-text)]">
+                <span className="app-pill bg-white/58 px-3 py-2 text-[var(--hero-muted)] dark:bg-[color-mix(in_srgb,var(--surface-strong)_56%,transparent)] dark:text-[var(--hero-muted)]">
                   Tabla final compartible
                 </span>
               </div>

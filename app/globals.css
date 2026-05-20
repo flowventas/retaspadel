@@ -5,7 +5,7 @@
   --app-text: #283347;
   --card: rgba(251, 250, 246, 0.96);
   --muted: #6c7585;
-  --line: rgba(40, 51, 71, 0.08);
+  --line: rgba(40, 51, 71, 0.065);
   --surface-subtle: #efefe8;
   --surface-soft: #e6e7dd;
   --surface-strong: #faf9f4;
@@ -14,7 +14,7 @@
   --brand-accent: #283347;
   --brand-accent-soft: rgba(135, 155, 120, 0.08);
   --hero-bg: #f9f8f2;
-  --hero-border: rgba(40, 51, 71, 0.06);
+  --hero-border: rgba(40, 51, 71, 0.05);
   --hero-text: #283347;
   --hero-muted: rgba(40, 51, 71, 0.68);
   --danger-bg: #f3ecec;
@@ -22,10 +22,10 @@
   --radius-panel: 1.5rem;
   --radius-card: 2rem;
   --radius-chip: 1rem;
-  --shadow-soft: 0 14px 34px -34px rgba(16, 22, 34, 0.16);
-  --shadow-card: 0 18px 44px -34px rgba(16, 22, 34, 0.2);
-  --shadow-hero: 0 18px 44px -28px rgba(16, 22, 34, 0.12);
-  --shadow-floating: 0 8px 18px -14px rgba(16, 22, 34, 0.16);
+  --shadow-soft: 0 12px 28px -30px rgba(16, 22, 34, 0.12);
+  --shadow-card: 0 16px 36px -28px rgba(16, 22, 34, 0.16);
+  --shadow-hero: 0 16px 38px -26px rgba(16, 22, 34, 0.1);
+  --shadow-floating: 0 6px 14px -12px rgba(16, 22, 34, 0.12);
 }
 
 .dark {
@@ -33,7 +33,7 @@
   --app-text: #ece9de;
   --card: rgba(18, 18, 18, 0.96);
   --muted: #a5ab9d;
-  --line: rgba(236, 233, 222, 0.08);
+  --line: rgba(236, 233, 222, 0.065);
   --surface-subtle: rgba(20, 22, 26, 0.94);
   --surface-soft: rgba(24, 27, 32, 0.98);
   --surface-strong: rgba(31, 35, 41, 0.98);
@@ -42,15 +42,15 @@
   --brand-accent: #ece9de;
   --brand-accent-soft: rgba(139, 158, 125, 0.1);
   --hero-bg: linear-gradient(135deg, #101114 0%, #13161b 58%, #191d24 100%);
-  --hero-border: rgba(236, 233, 222, 0.05);
+  --hero-border: rgba(236, 233, 222, 0.04);
   --hero-text: #ece9de;
   --hero-muted: rgba(236, 233, 222, 0.68);
   --danger-bg: rgba(125, 90, 99, 0.14);
   --danger-text: #e4d5da;
-  --shadow-soft: 0 14px 34px -30px rgba(0, 0, 0, 0.34);
-  --shadow-card: 0 18px 42px -30px rgba(0, 0, 0, 0.4);
-  --shadow-hero: 0 18px 46px -28px rgba(0, 0, 0, 0.36);
-  --shadow-floating: 0 8px 18px -14px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 12px 28px -24px rgba(0, 0, 0, 0.26);
+  --shadow-card: 0 16px 36px -24px rgba(0, 0, 0, 0.3);
+  --shadow-hero: 0 16px 40px -24px rgba(0, 0, 0, 0.28);
+  --shadow-floating: 0 6px 14px -10px rgba(0, 0, 0, 0.24);
 }
 
 @theme inline {
@@ -81,8 +81,8 @@ body {
 
 .dark body {
   background:
-    radial-gradient(circle at top left, rgba(139, 158, 125, 0.03), transparent 24%),
-    radial-gradient(circle at top right, rgba(107, 120, 141, 0.022), transparent 22%),
+    radial-gradient(circle at top left, rgba(139, 158, 125, 0.018), transparent 24%),
+    radial-gradient(circle at top right, rgba(107, 120, 141, 0.014), transparent 22%),
     var(--app-bg);
 }
 
@@ -154,16 +154,16 @@ textarea:focus-visible {
 
 .app-card-interactive:hover,
 .app-panel-interactive:hover {
-  border-color: color-mix(in srgb, var(--brand-primary) 52%, var(--line));
+  border-color: color-mix(in srgb, var(--brand-primary) 24%, var(--line));
   transform: translateY(-1px);
 }
 
 .app-card-interactive:hover {
-  box-shadow: 0 22px 52px -36px rgba(15, 23, 42, 0.22);
+  box-shadow: 0 18px 40px -28px rgba(15, 23, 42, 0.14);
 }
 
 .app-panel-interactive:hover {
-  box-shadow: 0 16px 40px -32px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 14px 32px -24px rgba(15, 23, 42, 0.12);
 }
 
 .app-hero {
@@ -175,7 +175,7 @@ textarea:focus-visible {
 }
 
 .app-kicker {
-  color: var(--brand-secondary);
+  color: color-mix(in srgb, var(--brand-secondary) 72%, var(--muted));
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.25em;
@@ -198,8 +198,8 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: var(--surface-strong);
-  color: var(--muted);
+  background: color-mix(in srgb, var(--surface-strong) 84%, transparent);
+  color: color-mix(in srgb, var(--muted) 88%, var(--app-text));
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
@@ -237,23 +237,23 @@ textarea:focus-visible {
 .app-button-primary {
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
   color: white;
-  box-shadow: 0 12px 24px -20px color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  box-shadow: 0 10px 20px -18px color-mix(in srgb, var(--brand-primary) 14%, transparent);
 }
 
 .app-button-primary:hover {
-  box-shadow: 0 14px 28px -20px color-mix(in srgb, var(--brand-primary) 24%, transparent);
+  box-shadow: 0 12px 22px -18px color-mix(in srgb, var(--brand-primary) 18%, transparent);
 }
 
 .app-button-secondary {
   border: 1px solid var(--line);
-  background: var(--surface-strong);
-  color: var(--app-text);
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  color: color-mix(in srgb, var(--app-text) 86%, var(--muted));
 }
 
 .app-button-secondary:hover {
-  border-color: var(--brand-primary);
+  border-color: color-mix(in srgb, var(--brand-primary) 26%, var(--line));
   background: var(--surface-soft);
-  color: var(--brand-secondary);
+  color: var(--app-text);
 }
 
 .app-button-danger {
@@ -283,9 +283,9 @@ textarea:focus-visible {
 }
 
 .app-icon-button:hover {
-  border-color: var(--brand-primary);
+  border-color: color-mix(in srgb, var(--brand-primary) 24%, var(--line));
   background: var(--surface-soft);
-  color: var(--brand-primary);
+  color: var(--app-text);
   transform: translateY(-1px);
 }
 
