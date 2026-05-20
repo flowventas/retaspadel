@@ -136,7 +136,7 @@ export default function TournamentApp() {
 
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_16%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_9%,transparent),_transparent_35%)]" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_10%,transparent),_transparent_46%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_6%,transparent),_transparent_36%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         <header className="app-hero motion-hero mb-12 grid gap-8 px-6 py-6 md:mb-16 md:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] md:px-8 md:py-8">
