@@ -18,6 +18,7 @@ function normalizeTournament(tournament: Tournament): Tournament {
     pairingMode: (tournament.pairingMode ?? "rotating") as PairingMode,
     playMode: (tournament.playMode ?? "standard") as PlayMode,
     totalRounds: tournament.totalRounds ?? tournament.rounds.length,
+    celebrationShown: tournament.celebrationShown ?? false,
   };
 }
 

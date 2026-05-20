@@ -526,6 +526,7 @@ export function createTournament(
     totalRounds: DEFAULT_ROUNDS[format],
     currentRoundIndex: 0,
     completed: false,
+    celebrationShown: false,
   };
 }
 
@@ -617,13 +618,15 @@ export function saveRound(tournament: Tournament, roundId: string) {
   }
 
   const currentRoundIndex = nextRounds.findIndex((round) => round.status === "pending");
+  const isCompleted =
+    nextRounds.filter((round) => round.status === "completed").length >= tournament.totalRounds;
 
   return {
     ...tournament,
     rounds: nextRounds,
     currentRoundIndex: currentRoundIndex === -1 ? nextRounds.length - 1 : currentRoundIndex,
-    completed:
-      nextRounds.filter((round) => round.status === "completed").length >= tournament.totalRounds,
+    completed: isCompleted,
+    celebrationShown: isCompleted ? false : tournament.celebrationShown,
   };
 }
 
@@ -631,6 +634,7 @@ export function finishTournament(tournament: Tournament) {
   return {
     ...tournament,
     completed: true,
+    celebrationShown: false,
   };
 }
 
@@ -654,6 +658,7 @@ export function reopenRound(tournament: Tournament, roundId: string) {
       rounds,
       currentRoundIndex: roundIndex,
       completed: false,
+      celebrationShown: false,
     };
   }
 
@@ -676,6 +681,14 @@ export function reopenRound(tournament: Tournament, roundId: string) {
     rounds,
     currentRoundIndex: roundIndex,
     completed: false,
+    celebrationShown: false,
+  };
+}
+
+export function markTournamentCelebrationShown(tournament: Tournament) {
+  return {
+    ...tournament,
+    celebrationShown: true,
   };
 }
 
