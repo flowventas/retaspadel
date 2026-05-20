@@ -245,41 +245,56 @@ textarea:focus-visible {
 }
 
 .app-button-primary {
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-primary) 88%, var(--brand-secondary)) 0%,
+      color-mix(in srgb, var(--brand-primary) 68%, var(--brand-secondary)) 100%
+    );
   border: 1px solid color-mix(in srgb, var(--brand-secondary) 24%, transparent);
   color: white;
   box-shadow:
-    0 12px 22px -18px color-mix(in srgb, var(--brand-secondary) 20%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    0 8px 18px -16px color-mix(in srgb, var(--brand-secondary) 16%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .app-button-primary:hover {
-  filter: brightness(1.02);
+  filter: brightness(1.03) saturate(0.98);
   box-shadow:
-    0 14px 24px -18px color-mix(in srgb, var(--brand-secondary) 24%, transparent),
+    0 10px 20px -16px color-mix(in srgb, var(--brand-secondary) 18%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .app-button-secondary {
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
-  color: color-mix(in srgb, var(--muted) 78%, var(--app-text));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 42%),
+    color-mix(in srgb, var(--surface-strong) 86%, transparent);
+  color: color-mix(in srgb, var(--muted) 72%, var(--app-text));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .app-button-secondary:hover {
   border-color: color-mix(in srgb, var(--brand-primary) 26%, var(--line));
-  background: color-mix(in srgb, var(--surface-soft) 92%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 42%),
+    color-mix(in srgb, var(--surface-soft) 94%, transparent);
   color: var(--app-text);
 }
 
 .app-button-danger {
   border: 1px solid color-mix(in srgb, var(--danger-text) 45%, var(--line));
-  background: var(--danger-bg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 42%),
+    var(--danger-bg);
   color: var(--danger-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .app-button-danger:hover {
   border-color: color-mix(in srgb, var(--danger-text) 65%, var(--line));
+  filter: brightness(1.01);
 }
 
 .app-icon-button {
