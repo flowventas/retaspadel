@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeSync } from "@/components/theme-sync";
 import { TournamentEvent } from "@/lib/events/types";
 
 type TournamentEventViewProps = {
@@ -21,8 +22,9 @@ const FORMAT_LABELS = {
 export function TournamentEventView({ event }: TournamentEventViewProps) {
   return (
     <main className="min-h-screen bg-[var(--app-bg)] px-3 py-4 text-[var(--app-text)] sm:px-6 sm:py-6 lg:px-8">
+      <ThemeSync />
       <div className="mx-auto grid max-w-6xl gap-6">
-        <header className="grid gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-5 py-6 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)]">
+        <header className="app-hero grid gap-4 px-5 py-6">
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/torneos" className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-accent)]">
               Volver a torneos
@@ -56,7 +58,7 @@ export function TournamentEventView({ event }: TournamentEventViewProps) {
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <article className="grid gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)]">
+          <article className="app-card grid gap-4 p-5 sm:p-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                 Categorias
@@ -68,7 +70,7 @@ export function TournamentEventView({ event }: TournamentEventViewProps) {
               {event.categories.map((category) => (
                 <div
                   key={category.id}
-                  className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-4"
+                  className="app-panel px-4 py-4"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="text-lg font-black">{category.name}</p>
@@ -84,7 +86,7 @@ export function TournamentEventView({ event }: TournamentEventViewProps) {
             </div>
           </article>
 
-          <article className="grid gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)]">
+          <article className="app-card grid gap-4 p-5 sm:p-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                 Patrocinadores

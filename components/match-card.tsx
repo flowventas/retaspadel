@@ -26,6 +26,7 @@ function ScoreStepper({
         type="button"
         onClick={() => onAdjust(-1)}
         disabled={disabled || value === null || value <= 0}
+        aria-label="Restar un juego"
         className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         -
@@ -37,6 +38,7 @@ function ScoreStepper({
         type="button"
         onClick={() => onAdjust(1)}
         disabled={disabled || value === max}
+        aria-label="Sumar un juego"
         className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--line)] bg-[var(--surface-strong)] text-xl font-black text-[var(--app-text)] transition hover:border-[var(--brand-primary)] disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)] disabled:text-[var(--muted)] sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl"
       >
         +

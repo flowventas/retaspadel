@@ -24,11 +24,11 @@ const FIXED_PAIR_HINT = /parejas?\s+fijas?/iu;
 const PAIR_SEPARATOR = /\s*\/\s*/u;
 const NON_PLAYER_HINTS = [
   /\b(am|pm)\b/iu,
-  /\b\d{1,2}\s*de\s+[a-záéíóúñ]+\b/iu,
+  /\b\d{1,2}\s*de\s+[a-z]+\b/iu,
   /\bganador\b/iu,
   /\bbebida\b/iu,
   /\bregalo\b/iu,
-  /\bjueves\b|\bviernes\b|\bsabado\b|\bsábado\b|\bdomingo\b|\blunes\b|\bmartes\b|\bmiercoles\b|\bmiércoles\b/iu,
+  /\bjueves\b|\bviernes\b|\bsabado\b|\bdomingo\b|\blunes\b|\bmartes\b|\bmiercoles\b/iu,
   /\b3ra\b|\b4ta\b|\b5ta\b|\b6ta\b/iu,
 ];
 
@@ -99,8 +99,7 @@ export function parseWhatsAppPlayers(message: string): ParsedWhatsAppPlayers {
     const candidateSource =
       match?.[2] ??
       courtMatch?.[1] ??
-      (isLikelyPairLine(bulletCandidate) ? bulletCandidate : "") ??
-      "";
+      (isLikelyPairLine(bulletCandidate) ? bulletCandidate : "");
 
     if (!candidateSource) {
       continue;

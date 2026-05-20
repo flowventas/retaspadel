@@ -456,6 +456,15 @@ export default function TournamentApp() {
             </div>
           </div>
         </section>
+
+        <footer className="border-t border-[var(--line)] pb-4 pt-6 text-sm text-[var(--muted)]">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p>6 loco organiza retas con captura simple, guardado local y tabla de poder al instante.</p>
+            <Link href="/torneos" className="font-semibold text-[var(--brand-secondary)] transition hover:text-[var(--brand-primary)]">
+              Ver dominio de torneos
+            </Link>
+          </div>
+        </footer>
       </div>
     </main>
   );

@@ -13,8 +13,8 @@ import { loadStore, saveStore } from "@/lib/storage";
 import {
   calculateRanking,
   createLinkedScore,
-  formatPlayerList,
   finishTournament,
+  formatPlayerList,
   getCurrentRound,
   getPlayerStats,
   isRoundReady,
@@ -33,7 +33,7 @@ type TournamentViewProps = {
 
 export function TournamentView({ tournamentId }: TournamentViewProps) {
   const scoreSavedMessages = [
-    "Score guardado. El ranking se movio 🔥",
+    "Score guardado. El ranking se movio.",
     "La cancha hablo.",
     "Alguien subio... alguien cayo.",
     "Nueva ronda, nueva oportunidad.",
@@ -85,9 +85,9 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       <main className="min-h-screen bg-[var(--app-bg)] px-4 py-10 text-[var(--app-text)]">
         <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-8 text-center shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-            Torneo no encontrado
+            Reta no encontrada
           </p>
-          <h1 className="mt-3 text-3xl font-black text-[var(--app-text)]">No pudimos cargar este torneo.</h1>
+          <h1 className="mt-3 text-3xl font-black text-[var(--app-text)]">No pudimos cargar esta reta.</h1>
           <Link
             href="/"
             className="mt-6 inline-flex rounded-full bg-[var(--brand-primary)] px-5 py-3 text-sm font-bold text-white"
@@ -285,7 +285,10 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         {toast ? (
-          <div className="motion-toast pointer-events-none fixed right-4 top-4 z-50 max-w-xs rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] shadow-[0_20px_50px_-30px_rgba(15,23,42,0.6)]">
+          <div
+            aria-live="polite"
+            className="motion-toast pointer-events-none fixed right-4 top-4 z-50 max-w-xs rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-sm font-bold text-[var(--app-text)] shadow-[0_20px_50px_-30px_rgba(15,23,42,0.6)]"
+          >
             {toast}
           </div>
         ) : null}
@@ -350,7 +353,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <section className="app-card motion-card motion-delay-1 grid gap-6 p-5">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-                    Torneo finalizado
+                    Reta finalizada
                   </p>
                   <h2 className="mt-2 text-3xl font-black text-[var(--app-text)]">Tabla de poder final y estadisticas</h2>
                 </div>
@@ -367,7 +370,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                         <div className="min-w-0">
                           <p className="break-words text-lg font-black text-[var(--app-text)]">{player.name}</p>
                           <p className="text-sm text-[var(--muted)]">
-                            {player.wins} ganados · {player.draws} empates · {player.losses} perdidos
+                            {player.wins} ganados - {player.draws} empates - {player.losses} perdidos
                           </p>
                         </div>
                         <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
@@ -377,7 +380,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                     </article>
                   ))}
                 </div>
-
               </section>
             ) : currentRound ? (
               <section
@@ -399,7 +401,7 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 </div>
 
                 {error ? (
-                  <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+                  <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700" role="alert">
                     {error}
                   </div>
                 ) : null}
@@ -427,7 +429,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
                 <RankingTable rows={ranking} />
               </div>
               {tournament.completed ? (
-                <button type="button" onClick={handleDownloadFinalRanking} disabled={isExportingRanking} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait">
+                <button
+                  type="button"
+                  onClick={handleDownloadFinalRanking}
+                  disabled={isExportingRanking}
+                  className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait"
+                >
                   {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
                 </button>
               ) : null}
@@ -449,10 +456,15 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
             <section className="app-card motion-card motion-delay-3 grid gap-3 p-4 sm:p-5">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">Acciones</p>
-                <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones del torneo</h2>
+                <h2 className="mt-2 text-xl font-black text-[var(--app-text)]">Opciones de la reta</h2>
               </div>
               <div className="grid gap-3 sm:flex sm:flex-wrap">
-                <button type="button" onClick={handleFinishTournament} disabled={tournament.completed} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-default sm:w-auto">
+                <button
+                  type="button"
+                  onClick={handleFinishTournament}
+                  disabled={tournament.completed}
+                  className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-default sm:w-auto"
+                >
                   {tournament.completed ? "Reta finalizada" : "Terminar reta"}
                 </button>
                 <button type="button" onClick={handleDeleteTournament} className="app-button app-button-danger w-full px-4 py-3 text-sm sm:w-auto">
@@ -467,7 +479,12 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
               <RankingTable rows={ranking} />
             </div>
             {tournament.completed ? (
-              <button type="button" onClick={handleDownloadFinalRanking} disabled={isExportingRanking} className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait">
+              <button
+                type="button"
+                onClick={handleDownloadFinalRanking}
+                disabled={isExportingRanking}
+                className="app-button app-button-secondary w-full px-4 py-3 text-sm disabled:cursor-wait"
+              >
                 {isExportingRanking ? "Preparando PNG..." : "Descargar tabla de poder en PNG"}
               </button>
             ) : null}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand-logo";
+import { ThemeSync } from "@/components/theme-sync";
 import { loadStore } from "@/lib/storage";
 import { sampleEvents } from "@/lib/events/sample";
 
@@ -17,8 +18,9 @@ export function EventsApp() {
 
   return (
     <main className="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors">
+      <ThemeSync />
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <header className="mb-6 grid gap-4 rounded-[2rem] border border-[var(--hero-border)] bg-[image:var(--hero-bg)] px-4 py-5 text-[var(--hero-text)] shadow-[0_24px_70px_-28px_rgba(15,23,42,0.65)] sm:px-6 sm:py-6">
+        <header className="app-hero mb-6 grid gap-4 px-4 py-5 sm:px-6 sm:py-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <BrandLogo theme={store.theme} variant="compact" className="mb-4" />
@@ -32,17 +34,14 @@ export function EventsApp() {
               </p>
             </div>
 
-            <Link
-              href="/"
-              className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-3 text-sm font-bold text-[var(--hero-text)] transition hover:bg-white/15"
-            >
+            <Link href="/" className="app-button app-button-secondary px-4 py-3 text-sm">
               Volver a retas
             </Link>
           </div>
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <article className="grid gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)]">
+          <article className="app-card grid gap-4 p-5 sm:p-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
                 Base inicial
@@ -57,7 +56,7 @@ export function EventsApp() {
             </div>
           </article>
 
-          <article className="grid gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)]">
+          <article className="app-card grid gap-4 p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
@@ -65,7 +64,7 @@ export function EventsApp() {
                 </p>
                 <h2 className="mt-2 text-2xl font-black">Primeros eventos</h2>
               </div>
-              <span className="rounded-full bg-[var(--surface-strong)] px-3 py-1 text-xs font-bold text-[var(--muted)]">
+              <span className="app-pill bg-[var(--surface-soft)] px-3 py-1 text-xs">
                 {sampleEvents.length} total
               </span>
             </div>
@@ -75,13 +74,13 @@ export function EventsApp() {
                 <Link
                   key={event.id}
                   href={`/torneos/${event.slug}`}
-                  className="grid gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-subtle)] px-4 py-4 transition hover:border-[var(--brand-primary)]"
+                  className="app-panel app-panel-interactive grid gap-3 px-4 py-4"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="truncate text-lg font-black text-[var(--app-text)]">{event.name}</p>
                       <p className="mt-1 text-sm text-[var(--muted)]">
-                        {event.venue.clubName} · {event.venue.city}
+                        {event.venue.clubName} - {event.venue.city}
                       </p>
                     </div>
                     <span className="rounded-full bg-[var(--brand-accent-soft)] px-3 py-1 text-xs font-bold text-[var(--brand-secondary)]">
@@ -89,7 +88,7 @@ export function EventsApp() {
                     </span>
                   </div>
                   <p className="text-sm text-[var(--muted)]">
-                    {event.categories.length} categorias · {event.teams.length} equipos demo
+                    {event.categories.length} categorias - {event.teams.length} equipos demo
                   </p>
                 </Link>
               ))}

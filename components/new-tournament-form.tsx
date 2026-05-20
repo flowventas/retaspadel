@@ -28,7 +28,7 @@ const PAIRING_MODE_OPTIONS: { value: PairingMode; label: string; description: st
 ];
 
 function buildTournamentName(format: TournamentFormat, gamesPerMatch: GamesPerMatch) {
-  return `Reta ${format} jugadores · a ${gamesPerMatch} juegos`;
+  return `Reta ${format} jugadores - a ${gamesPerMatch} juegos`;
 }
 
 export function NewTournamentForm({
@@ -97,7 +97,7 @@ export function NewTournamentForm({
 
     if (initialNames?.length === format) {
       onCreate({
-        name: buildTournamentName(format, gamesPerMatch),
+        name: buildTournamentName(format, nextGamesPerMatch),
         format,
         gamesPerMatch: nextGamesPerMatch,
         pairingMode,
@@ -210,6 +210,7 @@ export function NewTournamentForm({
   function handleImportWhatsAppMessage() {
     const parsed = parseWhatsAppPlayers(whatsAppMessage);
     const detectedFormat = PLAYER_OPTIONS.find((option) => option === parsed.totalDetected);
+    const effectiveFormat = detectedFormat ?? format;
 
     if (!parsed.totalDetected) {
       setImportedNames([]);
@@ -223,7 +224,6 @@ export function NewTournamentForm({
     }
 
     setPairingMode(parsed.pairingMode);
-
     setImportedNames(detectedFormat ? parsed.names.slice(0, detectedFormat) : parsed.names);
     setImportError("");
 
@@ -234,14 +234,14 @@ export function NewTournamentForm({
       return;
     }
 
-    if (parsed.totalDetected < format) {
+    if (parsed.totalDetected < effectiveFormat) {
       setImportMessage(
-        `Detectamos ${parsed.totalDetected} jugadores antes de la lista de espera. Faltan ${format - parsed.totalDetected} por completar.`,
+        `Detectamos ${parsed.totalDetected} jugadores antes de la lista de espera. Faltan ${effectiveFormat - parsed.totalDetected} por completar.`,
       );
       return;
     }
 
-    if (parsed.totalDetected > format) {
+    if (parsed.totalDetected > effectiveFormat) {
       setImportMessage(
         `Ajustamos la reta a ${parsed.totalDetected} jugadores segun el mensaje detectado${parsed.pairingMode === "fixed" ? " y marcamos parejas fijas." : "."}`,
       );
@@ -276,7 +276,7 @@ export function NewTournamentForm({
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-              Nuevo torneo
+              Nueva reta
             </p>
             <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--app-text)]">
               Configura la reta y prende la competencia
@@ -363,6 +363,8 @@ export function NewTournamentForm({
           <button
             type="button"
             onClick={() => setIsWhatsAppOpen((current) => !current)}
+            aria-expanded={isWhatsAppOpen}
+            aria-controls="whatsapp-import-panel"
             className="flex items-center justify-between gap-3 text-left"
           >
             <div>
@@ -372,11 +374,11 @@ export function NewTournamentForm({
               </p>
             </div>
             <span className="text-lg font-black text-[var(--brand-secondary)]" aria-hidden="true">
-              {isWhatsAppOpen ? "−" : "+"}
+              {isWhatsAppOpen ? "-" : "+"}
             </span>
           </button>
 
-          <div className="accordion-panel" data-open={isWhatsAppOpen}>
+          <div id="whatsapp-import-panel" className="accordion-panel" data-open={isWhatsAppOpen}>
             <div className="accordion-panel-inner">
               <textarea
                 value={whatsAppMessage}
@@ -395,11 +397,15 @@ export function NewTournamentForm({
                   Extraer jugadores
                 </button>
 
-                {importMessage ? <p className="text-sm text-[var(--muted)]">{importMessage}</p> : null}
+                {importMessage ? (
+                  <p className="text-sm text-[var(--muted)]" aria-live="polite">
+                    {importMessage}
+                  </p>
+                ) : null}
               </div>
 
               {importError ? (
-                <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700" role="alert">
                   {importError}
                 </div>
               ) : null}
@@ -455,14 +461,14 @@ export function NewTournamentForm({
           <div>
             <p className="text-sm font-semibold text-[var(--muted)]">Resumen</p>
             <p className="text-2xl font-black text-[var(--app-text)]">
-              {format} jugadores · {gamesPerMatch} juegos
+              {format} jugadores - {gamesPerMatch} juegos
             </p>
           </div>
-            <p className="max-w-sm text-right text-sm text-[var(--muted)]">
-              {pairingMode === "fixed"
-                ? "En parejas fijas, el orden de captura define las parejas: 1-2, 3-4, 5-6..."
-                : "Al iniciar, la app te ira pidiendo un nombre por jugador en popups consecutivos."}
-            </p>
+          <p className="max-w-sm text-right text-sm text-[var(--muted)]">
+            {pairingMode === "fixed"
+              ? "En parejas fijas, el orden de captura define las parejas: 1-2, 3-4, 5-6..."
+              : "Al iniciar, la app te ira pidiendo un nombre por jugador en popups consecutivos."}
+          </p>
         </div>
 
         <button
@@ -476,181 +482,180 @@ export function NewTournamentForm({
 
       {canUsePortal && isPlayModeModalOpen
         ? createPortal(
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-              Formato de reta
-            </p>
-            <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Como quieres jugar esta reta?</h3>
-            <p className="mt-3 text-sm text-[var(--muted)]">
-              La modalidad de parejas que elegiste se respetara dentro del formato.
-            </p>
+            <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
+              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+                <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
+                  Formato de reta
+                </p>
+                <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Como quieres jugar esta reta?</h3>
+                <p className="mt-3 text-sm text-[var(--muted)]">
+                  La modalidad de parejas que elegiste se respetara dentro del formato.
+                </p>
 
-            <div className="mt-6 grid gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPlayModeModalOpen(false);
-                  completeStartFlow(pendingNames ?? undefined, "standard");
-                  setPendingNames(null);
-                }}
-                className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
-              >
-                <span className="text-base font-black text-[var(--app-text)]">Rotativo</span>
-                <span className="text-sm text-[var(--muted)]">La app rota rondas como hasta ahora.</span>
-              </button>
+                <div className="mt-6 grid gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsPlayModeModalOpen(false);
+                      completeStartFlow(pendingNames ?? undefined, "standard");
+                      setPendingNames(null);
+                    }}
+                    className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
+                  >
+                    <span className="text-base font-black text-[var(--app-text)]">Rotativo</span>
+                    <span className="text-sm text-[var(--muted)]">La app rota rondas como hasta ahora.</span>
+                  </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPlayModeModalOpen(false);
-                  completeStartFlow(pendingNames ?? undefined, "ladder");
-                  setPendingNames(null);
-                }}
-                className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
-              >
-                <span className="text-base font-black text-[var(--app-text)]">Escalera</span>
-                <span className="text-sm text-[var(--muted)]">
-                  Los jugadores o parejas suben y bajan de cancha segun resultados.
-                </span>
-              </button>
-            </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsPlayModeModalOpen(false);
+                      completeStartFlow(pendingNames ?? undefined, "ladder");
+                      setPendingNames(null);
+                    }}
+                    className="grid gap-1 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-4 text-left transition hover:border-[var(--brand-primary)]"
+                  >
+                    <span className="text-base font-black text-[var(--app-text)]">Escalera</span>
+                    <span className="text-sm text-[var(--muted)]">
+                      Los jugadores o parejas suben y bajan de cancha segun resultados.
+                    </span>
+                  </button>
+                </div>
 
-            <div className="mt-6 flex justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPlayModeModalOpen(false);
-                  setPendingNames(null);
-                }}
-                className="app-button app-button-secondary px-4 py-3 text-sm"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-          ,
-          document.body,
-        )
+                <div className="mt-6 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsPlayModeModalOpen(false);
+                      setPendingNames(null);
+                    }}
+                    className="app-button app-button-secondary px-4 py-3 text-sm"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
         : null}
 
       {canUsePortal && isModalOpen
         ? createPortal(
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
-          <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
-                  Jugador {currentIndex + 1}
-                </p>
-                <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Captura el nombre</h3>
-              </div>
-              <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-sm font-bold text-[var(--muted)]">
-                {progress}
-              </span>
-            </div>
-
-            <label className="mt-6 grid gap-2 text-sm font-medium text-[var(--app-text)]">
-              Nombre del jugador
-              <input
-                value={draftName}
-                onChange={(event) => setDraftName(event.target.value)}
-                autoFocus
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    handleNextPlayer();
-                  }
-                }}
-                className="app-input px-4 py-4 text-lg"
-                placeholder={`Jugador ${currentIndex + 1}`}
-              />
-            </label>
-
-            {savedPlayers.length ? (
-              <div className="mt-4 grid gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsRecentOpen((current) => !current)}
-                  className="inline-flex items-center justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-left text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
-                >
-                  <span>Jugadores recientes</span>
-                  <span aria-hidden="true" className="text-base">
-                    {isRecentOpen ? "▴" : "▾"}
+            <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 px-4">
+              <div className="w-full max-w-md rounded-[2rem] border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-bold uppercase tracking-[0.25em] text-[var(--brand-secondary)]">
+                      Jugador {currentIndex + 1}
+                    </p>
+                    <h3 className="mt-2 text-3xl font-black text-[var(--app-text)]">Captura el nombre</h3>
+                  </div>
+                  <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-sm font-bold text-[var(--muted)]">
+                    {progress}
                   </span>
-                </button>
+                </div>
 
-                {isRecentOpen ? (
-                  <div className="grid max-h-64 gap-2 overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
-                    <div className="mb-1 flex items-center justify-between gap-3">
-                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--muted)]">
-                        Guardados
-                      </p>
-                      <button
-                        type="button"
-                        onClick={handleClearRecentPlayers}
-                        className="text-xs font-bold text-[var(--danger-text)] transition hover:opacity-80"
-                      >
-                        Borrar lista
-                      </button>
-                    </div>
+                <label className="mt-6 grid gap-2 text-sm font-medium text-[var(--app-text)]">
+                  Nombre del jugador
+                  <input
+                    value={draftName}
+                    onChange={(event) => setDraftName(event.target.value)}
+                    autoFocus
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        handleNextPlayer();
+                      }
+                    }}
+                    className="app-input px-4 py-4 text-lg"
+                    placeholder={`Jugador ${currentIndex + 1}`}
+                  />
+                </label>
 
-                    {suggestedPlayers.map((name) => (
-                      <div
-                        key={name}
-                        className="flex items-center gap-2 rounded-xl transition hover:bg-[var(--surface-subtle)]"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => handlePickSuggestedPlayer(name)}
-                          className="min-w-0 flex-1 rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--app-text)] transition hover:text-[var(--brand-secondary)]"
-                        >
-                          {name}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => onRemoveSavedPlayer(name)}
-                          aria-label={`Borrar ${name}`}
-                          title={`Borrar ${name}`}
-                          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
-                        >
-                          ×
-                        </button>
+                {savedPlayers.length ? (
+                  <div className="mt-4 grid gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsRecentOpen((current) => !current)}
+                      aria-expanded={isRecentOpen}
+                      className="inline-flex items-center justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 text-left text-sm font-semibold text-[var(--app-text)] transition hover:border-[var(--brand-primary)]"
+                    >
+                      <span>Jugadores recientes</span>
+                      <span aria-hidden="true" className="text-base">
+                        {isRecentOpen ? "^" : "v"}
+                      </span>
+                    </button>
+
+                    {isRecentOpen ? (
+                      <div className="grid max-h-64 gap-2 overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] p-3">
+                        <div className="mb-1 flex items-center justify-between gap-3">
+                          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--muted)]">
+                            Guardados
+                          </p>
+                          <button
+                            type="button"
+                            onClick={handleClearRecentPlayers}
+                            className="text-xs font-bold text-[var(--danger-text)] transition hover:opacity-80"
+                          >
+                            Borrar lista
+                          </button>
+                        </div>
+
+                        {suggestedPlayers.map((name) => (
+                          <div
+                            key={name}
+                            className="flex items-center gap-2 rounded-xl transition hover:bg-[var(--surface-subtle)]"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handlePickSuggestedPlayer(name)}
+                              className="min-w-0 flex-1 rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--app-text)] transition hover:text-[var(--brand-secondary)]"
+                            >
+                              {name}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => onRemoveSavedPlayer(name)}
+                              aria-label={`Borrar ${name}`}
+                              title={`Borrar ${name}`}
+                              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold text-[var(--danger-text)] transition hover:bg-[var(--danger-bg)]"
+                            >
+                              x
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    ) : null}
                   </div>
                 ) : null}
-              </div>
-            ) : null}
 
-            {error ? (
-              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
-                {error}
-              </div>
-            ) : null}
+                {error ? (
+                  <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700" role="alert">
+                    {error}
+                  </div>
+                ) : null}
 
-            <div className="mt-6 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={closePlayerModal}
-                className="app-button app-button-secondary px-4 py-3 text-sm"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                onClick={handleNextPlayer}
-                className="app-button app-button-primary px-5 py-3 text-sm"
-              >
-                {currentIndex === format - 1 ? "Generar reta" : "Siguiente jugador"}
-              </button>
-            </div>
-          </div>
-        </div>
-          ,
-          document.body,
-        )
+                <div className="mt-6 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={closePlayerModal}
+                    className="app-button app-button-secondary px-4 py-3 text-sm"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNextPlayer}
+                    className="app-button app-button-primary px-5 py-3 text-sm"
+                  >
+                    {currentIndex === format - 1 ? "Generar reta" : "Siguiente jugador"}
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
         : null}
     </>
   );

@@ -26,10 +26,11 @@ export function RankingTable({ rows }: RankingTableProps) {
 
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs min-[420px]:text-sm">
+          <caption className="sr-only">Tabla de poder actual de la reta</caption>
           <thead className="bg-[var(--surface-subtle)] text-[var(--muted)]">
             <tr>
               {["#", "Jugador", "G-P-E", "Dif.", "P"].map((header) => (
-                <th key={header} className="px-3 py-3 text-left font-bold min-[420px]:px-4">
+                <th key={header} scope="col" className="px-3 py-3 text-left font-bold min-[420px]:px-4">
                   {header}
                 </th>
               ))}

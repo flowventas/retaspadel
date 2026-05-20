@@ -1,6 +1,5 @@
-import { toPng } from "html-to-image";
-
 export async function exportNodeAsPng(node: HTMLElement, filename: string) {
+  const { toPng } = await import("html-to-image");
   const dataUrl = await toPng(node, {
     cacheBust: true,
     pixelRatio: 2,
