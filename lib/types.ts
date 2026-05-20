@@ -71,7 +71,6 @@ export type Tournament = {
   totalRounds: number;
   currentRoundIndex: number;
   completed: boolean;
-  celebrationShown: boolean;
 };
 
 export type TournamentStore = {

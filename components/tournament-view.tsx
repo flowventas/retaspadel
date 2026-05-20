@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { BrandLogo } from "@/components/brand-logo";
-import { FinalPodium } from "@/components/final-podium";
 import { MatchCard } from "@/components/match-card";
 import { RankingTable } from "@/components/ranking-table";
 import { RoundHistory } from "@/components/round-history";
@@ -15,7 +14,6 @@ import {
   calculateRanking,
   createLinkedScore,
   finishTournament,
-  markTournamentCelebrationShown,
   formatPlayerList,
   getCurrentRound,
   getPlayerStats,
@@ -50,7 +48,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [isExportingRanking, setIsExportingRanking] = useState(false);
-  const [isPodiumDismissed, setIsPodiumDismissed] = useState(false);
   const toastIndexRef = useRef(0);
   const mobileRankingRef = useRef<HTMLDivElement | null>(null);
   const desktopRankingRef = useRef<HTMLDivElement | null>(null);
@@ -111,7 +108,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
   const finishedRounds = tournament.rounds.filter((round) => round.status === "completed");
   const orderedFinishedRounds = [...finishedRounds].sort((left, right) => right.number - left.number);
   const editableHistoryRoundId = tournament.playMode === "ladder" ? orderedFinishedRounds[0]?.id : undefined;
-  const shouldShowPodium = tournament.completed && !tournament.celebrationShown && !isPodiumDismissed;
 
   function updateStore(updater: (current: TournamentStore) => TournamentStore) {
     setStore((current) => updater(current));
@@ -123,24 +119,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       tournaments: current.tournaments.map((item) => (item.id === nextTournament.id ? nextTournament : item)),
       activeTournamentId: nextTournament.id,
     }));
-  }
-
-  function handleClosePodium() {
-    setIsPodiumDismissed(true);
-    if (!tournament.celebrationShown) {
-      persistTournament(markTournamentCelebrationShown(tournament));
-    }
-    window.requestAnimationFrame(() => {
-      const rankingTarget =
-        (desktopRankingRef.current && desktopRankingRef.current.offsetParent !== null
-          ? desktopRankingRef.current
-          : null) ??
-        mobileRankingRef.current;
-      rankingTarget?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    });
   }
 
   function handleAdjustScore(matchId: string, delta: -1 | 1) {
@@ -306,15 +284,6 @@ export function TournamentView({ tournamentId }: TournamentViewProps) {
       <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_color-mix(in_srgb,var(--brand-accent)_52%,transparent),_transparent_45%),radial-gradient(circle_at_right,_color-mix(in_srgb,var(--brand-primary)_22%,transparent),_transparent_35%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
-        {shouldShowPodium ? (
-          <FinalPodium
-            rows={ranking}
-            onClose={handleClosePodium}
-            onDownload={handleDownloadFinalRanking}
-            isDownloading={isExportingRanking}
-          />
-        ) : null}
-
         {toast ? (
           <div
             aria-live="polite"
